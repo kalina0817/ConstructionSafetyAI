@@ -1,3 +1,4 @@
+
 from pathlib import Path
 
 
@@ -49,6 +50,20 @@ MODEL_SPECS = {
         "training_args": Path(
             "runs/detect/runs/detect/"
             "vehicle_yolo11n_continuation_5ep/args.yaml"
+        ),
+    },
+    "toolset35": {
+        "label": "Toolset-35",
+        "checkpoint": Path(
+            "models/toolset35_final_model/"
+            "toolset35_yolo11n_best.pt"
+        ),
+        "dataset": Path(
+            "data/standardized/"
+            "construction-toolset-35class/data.yaml"
+        ),
+        "training_metadata": Path(
+            "models/toolset35_final_model/training_metadata.json"
         ),
     },
 }

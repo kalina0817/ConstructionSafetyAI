@@ -135,6 +135,8 @@ def run_inference(
                 "PPE": (31, 107, 84),
                 "Toolset": (31, 99, 164),
                 "Vehicles": (192, 110, 31),
+                 "Toolset-35": (128, 76, 160),
+
             }[spec["label"]]
 
             draw.rectangle((x1, y1, x2, y2), outline=color, width=3)

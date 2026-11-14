@@ -89,7 +89,7 @@ def run_pipeline(
 
     validate_pipeline_config(config)
 
-    detector_order = ("ppe", "toolset", "vehicles")
+    detector_order = ("ppe", "toolset", "vehicles", "toolset35")
     model_names = tuple(
         detector
         for detector in detector_order
