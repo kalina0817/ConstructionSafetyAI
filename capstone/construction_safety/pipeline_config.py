@@ -1,9 +1,15 @@
-﻿from copy import deepcopy
+﻿
+from copy import deepcopy
 
 from construction_safety.registry import get_method, validate_method
 
 
-PERCEPTION_DETECTORS = {"ppe", "toolset", "vehicles"}
+REQUIRED_PERCEPTION_DETECTORS = {"ppe", "toolset", "vehicles"}
+OPTIONAL_PERCEPTION_DETECTORS = {"toolset35"}
+
+PERCEPTION_DETECTORS = (
+    REQUIRED_PERCEPTION_DETECTORS | OPTIONAL_PERCEPTION_DETECTORS
+)
 
 REVIEW_POLICIES = {"selective", "all_findings"}
 
@@ -115,9 +121,23 @@ def validate_pipeline_config(config):
     if not isinstance(perception, dict):
         raise ValueError("Perception configuration must be a dictionary.")
 
-    if set(perception) != PERCEPTION_DETECTORS:
+    configured_detectors = set(perception)
+
+    missing_detectors = (
+        REQUIRED_PERCEPTION_DETECTORS - configured_detectors
+    )
+    unknown_detectors = configured_detectors - PERCEPTION_DETECTORS
+
+    if missing_detectors:
         raise ValueError(
-            "Perception must configure exactly PPE, toolset, and vehicles."
+            "Perception is missing required detectors: "
+            f"{sorted(missing_detectors)}"
+        )
+
+    if unknown_detectors:
+        raise ValueError(
+            "Perception contains unsupported detectors: "
+            f"{sorted(unknown_detectors)}"
         )
 
     for detector, method_id in perception.items():
@@ -161,7 +181,8 @@ def update_stage(config, stage, method_id, detector=None):
     """
     Return a validated copy with exactly one stage selection changed.
 
-    For perception, provide detector='ppe', 'toolset', or 'vehicles'.
+    For perception, provide detector='ppe', 'toolset', 'vehicles',
+    or the optional 'toolset35'.
     Other stages use their configuration field name.
     """
     updated = deepcopy(config)
@@ -169,10 +190,21 @@ def update_stage(config, stage, method_id, detector=None):
     if stage == "perception":
         if detector not in PERCEPTION_DETECTORS:
             raise ValueError(
-                "Perception updates require detector='ppe', "
-                "'toolset', or 'vehicles'."
+                "Perception updates require detector='ppe', 'toolset', "
+                "'vehicles', or 'toolset35'."
             )
-        validate_method(method_id, expected_stage="perception")
+
+        specification = validate_method(
+            method_id,
+            expected_stage="perception",
+        )
+
+        if specification.get("model_name") != detector:
+            raise ValueError(
+                f"Method {method_id!r} is not the registered "
+                f"{detector!r} detector."
+            )
+
         updated["perception"][detector] = method_id
 
     elif stage == "human_review":

@@ -1,4 +1,5 @@
-﻿METHOD_REGISTRY = {
+﻿
+METHOD_REGISTRY = {
     "ppe_yolo11n_existing": {
         "stage": "perception",
         "label": "Existing PPE YOLO11n",
@@ -40,8 +41,25 @@
         "inputs": ["image"],
         "outputs": ["detections"],
         "limitations": [
-            "Uses the existing trained vehicle checkpoint.",
+            "Uses the existing vehicle checkpoint.",
             "Detection does not establish machine operation or danger.",
+        ],
+    },
+    "toolset35_yolo11n_existing": {
+        "stage": "perception",
+        "label": "Existing Toolset-35 YOLO11n",
+        "implementation": "construction_safety.inference.run_inference",
+        "model_name": "toolset35",
+        "availability": "available",
+        "execution_mode": "existing",
+        "version": "toolset35-final-checkpoint",
+        "inputs": ["image"],
+        "outputs": ["detections"],
+        "limitations": [
+            "Uses the existing 35-class Toolset checkpoint.",
+            "General object detection does not establish unsafe activity.",
+            "PPE detections do not establish that equipment is being worn.",
+            "Excavator detections are not a substitute for the dedicated vehicle detector.",
         ],
     },
     "existing_geometric_relationships": {
@@ -153,7 +171,9 @@ def validate_method(method_id, expected_stage=None):
     specification = get_method(method_id)
 
     if specification["availability"] != "available":
-        raise ValueError(f"Method {method_id!r} is not currently available.")
+        raise ValueError(
+            f"Method {method_id!r} is not currently available."
+        )
 
     if (
         expected_stage is not None
