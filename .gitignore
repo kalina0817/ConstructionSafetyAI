@@ -1,0 +1,80 @@
+﻿# Python environments and caches
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.py[cod]
+
+# Datasets and uploaded archives
+data/
+Data/
+input_uploads/
+*.zip
+
+# Model weights and exported models
+models/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.weights
+
+# Generated outputs
+runs/
+outputs/
+logs/
+report/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated inference evidence: preserve the Markdown summary only
+reports/inference_runs/*
+!reports/inference_runs/representative_validation_20261113/
+reports/inference_runs/representative_validation_20261113/*
+!reports/inference_runs/representative_validation_20261113/representative_validation_report.md
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Secrets and local credentials
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+*.pem
+*.key
+
+# Local logs and backup copies
+*.log
+*.bak
+backups/
+
+# Temporary Python backup copies
+*.before_*.py
+*_before_*.py
+*.backup.py
+*_pre_validation_backup.py
+
+# Generated reports and review artifacts
+reports/*
+!reports/*.md
+!reports/inference_runs/
+reports/inference_runs/*
+!reports/inference_runs/representative_validation_20261113/
+reports/inference_runs/representative_validation_20261113/*
+!reports/inference_runs/representative_validation_20261113/representative_validation_report.md
+
+# Historical report snapshots
+reports/*before_manual_review*.md
+
+# Research backups and temporary evidence
+**/*backup_before_*.md
+**/*.bak_*
+capstone/research/duplicate_forklift_quarantine/
+research/independent_scenario_evaluation/candidate_images/

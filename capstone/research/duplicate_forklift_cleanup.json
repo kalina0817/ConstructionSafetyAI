@@ -1,0 +1,20 @@
+[
+  {
+    "kept": "forklift-108-_png.rf.1f55138c3503a7db8b0a9a75c5f7b289",
+    "quarantined": "forklift-1997-_png.rf.cc91361d7eaab5d3fddf2198fd409736",
+    "image_sha256": "619a8766215b8b1482eb37d830dc4f29f90c6fd5c50fed61cf22ca720dd632e2",
+    "averaged_label": "4.000000000000 0.626216145833 0.396213235294 0.245486979167 0.547642463235"
+  },
+  {
+    "kept": "Lsafee_png.rf.4f127ae802b6d6ef33887ac15a44caf3",
+    "quarantined": "Rsafee_png.rf.f378898e81ca2b3475ef85d9afdf8d5c",
+    "image_sha256": "f845331f7983b2571c3f12cdfcfe9cc70531524b6b2818dcd84a709abfc4060f",
+    "averaged_label": "4.000000000000 0.648474970896 0.497591943958 0.516088474971 0.831943957968"
+  },
+  {
+    "kept": "Lsafee_png.rf.951d8e853be65483d0c8c7485852fec3",
+    "quarantined": "Rsafee_png.rf.ee704438c6aff1e23e9502a43ba3a558",
+    "image_sha256": "b34beff66ba15505edd3df5135b6b74c6fcffa3d2cd2d8db8e054e6a228d6d83",
+    "averaged_label": "4.000000000000 0.351525029104 0.497591943958 0.516088474971 0.831943957968"
+  }
+]

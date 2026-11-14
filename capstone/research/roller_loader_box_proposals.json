@@ -1,0 +1,52 @@
+[
+  {
+    "split": "train",
+    "image": "data/processed/construction-vehicle-detection-clean/train/images/Heavy_Equipment_5331_jpg.rf.2ae911120fdb0ebbd7cf561e28df90eb.jpg",
+    "label": "data/processed/construction-vehicle-detection-clean/train/labels/Heavy_Equipment_5331_jpg.rf.2ae911120fdb0ebbd7cf561e28df90eb.txt",
+    "original_label": "9 0.5 0.5 1 1",
+    "proposed_label": "6 0.50312500 0.50416667 0.99375000 0.99166667",
+    "image_width": 640,
+    "image_height": 480,
+    "reviewed": true
+  },
+  {
+    "split": "train",
+    "image": "data/processed/construction-vehicle-detection-clean/train/images/Heavy_Equipment_5914_jpg.rf.462a48e2d23dd78b8fed0d595efef471.jpg",
+    "label": "data/processed/construction-vehicle-detection-clean/train/labels/Heavy_Equipment_5914_jpg.rf.462a48e2d23dd78b8fed0d595efef471.txt",
+    "original_label": "9 0.5 0.5 1 1",
+    "proposed_label": "6 0.50546875 0.50208333 0.98906250 0.99583333",
+    "image_width": 640,
+    "image_height": 480,
+    "reviewed": true
+  },
+  {
+    "split": "train",
+    "image": "data/processed/construction-vehicle-detection-clean/train/images/Heavy_Equipment_5933_jpg.rf.3a2f4b894300e3448d0894f1fe02e71f.jpg",
+    "label": "data/processed/construction-vehicle-detection-clean/train/labels/Heavy_Equipment_5933_jpg.rf.3a2f4b894300e3448d0894f1fe02e71f.txt",
+    "original_label": "9 0.5 0.5 1 1",
+    "proposed_label": "6 0.50390625 0.50312500 0.99218750 0.99375000",
+    "image_width": 640,
+    "image_height": 480,
+    "reviewed": true
+  },
+  {
+    "split": "train",
+    "image": "data/processed/construction-vehicle-detection-clean/train/images/Heavy_Equipment_5933_jpg.rf.7406b5491e4f5b2362b477512cd9829c.jpg",
+    "label": "data/processed/construction-vehicle-detection-clean/train/labels/Heavy_Equipment_5933_jpg.rf.7406b5491e4f5b2362b477512cd9829c.txt",
+    "original_label": "9 0.5 0.5 1 1",
+    "proposed_label": "6 0.50312500 0.50416667 0.99375000 0.99166667",
+    "image_width": 640,
+    "image_height": 480,
+    "reviewed": true
+  },
+  {
+    "split": "valid",
+    "image": "data/processed/construction-vehicle-detection-clean/valid/images/Heavy_Equipment_6198_jpg.rf.c0bf682e109f080a13187b38a9d72af1.jpg",
+    "label": "data/processed/construction-vehicle-detection-clean/valid/labels/Heavy_Equipment_6198_jpg.rf.c0bf682e109f080a13187b38a9d72af1.txt",
+    "original_label": "9 0.5 0.5 1 1",
+    "proposed_label": "6 0.50390625 0.50312500 0.99218750 0.99375000",
+    "image_width": 640,
+    "image_height": 480,
+    "reviewed": true
+  }
+]
