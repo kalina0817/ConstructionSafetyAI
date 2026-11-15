@@ -1,5 +1,8 @@
 
-from construction_safety.association import extract_relationships
+from construction_safety.association import (
+    extract_object_associations,
+    extract_relationships,
+)
 
 from construction_safety.config import (
     MACHINERY_CLASSES,
@@ -103,6 +106,8 @@ def build_scene_graph(
             "bbox_xyxy": list(box),
         })
 
+    # Preserve the existing PPE-containment and machinery-proximity
+    # relationship logic.
     relationships = extract_relationships(
         nodes,
         image_width,
@@ -110,6 +115,10 @@ def build_scene_graph(
         machinery_distance_ratio=machinery_distance_ratio,
         containment_threshold=containment_threshold,
     )
+
+    # Associate matching detections from different detectors as
+    # possible duplicate physical objects. Original nodes remain intact.
+    object_associations = extract_object_associations(nodes)
 
     return {
         "schema_version": "1.0",
@@ -120,10 +129,12 @@ def build_scene_graph(
         "parameters": {
             "machinery_distance_ratio": machinery_distance_ratio,
             "ppe_containment_threshold": containment_threshold,
+            "object_association_iou_threshold": 0.50,
             "status": "Exploratory; not calibrated risk or distance.",
         },
         "nodes": nodes,
         "relationships": relationships,
+        "object_associations": object_associations,
     }
 
 

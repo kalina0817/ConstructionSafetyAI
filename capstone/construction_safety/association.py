@@ -1,4 +1,5 @@
-﻿from math import hypot
+﻿
+from math import hypot
 
 from construction_safety.config import (
     MACHINERY_REVIEW_DISTANCE_RATIO,
@@ -16,10 +17,95 @@ def _area(box):
     return max(0, box[2] - box[0]) * max(0, box[3] - box[1])
 
 
+def _intersection_over_union(first, second):
+    intersection = _intersection_area(first, second)
+    union = _area(first) + _area(second) - intersection
+    return intersection / union if union > 0 else 0.0
+
+
 def _edge_distance(first, second):
     dx = max(0, first[0] - second[2], second[0] - first[2])
     dy = max(0, first[1] - second[3], second[1] - first[3])
     return hypot(dx, dy)
+
+
+def extract_object_associations(nodes, iou_threshold=0.50):
+    """
+    Identify possible duplicate physical objects across different detectors.
+
+    Associations are image-space candidates, not confirmed object identities.
+    Original detection nodes are never merged or modified.
+    """
+    if not 0 <= iou_threshold <= 1:
+        raise ValueError("IoU threshold must be between 0 and 1.")
+
+    if not isinstance(nodes, list):
+        raise ValueError("Nodes must be provided as a list.")
+
+    associations = []
+
+    for index, first in enumerate(nodes):
+        for second in nodes[index + 1:]:
+            first_detector = first.get("detector")
+            second_detector = second.get("detector")
+
+            if (
+                not first_detector
+                or not second_detector
+                or first_detector == second_detector
+            ):
+                continue
+
+            first_name = (
+                first.get("class_name", "")
+                .strip()
+                .casefold()
+                .replace("_", " ")
+            )
+            second_name = (
+                second.get("class_name", "")
+                .strip()
+                .casefold()
+                .replace("_", " ")
+            )
+
+            if not first_name or first_name != second_name:
+                continue
+
+            iou = _intersection_over_union(
+                first["bbox_xyxy"],
+                second["bbox_xyxy"],
+            )
+
+            if iou < iou_threshold:
+                continue
+
+            associations.append({
+                "association_id": (
+                    f"association_{len(associations):04d}"
+                ),
+                "member_ids": [
+                    first["object_id"],
+                    second["object_id"],
+                ],
+                "predicate": "possible_same_physical_object",
+                "evidence": {
+                    "intersection_over_union": round(iou, 5),
+                    "threshold": iou_threshold,
+                    "detectors": [
+                        first_detector,
+                        second_detector,
+                    ],
+                    "class_name": first["class_name"],
+                },
+                "interpretation_limit": (
+                    "Bounding-box overlap across detectors suggests "
+                    "a possible duplicate detection; it does not "
+                    "confirm physical object identity."
+                ),
+            })
+
+    return associations
 
 
 def extract_relationships(

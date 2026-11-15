@@ -1,6 +1,10 @@
-﻿import unittest
+﻿
+import unittest
 
-from construction_safety.association import extract_relationships
+from construction_safety.association import (
+    extract_object_associations,
+    extract_relationships,
+)
 
 
 class AssociationTests(unittest.TestCase):
@@ -140,6 +144,113 @@ class AssociationTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "object_id"):
             extract_relationships([invalid], 200, 200)
+
+    # Cross-detector object association tests
+
+    def _excavator_pair(self):
+        vehicles = {
+            "object_id": "object_0000",
+            "detector": "Vehicles",
+            "class_name": "Excavator",
+            "object_category": "machinery",
+            "bbox_xyxy": [324, 177, 591, 394],
+        }
+        toolset = {
+            "object_id": "object_0001",
+            "detector": "Toolset-35",
+            "class_name": "Excavator",
+            "object_category": "other",
+            "bbox_xyxy": [307, 174, 593, 395],
+        }
+        return vehicles, toolset
+
+    def test_matching_excavators_from_different_detectors_are_associated(self):
+        vehicles, toolset = self._excavator_pair()
+
+        associations = extract_object_associations(
+            [vehicles, toolset]
+        )
+
+        self.assertEqual(len(associations), 1)
+        self.assertEqual(
+            associations[0]["predicate"],
+            "possible_same_physical_object",
+        )
+
+    def test_association_contains_both_object_ids_and_iou(self):
+        vehicles, toolset = self._excavator_pair()
+
+        associations = extract_object_associations(
+            [vehicles, toolset]
+        )
+
+        association = associations[0]
+
+        self.assertEqual(
+            association["member_ids"],
+            ["object_0000", "object_0001"],
+        )
+        self.assertAlmostEqual(
+            association["evidence"]["intersection_over_union"],
+            0.91667,
+            places=5,
+        )
+        self.assertEqual(
+            association["evidence"]["threshold"],
+            0.50,
+        )
+
+    def test_same_detector_predictions_are_not_associated(self):
+        vehicles, toolset = self._excavator_pair()
+        toolset["detector"] = "Vehicles"
+
+        associations = extract_object_associations(
+            [vehicles, toolset]
+        )
+
+        self.assertEqual(associations, [])
+
+    def test_different_class_names_are_not_associated(self):
+        vehicles, toolset = self._excavator_pair()
+        toolset["class_name"] = "Bulldozer"
+
+        associations = extract_object_associations(
+            [vehicles, toolset]
+        )
+
+        self.assertEqual(associations, [])
+
+    def test_non_overlapping_boxes_are_not_associated(self):
+        vehicles, toolset = self._excavator_pair()
+        toolset["bbox_xyxy"] = [10, 10, 50, 50]
+
+        associations = extract_object_associations(
+            [vehicles, toolset]
+        )
+
+        self.assertEqual(associations, [])
+
+    def test_toolset_excavator_can_match_vehicle_excavator(self):
+        vehicles, toolset = self._excavator_pair()
+
+        self.assertEqual(vehicles["object_category"], "machinery")
+        self.assertEqual(toolset["object_category"], "other")
+
+        associations = extract_object_associations(
+            [vehicles, toolset]
+        )
+
+        self.assertEqual(len(associations), 1)
+
+    def test_association_does_not_modify_original_nodes(self):
+        vehicles, toolset = self._excavator_pair()
+        original_vehicles = vehicles.copy()
+        original_toolset = toolset.copy()
+
+        extract_object_associations([vehicles, toolset])
+
+        self.assertEqual(vehicles, original_vehicles)
+        self.assertEqual(toolset, original_toolset)
 
 
 if __name__ == "__main__":
