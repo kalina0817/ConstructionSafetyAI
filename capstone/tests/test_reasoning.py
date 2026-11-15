@@ -31,7 +31,10 @@ class SceneGraphTests(unittest.TestCase):
         self.assertEqual(len(graph["relationships"]), 1)
         relation = graph["relationships"][0]
         self.assertEqual(relation["predicate"], "inside_person_bbox")
-        self.assertIn("does not establish", relation["interpretation_limit"])
+        self.assertIn(
+            "does not establish",
+            relation["interpretation_limit"],
+        )
 
     def test_machinery_relationship_is_thresholded_and_traceable(self):
         graph = build_scene_graph(
@@ -88,28 +91,137 @@ class SceneGraphTests(unittest.TestCase):
 
         self.assertEqual(assess_safety(graph)["findings"], [])
 
-    def test_all_findings_require_review_and_do_not_score_risk(self):
+    def test_missing_ppe_finding_requires_person_association_and_threshold(self):
         graph = build_scene_graph(
             [
                 {
                     "detector": "PPE",
+                    "class_name": "Person",
+                    "confidence": 0.9,
+                    "bbox_xyxy": [0, 0, 100, 100],
+                },
+                {
+                    "detector": "PPE",
                     "class_name": "no_vest",
                     "confidence": 0.7,
+                    "confidence_threshold": 0.25,
                     "bbox_xyxy": [10, 10, 50, 60],
                 },
             ],
             100,
             100,
         )
+
         assessment = assess_safety(graph)
 
+        self.assertEqual(len(assessment["findings"]), 1)
+        finding = assessment["findings"][0]
+
         self.assertEqual(
-            assessment["findings"][0]["status"],
+            finding["finding_category"],
+            "potential_missing_ppe",
+        )
+        self.assertEqual(
+            finding["status"],
             "requires_human_review",
         )
-        self.assertTrue(assessment["findings"][0]["uncertainty_reasons"])
-        self.assertIsNone(assessment["risk_assessment"]["risk_score"])
-        self.assertIsNone(assessment["risk_assessment"]["risk_probability"])
+        self.assertTrue(finding["uncertainty_reasons"])
+        self.assertEqual(
+            finding["evidence"]["confidence_threshold"],
+            0.25,
+        )
+        self.assertIsNone(
+            assessment["risk_assessment"]["risk_score"]
+        )
+        self.assertIsNone(
+            assessment["risk_assessment"]["risk_probability"]
+        )
+
+    def test_missing_ppe_without_person_association_does_not_create_finding(self):
+        graph = build_scene_graph(
+            [
+                {
+                    "detector": "PPE",
+                    "class_name": "no_vest",
+                    "confidence": 0.9,
+                    "confidence_threshold": 0.25,
+                    "bbox_xyxy": [10, 10, 50, 60],
+                },
+            ],
+            100,
+            100,
+        )
+
+        self.assertEqual(assess_safety(graph)["findings"], [])
+
+    def test_missing_ppe_below_confidence_threshold_does_not_create_finding(self):
+        graph = build_scene_graph(
+            [
+                {
+                    "detector": "PPE",
+                    "class_name": "Person",
+                    "confidence": 0.9,
+                    "bbox_xyxy": [0, 0, 100, 100],
+                },
+                {
+                    "detector": "PPE",
+                    "class_name": "no_vest",
+                    "confidence": 0.2,
+                    "confidence_threshold": 0.25,
+                    "bbox_xyxy": [10, 10, 50, 60],
+                },
+            ],
+            100,
+            100,
+        )
+
+        self.assertEqual(assess_safety(graph)["findings"], [])
+
+    def test_all_five_missing_ppe_classes_use_the_same_rule(self):
+        missing_ppe_classes = [
+            "no_boots",
+            "no_gloves",
+            "no_goggles",
+            "no_helmet",
+            "no_vest",
+        ]
+
+        detections = [
+            {
+                "detector": "PPE",
+                "class_name": "Person",
+                "confidence": 0.9,
+                "bbox_xyxy": [0, 0, 100, 100],
+            }
+        ]
+
+        for index, class_name in enumerate(missing_ppe_classes):
+            detections.append(
+                {
+                    "detector": "PPE",
+                    "class_name": class_name,
+                    "confidence": 0.8,
+                    "confidence_threshold": 0.25,
+                    "bbox_xyxy": [
+                        5 + index * 2,
+                        5,
+                        30 + index * 2,
+                        30,
+                    ],
+                }
+            )
+
+        graph = build_scene_graph(detections, 100, 100)
+        assessment = assess_safety(graph)
+
+        self.assertEqual(len(assessment["findings"]), 5)
+        self.assertEqual(
+            {
+                finding["evidence"]["class_name"]
+                for finding in assessment["findings"]
+            },
+            set(missing_ppe_classes),
+        )
 
     def test_toolset35_ppe_classes_are_classified_as_ppe_predictions(self):
         ppe_classes = [
@@ -221,11 +333,13 @@ class SceneGraphTests(unittest.TestCase):
     def test_invalid_detection_geometry_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "invalid bounding box"):
             build_scene_graph(
-                [{
-                    "detector": "PPE",
-                    "class_name": "Person",
-                    "bbox_xyxy": [0, 0, 0, 10],
-                }],
+                [
+                    {
+                        "detector": "PPE",
+                        "class_name": "Person",
+                        "bbox_xyxy": [0, 0, 0, 10],
+                    }
+                ],
                 100,
                 100,
             )

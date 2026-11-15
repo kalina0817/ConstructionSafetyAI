@@ -69,10 +69,14 @@ def build_scene_graph(
         raise ValueError("Image dimensions must be positive.")
 
     if not 0 <= machinery_distance_ratio <= 1:
-        raise ValueError("Machinery distance ratio must be between 0 and 1.")
+        raise ValueError(
+            "Machinery distance ratio must be between 0 and 1."
+        )
 
     if not 0 <= containment_threshold <= 1:
-        raise ValueError("Containment threshold must be between 0 and 1.")
+        raise ValueError(
+            "Containment threshold must be between 0 and 1."
+        )
 
     nodes = []
 
@@ -82,20 +86,27 @@ def build_scene_graph(
         if (
             not isinstance(box, (list, tuple))
             or len(box) != 4
-            or any(not isinstance(value, (int, float)) for value in box)
+            or any(
+                not isinstance(value, (int, float))
+                for value in box
+            )
             or box[2] <= box[0]
             or box[3] <= box[1]
         ):
-            raise ValueError(f"Detection {index} has an invalid bounding box.")
+            raise ValueError(
+                f"Detection {index} has an invalid bounding box."
+            )
 
         name = detection.get("class_name")
 
         if not isinstance(name, str) or not name.strip():
-            raise ValueError(f"Detection {index} has no class name.")
+            raise ValueError(
+                f"Detection {index} has no class name."
+            )
 
         detector = detection.get("detector")
 
-        nodes.append({
+        node = {
             "object_id": f"object_{index:04d}",
             "detection_index": index,
             "detector": detector,
@@ -104,7 +115,16 @@ def build_scene_graph(
             "object_category": _category(name, detector),
             "confidence": detection.get("confidence"),
             "bbox_xyxy": list(box),
-        })
+        }
+
+        # Retain the actual inference threshold, including
+        # class-specific overrides, when available.
+        if "confidence_threshold" in detection:
+            node["confidence_threshold"] = detection[
+                "confidence_threshold"
+            ]
+
+        nodes.append(node)
 
     # Preserve the existing PPE-containment and machinery-proximity
     # relationship logic.

@@ -1,13 +1,74 @@
-﻿def _build_hazard_findings(scene_graph):
-    """Generate potential findings with automatic review dispositions."""
+﻿
+def _build_hazard_findings(scene_graph):
+    """Generate evidence-linked potential findings."""
     nodes = {
-        item["object_id"]: item for item in scene_graph["nodes"]
+        item["object_id"]: item
+        for item in scene_graph["nodes"]
     }
     findings = []
 
+    # Index qualifying PPE-to-person containment relationships.
+    ppe_person_relationships = {}
+
+    for relationship in scene_graph["relationships"]:
+        if relationship["predicate"] != "inside_person_bbox":
+            continue
+
+        ppe_id = relationship["source_id"]
+        person_id = relationship["target_id"]
+
+        ppe_node = nodes.get(ppe_id)
+        person_node = nodes.get(person_id)
+
+        if (
+            ppe_node is None
+            or person_node is None
+            or ppe_node["object_category"] != "missing_ppe_prediction"
+            or person_node["object_category"] != "person"
+        ):
+            continue
+
+        ppe_person_relationships.setdefault(ppe_id, []).append(
+            relationship
+        )
+
+    # Missing-PPE predictions require both threshold-qualified
+    # confidence and an association with a detected person.
     for node in scene_graph["nodes"]:
         if node["object_category"] != "missing_ppe_prediction":
             continue
+
+        confidence = node.get("confidence")
+        threshold = node.get("confidence_threshold")
+
+        if (
+            not isinstance(confidence, (int, float))
+            or isinstance(confidence, bool)
+            or not isinstance(threshold, (int, float))
+            or isinstance(threshold, bool)
+            or confidence < threshold
+        ):
+            continue
+
+        relationships = ppe_person_relationships.get(
+            node["object_id"],
+            [],
+        )
+
+        if not relationships:
+            continue
+
+        # Use the strongest containment association to avoid
+        # creating duplicate findings for one PPE prediction.
+        relationship = max(
+            relationships,
+            key=lambda item: item["evidence"].get(
+                "containment_ratio",
+                0,
+            ),
+        )
+
+        person = nodes[relationship["target_id"]]
 
         findings.append({
             "finding_id": f"finding_{len(findings):04d}",
@@ -16,18 +77,28 @@
             "status": "requires_human_review",
             "review_disposition": "review_required",
             "review_reason": (
-                "A missing-PPE prediction requires human verification. "
-                "The detection alone does not establish that PPE is absent."
+                "A missing-PPE prediction passed its configured "
+                "confidence threshold and was associated with a "
+                "detected person. Human verification is still required; "
+                "the prediction does not establish that PPE is absent."
             ),
-            "source_object_ids": [node["object_id"]],
+            "source_object_ids": [
+                node["object_id"],
+                person["object_id"],
+            ],
+            "relationship_id": relationship["relationship_id"],
             "evidence": {
                 "detector": node["detector"],
                 "class_name": node["class_name"],
-                "confidence": node["confidence"],
+                "confidence": confidence,
+                "confidence_threshold": threshold,
                 "bbox_xyxy": node["bbox_xyxy"],
+                "person_bbox_xyxy": person["bbox_xyxy"],
+                **relationship["evidence"],
             },
         })
 
+    # Preserve the existing machinery screening behavior.
     for relationship in scene_graph["relationships"]:
         if relationship["predicate"] != "near_machinery_in_image":
             continue
