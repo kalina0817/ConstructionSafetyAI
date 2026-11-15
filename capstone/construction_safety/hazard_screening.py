@@ -1,5 +1,4 @@
-﻿
-def _build_hazard_findings(scene_graph):
+﻿def _build_hazard_findings(scene_graph):
     """Generate evidence-linked potential findings."""
     nodes = {
         item["object_id"]: item
@@ -32,8 +31,7 @@ def _build_hazard_findings(scene_graph):
             relationship
         )
 
-    # Missing-PPE predictions require both threshold-qualified
-    # confidence and an association with a detected person.
+    # Automatically record qualifying missing-PPE predictions.
     for node in scene_graph["nodes"]:
         if node["object_category"] != "missing_ppe_prediction":
             continue
@@ -58,8 +56,7 @@ def _build_hazard_findings(scene_graph):
         if not relationships:
             continue
 
-        # Use the strongest containment association to avoid
-        # creating duplicate findings for one PPE prediction.
+        # Select the strongest person association for this prediction.
         relationship = max(
             relationships,
             key=lambda item: item["evidence"].get(
@@ -74,13 +71,14 @@ def _build_hazard_findings(scene_graph):
             "finding_id": f"finding_{len(findings):04d}",
             "finding_category": "potential_missing_ppe",
             "rule_id": "MISSING_PPE_PREDICTION_REQUIRES_REVIEW",
-            "status": "requires_human_review",
-            "review_disposition": "review_required",
+            "status": "potential",
+            "review_disposition": "no_review_required",
             "review_reason": (
-                "A missing-PPE prediction passed its configured "
+                "This missing-PPE prediction passed its configured "
                 "confidence threshold and was associated with a "
-                "detected person. Human verification is still required; "
-                "the prediction does not establish that PPE is absent."
+                "detected person. It is automatically recorded as a "
+                "potential finding and is not sent for manual review. "
+                "The prediction does not establish that PPE is absent."
             ),
             "source_object_ids": [
                 node["object_id"],
@@ -98,7 +96,7 @@ def _build_hazard_findings(scene_graph):
             },
         })
 
-    # Preserve the existing machinery screening behavior.
+    # Automatically record worker-machinery image-space proximity.
     for relationship in scene_graph["relationships"]:
         if relationship["predicate"] != "near_machinery_in_image":
             continue
@@ -110,11 +108,14 @@ def _build_hazard_findings(scene_graph):
             "finding_id": f"finding_{len(findings):04d}",
             "finding_category": "potential_worker_machinery_interaction",
             "rule_id": "IMAGE_SPACE_PROXIMITY_REQUIRES_VERIFICATION",
-            "status": "requires_human_review",
-            "review_disposition": "review_required",
+            "status": "potential",
+            "review_disposition": "no_review_required",
             "review_reason": (
-                "Image-space proximity requires human verification. "
-                "It does not establish physical distance or an unsafe interaction."
+                "This worker-machinery image-space proximity finding "
+                "is automatically recorded and is not sent for manual "
+                "review. Image-space proximity does not establish "
+                "physical distance, machine operating status, or an "
+                "unsafe interaction."
             ),
             "source_object_ids": [
                 person["object_id"],
@@ -133,9 +134,10 @@ def _build_hazard_findings(scene_graph):
 
 def screen_hazards(scene_graph):
     """
-    Apply rule-based screening and assign automatic review dispositions.
+    Apply rule-based screening and assign automatic dispositions.
 
-    Findings are screening candidates, not confirmed incidents or violations.
+    Findings are potential screening candidates, not confirmed
+    incidents, violations, or unsafe conditions.
     """
     findings = _build_hazard_findings(scene_graph)
 

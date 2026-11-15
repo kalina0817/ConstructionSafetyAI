@@ -91,7 +91,7 @@ class SceneGraphTests(unittest.TestCase):
 
         self.assertEqual(assess_safety(graph)["findings"], [])
 
-    def test_missing_ppe_finding_requires_person_association_and_threshold(self):
+    def test_missing_ppe_finding_is_automatic_and_threshold_qualified(self):
         graph = build_scene_graph(
             [
                 {
@@ -121,14 +121,25 @@ class SceneGraphTests(unittest.TestCase):
             finding["finding_category"],
             "potential_missing_ppe",
         )
+        self.assertEqual(finding["status"], "potential")
         self.assertEqual(
-            finding["status"],
-            "requires_human_review",
+            finding["review_disposition"],
+            "no_review_required",
         )
         self.assertTrue(finding["uncertainty_reasons"])
         self.assertEqual(
             finding["evidence"]["confidence_threshold"],
             0.25,
+        )
+        self.assertEqual(
+            assessment["review_triage"]["review_queue"],
+            [],
+        )
+        self.assertEqual(
+            assessment["review_triage"]["disposition_counts"][
+                "no_review_required"
+            ],
+            1,
         )
         self.assertIsNone(
             assessment["risk_assessment"]["risk_score"]
@@ -221,6 +232,55 @@ class SceneGraphTests(unittest.TestCase):
                 for finding in assessment["findings"]
             },
             set(missing_ppe_classes),
+        )
+        self.assertTrue(
+            all(
+                finding["review_disposition"] == "no_review_required"
+                for finding in assessment["findings"]
+            )
+        )
+        self.assertEqual(
+            assessment["review_triage"]["review_queue"],
+            [],
+        )
+
+    def test_worker_machinery_finding_is_automatic(self):
+        graph = build_scene_graph(
+            [
+                {
+                    "detector": "PPE",
+                    "class_name": "Person",
+                    "confidence": 0.9,
+                    "bbox_xyxy": [10, 10, 30, 50],
+                },
+                {
+                    "detector": "Vehicles",
+                    "class_name": "Roller",
+                    "confidence": 0.8,
+                    "bbox_xyxy": [35, 10, 70, 50],
+                },
+            ],
+            100,
+            100,
+        )
+
+        assessment = assess_safety(graph)
+
+        self.assertEqual(len(assessment["findings"]), 1)
+        finding = assessment["findings"][0]
+
+        self.assertEqual(
+            finding["finding_category"],
+            "potential_worker_machinery_interaction",
+        )
+        self.assertEqual(finding["status"], "potential")
+        self.assertEqual(
+            finding["review_disposition"],
+            "no_review_required",
+        )
+        self.assertEqual(
+            assessment["review_triage"]["review_queue"],
+            [],
         )
 
     def test_toolset35_ppe_classes_are_classified_as_ppe_predictions(self):
