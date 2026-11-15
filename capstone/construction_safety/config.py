@@ -41,7 +41,7 @@ MODEL_SPECS = {
         "label": "Vehicles",
         "checkpoint": Path(
             "runs/detect/runs/detect/"
-            "vehicle_yolo11n_continuation_5ep/weights/best.pt"
+            "vehicle_yolo11n_corrected_dataset_5ep/weights/best.pt"
         ),
         "dataset": Path(
             "data/processed/"
@@ -49,7 +49,7 @@ MODEL_SPECS = {
         ),
         "training_args": Path(
             "runs/detect/runs/detect/"
-            "vehicle_yolo11n_continuation_5ep/args.yaml"
+            "vehicle_yolo11n_corrected_dataset_5ep/args.yaml"
         ),
     },
     "toolset35": {
