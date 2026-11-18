@@ -1,3 +1,4 @@
+
 import streamlit as st
 
 
@@ -9,24 +10,27 @@ st.set_page_config(
 
 overview = st.Page(
     "capstone_home.py",
-    title="Research overview",
+    title="Project overview",
     icon=":material/school:",
     default=True,
 )
+
 research = st.Page(
     "research_workbench.py",
     title="Research methods",
     icon=":material/science:",
 )
+
 screening = st.Page(
     "integrated_app.py",
     title="Image screening",
     icon=":material/image_search:",
 )
-duplicate_review = st.Page(
-    "review_person_duplicates.py",
-    title="Person duplicate review",
-    icon=":material/rule:",
+
+reports = st.Page(
+    "reports_page.py",
+    title="Reports",
+    icon=":material/description:",
 )
 
 with st.sidebar:
@@ -35,17 +39,19 @@ with st.sidebar:
     st.caption(
         "Context-aware vision reasoning for proactive construction safety"
     )
-    st.warning(
-        "Research prototype only. Findings require qualified human review.",
-        icon=":material/info:",
+    st.info(
+        "Potential safety alerts are generated automatically. "
+        "Human verification is optional. This research prototype does not "
+        "confirm safety violations or replace site safety procedures."
     )
 
 navigation = st.navigation(
     {
         "Capstone": [overview, research],
-        "Prototype": [screening, duplicate_review],
+        "Prototype": [screening, reports],
     },
     position="sidebar",
     expanded=True,
 )
+
 navigation.run()
