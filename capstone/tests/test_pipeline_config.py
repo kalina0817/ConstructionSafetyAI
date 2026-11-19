@@ -43,8 +43,8 @@ class PipelineConfigTests(unittest.TestCase):
             detector="ppe",
         )
         self.assertEqual(
-            updated["perception"]["toolset"],
-            self.config["perception"]["toolset"],
+            updated["perception"]["toolset35"],
+            self.config["perception"]["toolset35"],
         )
         self.assertEqual(
             updated["perception"]["vehicles"],

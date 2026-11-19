@@ -1,4 +1,5 @@
-﻿from copy import deepcopy
+﻿
+from copy import deepcopy
 
 from construction_safety.inference import run_inference
 from construction_safety.pipeline_config import (
@@ -10,15 +11,19 @@ from construction_safety.registry import get_method
 
 def _build_execution_record(config):
     """Describe the actual implementation used by each pipeline stage."""
-    perception_methods = {
-        detector: {
+    perception_methods = {}
+
+    for detector, method_id in config["perception"].items():
+        specification = get_method(method_id)
+
+        perception_methods[detector] = {
             "method_id": method_id,
-            "implementation": get_method(method_id)["implementation"],
-            "execution_mode": get_method(method_id)["execution_mode"],
+            "implementation": specification["implementation"],
+            "execution_mode": specification["execution_mode"],
+            "model_architecture": specification.get("model_architecture"),
+            "model_variant": specification.get("model_variant"),
             "status": "executed",
         }
-        for detector, method_id in config["perception"].items()
-    }
 
     stages = {}
 
@@ -89,12 +94,22 @@ def run_pipeline(
 
     validate_pipeline_config(config)
 
-    detector_order = ("ppe", "toolset", "vehicles", "toolset35")
+    detector_order = ("ppe", "toolset35", "vehicles", "toolset")
     model_names = tuple(
         detector
         for detector in detector_order
         if detector in config["perception"]
     )
+
+    model_variants = {}
+
+    for detector in model_names:
+        method_id = config["perception"][detector]
+        specification = get_method(method_id)
+        variant = specification.get("model_variant")
+
+        if variant:
+            model_variants[detector] = variant
 
     annotated_image, report = run_inference(
         image_path=image_path,
@@ -102,6 +117,7 @@ def run_pipeline(
         image_size=image_size,
         model_names=model_names,
         confidence_by_model=confidence_by_model,
+        model_variants=model_variants,
     )
 
     report["pipeline"] = {

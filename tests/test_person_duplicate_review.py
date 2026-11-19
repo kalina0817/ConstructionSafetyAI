@@ -36,11 +36,11 @@ class PersonDuplicateReviewTests(unittest.TestCase):
             "possible_duplicate_persons": [{
                 "candidate": {
                     "confidence": 0.4,
-                    "bbox_xyxy": [5, 5, 20, 25],
+                    "box_xyxy": [5, 5, 20, 25],
                 },
                 "kept_detection": {
                     "confidence": 0.8,
-                    "bbox_xyxy": [4, 4, 22, 28],
+                    "box_xyxy": [4, 4, 22, 28],
                 },
                 "iou": 0.5,
                 "containment": 0.9,
@@ -50,7 +50,7 @@ class PersonDuplicateReviewTests(unittest.TestCase):
             "analysis_detections": [{
                 "class_name": "Person",
                 "confidence": 0.8,
-                "bbox_xyxy": [4, 4, 22, 28],
+                "box_xyxy": [4, 4, 22, 28],
             }],
         }
         (self.run_dir / "detections.json").write_text(

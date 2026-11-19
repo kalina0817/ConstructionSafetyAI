@@ -1,11 +1,18 @@
-
+﻿
 import streamlit as st
 
 
 st.set_page_config(
-    page_title="Construction safety capstone",
+    page_title="Construction Safety AI",
     page_icon=":material/school:",
     layout="wide",
+)
+
+dashboard = st.Page(
+    "dashboard_page.py",
+    title="Dashboard",
+    icon=":material/dashboard:",
+    default=False,
 )
 
 overview = st.Page(
@@ -27,6 +34,12 @@ screening = st.Page(
     icon=":material/image_search:",
 )
 
+comparison = st.Page(
+    "model_comparison_page.py",
+    title="Model comparison",
+    icon=":material/analytics:",
+)
+
 reports = st.Page(
     "reports_page.py",
     title="Reports",
@@ -34,7 +47,7 @@ reports = st.Page(
 )
 
 with st.sidebar:
-    st.title("Research workspace")
+    st.title("Construction Safety AI")
     st.caption("M.S. computer science capstone")
     st.caption(
         "Context-aware vision reasoning for proactive construction safety"
@@ -47,11 +60,21 @@ with st.sidebar:
 
 navigation = st.navigation(
     {
-        "Capstone": [overview, research],
-        "Prototype": [screening, reports],
+        "Workspace": [
+            dashboard,
+            overview,
+            research,
+        ],
+        "Prototype": [
+            screening,
+            comparison,
+            reports,
+        ],
     },
     position="sidebar",
     expanded=True,
 )
 
 navigation.run()
+
+

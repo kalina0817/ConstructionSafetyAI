@@ -73,11 +73,11 @@ def build_adjudicated_report(detections_report, review_report, run_folder):
             "class_name": candidate.get("class_name"),
             "detector": candidate.get("detector"),
             "confidence": candidate.get("confidence"),
-            "bbox_xyxy": candidate.get("bbox_xyxy"),
+            "box_xyxy": candidate.get("box_xyxy"),
             "person_class": candidate.get("person_class"),
             "machinery_class": candidate.get("machinery_class"),
-            "person_bbox_xyxy": candidate.get("person_bbox_xyxy"),
-            "machinery_bbox_xyxy": candidate.get("machinery_bbox_xyxy"),
+            "person_box_xyxy": candidate.get("person_box_xyxy"),
+            "machinery_box_xyxy": candidate.get("machinery_box_xyxy"),
             "normalized_image_distance": candidate.get(
                 "normalized_image_distance"
             ),

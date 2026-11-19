@@ -1,4 +1,6 @@
 
+from math import isfinite
+
 from construction_safety.association import (
     extract_object_associations,
     extract_relationships,
@@ -8,6 +10,7 @@ from construction_safety.config import (
     MACHINERY_CLASSES,
     MACHINERY_REVIEW_DISTANCE_RATIO,
     PPE_PERSON_CONTAINMENT_THRESHOLD,
+    TOOL_REVIEW_DISTANCE_RATIO,
 )
 
 
@@ -30,7 +33,12 @@ PPE_CLASSES = {
 
 
 def _normalize_class(value):
-    return value.strip().lower().replace("_", " ")
+    if not isinstance(value, str):
+        return ""
+
+    return " ".join(
+        value.strip().casefold().replace("_", " ").split()
+    )
 
 
 def _category(class_name, detector=None):
@@ -51,11 +59,40 @@ def _category(class_name, detector=None):
         return "machinery"
 
     if name in PPE_CLASSES or (
-        detector == "Toolset-35" and name in TOOLSET35_PPE_CLASSES
+        detector == "Toolset-35"
+        and name in TOOLSET35_PPE_CLASSES
     ):
         return "ppe_prediction"
 
     return "other"
+
+
+def _validate_positive_dimension(value, label):
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not isfinite(value)
+        or value <= 0
+    ):
+        raise ValueError(
+            f"{label} must be positive and finite."
+        )
+
+    return value
+
+
+def _validate_ratio(value, label):
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not isfinite(value)
+        or not 0 <= value <= 1
+    ):
+        raise ValueError(
+            f"{label} must be a finite number between 0 and 1."
+        )
+
+    return float(value)
 
 
 def build_scene_graph(
@@ -64,30 +101,54 @@ def build_scene_graph(
     image_height,
     machinery_distance_ratio=MACHINERY_REVIEW_DISTANCE_RATIO,
     containment_threshold=PPE_PERSON_CONTAINMENT_THRESHOLD,
+    tool_distance_ratio=TOOL_REVIEW_DISTANCE_RATIO,
 ):
-    if image_width <= 0 or image_height <= 0:
-        raise ValueError("Image dimensions must be positive.")
+    image_width = _validate_positive_dimension(
+        image_width,
+        "Image width",
+    )
+    image_height = _validate_positive_dimension(
+        image_height,
+        "Image height",
+    )
 
-    if not 0 <= machinery_distance_ratio <= 1:
+    if not isinstance(detections, list):
         raise ValueError(
-            "Machinery distance ratio must be between 0 and 1."
+            "Detections must be provided as a list."
         )
 
-    if not 0 <= containment_threshold <= 1:
-        raise ValueError(
-            "Containment threshold must be between 0 and 1."
-        )
+    machinery_distance_ratio = _validate_ratio(
+        machinery_distance_ratio,
+        "Machinery distance ratio",
+    )
+
+    containment_threshold = _validate_ratio(
+        containment_threshold,
+        "Containment threshold",
+    )
+
+    tool_distance_ratio = _validate_ratio(
+        tool_distance_ratio,
+        "Tool distance ratio",
+    )
 
     nodes = []
 
     for index, detection in enumerate(detections):
-        box = detection.get("bbox_xyxy")
+        if not isinstance(detection, dict):
+            raise ValueError(
+                f"Detection {index} must be a dictionary."
+            )
+
+        box = detection.get("box_xyxy")
 
         if (
             not isinstance(box, (list, tuple))
             or len(box) != 4
             or any(
-                not isinstance(value, (int, float))
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not isfinite(value)
                 for value in box
             )
             or box[2] <= box[0]
@@ -114,10 +175,10 @@ def build_scene_graph(
             "class_name": name,
             "object_category": _category(name, detector),
             "confidence": detection.get("confidence"),
-            "bbox_xyxy": list(box),
+            "box_xyxy": list(box),
         }
 
-        # Retain the actual inference threshold, including
+        # Preserve the actual inference threshold, including
         # class-specific overrides, when available.
         if "confidence_threshold" in detection:
             node["confidence_threshold"] = detection[
@@ -126,18 +187,15 @@ def build_scene_graph(
 
         nodes.append(node)
 
-    # Preserve the existing PPE-containment and machinery-proximity
-    # relationship logic.
     relationships = extract_relationships(
         nodes,
         image_width,
         image_height,
         machinery_distance_ratio=machinery_distance_ratio,
         containment_threshold=containment_threshold,
+        tool_distance_ratio=tool_distance_ratio,
     )
 
-    # Associate matching detections from different detectors as
-    # possible duplicate physical objects. Original nodes remain intact.
     object_associations = extract_object_associations(nodes)
 
     return {
@@ -148,9 +206,12 @@ def build_scene_graph(
         },
         "parameters": {
             "machinery_distance_ratio": machinery_distance_ratio,
+            "tool_distance_ratio": tool_distance_ratio,
             "ppe_containment_threshold": containment_threshold,
             "object_association_iou_threshold": 0.50,
-            "status": "Exploratory; not calibrated risk or distance.",
+            "status": (
+                "Exploratory; not calibrated risk or distance."
+            ),
         },
         "nodes": nodes,
         "relationships": relationships,

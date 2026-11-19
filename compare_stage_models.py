@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent
 
 DATASETS = {
     "PPE": ROOT / "data/processed/construction-ppe/data.yaml",
-    "Toolset": ROOT / "data/processed/construction-toolset-deduplicated/data.yaml",
+    "Toolset": ROOT / "data/processed/construction-toolset-detection-verified/data.yaml",
     "Vehicles": ROOT / "data/processed/construction-vehicle-detection-clean-loader-corrected/data.yaml",
 }
 

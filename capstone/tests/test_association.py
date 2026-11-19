@@ -13,18 +13,20 @@ class AssociationTests(unittest.TestCase):
         self.person = {
             "object_id": "object_0000",
             "object_category": "person",
-            "bbox_xyxy": [10, 10, 100, 100],
+            "box_xyxy": [10, 10, 100, 100],
         }
         self.helmet = {
             "object_id": "object_0001",
             "object_category": "ppe_prediction",
-            "bbox_xyxy": [20, 15, 40, 30],
+            "box_xyxy": [20, 15, 40, 30],
         }
         self.machinery = {
             "object_id": "object_0002",
             "object_category": "machinery",
-            "bbox_xyxy": [105, 10, 150, 100],
+            "box_xyxy": [105, 10, 150, 100],
         }
+
+    # Relationship tests
 
     def test_ppe_containment_relationship(self):
         relationships = extract_relationships(
@@ -35,7 +37,7 @@ class AssociationTests(unittest.TestCase):
 
         self.assertEqual(len(relationships), 1)
         relationship = relationships[0]
-        self.assertEqual(relationship["predicate"], "inside_person_bbox")
+        self.assertEqual(relationship["predicate"], "inside_person_box")
         self.assertEqual(relationship["source_id"], "object_0001")
         self.assertEqual(relationship["target_id"], "object_0000")
         self.assertIn("does not establish", relationship["interpretation_limit"])
@@ -60,10 +62,7 @@ class AssociationTests(unittest.TestCase):
 
         self.assertEqual(len(relationships), 1)
         relationship = relationships[0]
-        self.assertEqual(
-            relationship["predicate"],
-            "near_machinery_in_image",
-        )
+        self.assertEqual(relationship["predicate"], "near")
         self.assertEqual(relationship["source_id"], "object_0000")
         self.assertEqual(relationship["target_id"], "object_0002")
         self.assertIn("normalized_edge_distance", relationship["evidence"])
@@ -71,7 +70,7 @@ class AssociationTests(unittest.TestCase):
     def test_distant_machinery_is_not_associated(self):
         distant = {
             **self.machinery,
-            "bbox_xyxy": [190, 190, 200, 200],
+            "box_xyxy": [190, 190, 200, 200],
         }
         relationships = extract_relationships(
             [self.person, distant],
@@ -93,7 +92,7 @@ class AssociationTests(unittest.TestCase):
         self.assertEqual(len(relationships), 1)
         self.assertEqual(
             relationships[0]["predicate"],
-            "inside_person_bbox",
+            "inside_person_box",
         )
 
     def test_relationship_ids_are_unique_and_ordered(self):
@@ -132,7 +131,7 @@ class AssociationTests(unittest.TestCase):
     def test_invalid_node_geometry_is_rejected(self):
         invalid = {
             **self.person,
-            "bbox_xyxy": [10, 10, 10, 100],
+            "box_xyxy": [10, 10, 10, 100],
         }
         with self.assertRaisesRegex(ValueError, "invalid bounding box"):
             extract_relationships([invalid], 200, 200)
@@ -140,7 +139,7 @@ class AssociationTests(unittest.TestCase):
     def test_missing_node_identity_is_rejected(self):
         invalid = {
             "object_category": "person",
-            "bbox_xyxy": [10, 10, 100, 100],
+            "box_xyxy": [10, 10, 100, 100],
         }
         with self.assertRaisesRegex(ValueError, "object_id"):
             extract_relationships([invalid], 200, 200)
@@ -153,23 +152,21 @@ class AssociationTests(unittest.TestCase):
             "detector": "Vehicles",
             "class_name": "Excavator",
             "object_category": "machinery",
-            "bbox_xyxy": [324, 177, 591, 394],
+            "box_xyxy": [324, 177, 591, 394],
         }
         toolset = {
             "object_id": "object_0001",
             "detector": "Toolset-35",
             "class_name": "Excavator",
             "object_category": "other",
-            "bbox_xyxy": [307, 174, 593, 395],
+            "box_xyxy": [307, 174, 593, 395],
         }
         return vehicles, toolset
 
     def test_matching_excavators_from_different_detectors_are_associated(self):
         vehicles, toolset = self._excavator_pair()
 
-        associations = extract_object_associations(
-            [vehicles, toolset]
-        )
+        associations = extract_object_associations([vehicles, toolset])
 
         self.assertEqual(len(associations), 1)
         self.assertEqual(
@@ -180,10 +177,7 @@ class AssociationTests(unittest.TestCase):
     def test_association_contains_both_object_ids_and_iou(self):
         vehicles, toolset = self._excavator_pair()
 
-        associations = extract_object_associations(
-            [vehicles, toolset]
-        )
-
+        associations = extract_object_associations([vehicles, toolset])
         association = associations[0]
 
         self.assertEqual(
@@ -204,9 +198,7 @@ class AssociationTests(unittest.TestCase):
         vehicles, toolset = self._excavator_pair()
         toolset["detector"] = "Vehicles"
 
-        associations = extract_object_associations(
-            [vehicles, toolset]
-        )
+        associations = extract_object_associations([vehicles, toolset])
 
         self.assertEqual(associations, [])
 
@@ -214,19 +206,15 @@ class AssociationTests(unittest.TestCase):
         vehicles, toolset = self._excavator_pair()
         toolset["class_name"] = "Bulldozer"
 
-        associations = extract_object_associations(
-            [vehicles, toolset]
-        )
+        associations = extract_object_associations([vehicles, toolset])
 
         self.assertEqual(associations, [])
 
     def test_non_overlapping_boxes_are_not_associated(self):
         vehicles, toolset = self._excavator_pair()
-        toolset["bbox_xyxy"] = [10, 10, 50, 50]
+        toolset["box_xyxy"] = [10, 10, 50, 50]
 
-        associations = extract_object_associations(
-            [vehicles, toolset]
-        )
+        associations = extract_object_associations([vehicles, toolset])
 
         self.assertEqual(associations, [])
 
@@ -236,9 +224,7 @@ class AssociationTests(unittest.TestCase):
         self.assertEqual(vehicles["object_category"], "machinery")
         self.assertEqual(toolset["object_category"], "other")
 
-        associations = extract_object_associations(
-            [vehicles, toolset]
-        )
+        associations = extract_object_associations([vehicles, toolset])
 
         self.assertEqual(len(associations), 1)
 
@@ -252,6 +238,140 @@ class AssociationTests(unittest.TestCase):
         self.assertEqual(vehicles, original_vehicles)
         self.assertEqual(toolset, original_toolset)
 
+    def test_vest_matches_safety_vest_across_detectors(self):
+        ppe_vest = {
+            "object_id": "object_0010",
+            "detector": "PPE",
+            "class_name": "vest",
+            "object_category": "ppe_prediction",
+            "box_xyxy": [100, 100, 200, 250],
+        }
+        toolset_vest = {
+            "object_id": "object_0011",
+            "detector": "Toolset",
+            "class_name": "safety_vest",
+            "object_category": "ppe_prediction",
+            "box_xyxy": [105, 105, 195, 245],
+        }
 
+        associations = extract_object_associations(
+            [ppe_vest, toolset_vest]
+        )
+
+        self.assertEqual(len(associations), 1)
+        self.assertEqual(
+            associations[0]["member_ids"],
+            ["object_0010", "object_0011"],
+        )
+        self.assertEqual(
+            associations[0]["evidence"]["canonical_class_name"],
+            "safety vest",
+        )
+
+    def test_missing_ppe_predictions_are_not_associated(self):
+        first = {
+            "object_id": "object_0012",
+            "detector": "PPE",
+            "class_name": "no_vest",
+            "box_xyxy": [100, 100, 200, 250],
+        }
+        second = {
+            "object_id": "object_0013",
+            "detector": "Toolset",
+            "class_name": "no_vest",
+            "box_xyxy": [100, 100, 200, 250],
+        }
+
+        associations = extract_object_associations([first, second])
+
+        self.assertEqual(associations, [])
+
+    def test_helmet_matches_safety_helmet_across_detectors(self):
+        first = {
+            "object_id": "object_0014",
+            "detector": "PPE",
+            "class_name": "helmet",
+            "box_xyxy": [100, 100, 200, 200],
+        }
+        second = {
+            "object_id": "object_0015",
+            "detector": "Toolset",
+            "class_name": "safety helmet",
+            "box_xyxy": [100, 100, 200, 200],
+        }
+
+        associations = extract_object_associations([first, second])
+
+        self.assertEqual(len(associations), 1)
+        self.assertEqual(
+            associations[0]["evidence"]["canonical_class_name"],
+            "safety helmet",
+        )
+
+    def test_goggles_match_safety_glass_across_detectors(self):
+        ppe = {
+            "object_id": "object_0020",
+            "detector": "PPE",
+            "class_name": "goggles",
+            "object_category": "ppe_prediction",
+            "box_xyxy": [100, 100, 200, 200],
+        }
+        toolset = {
+            "object_id": "object_0021",
+            "detector": "Toolset-35",
+            "class_name": "safety glass",
+            "object_category": "ppe_prediction",
+            "box_xyxy": [105, 105, 195, 195],
+        }
+
+        associations = extract_object_associations([ppe, toolset])
+
+        self.assertEqual(len(associations), 1)
+        self.assertEqual(
+            associations[0]["evidence"]["canonical_class_name"],
+            "safety glasses",
+        )
+
+
+    def test_gloves_match_across_detectors(self):
+        ppe = {
+            "object_id": "object_0030",
+            "detector": "PPE",
+            "class_name": "gloves",
+            "box_xyxy": [100, 100, 200, 200],
+        }
+        toolset = {
+            "object_id": "object_0031",
+            "detector": "Toolset-35",
+            "class_name": "gloves",
+            "box_xyxy": [105, 105, 195, 195],
+        }
+
+        associations = extract_object_associations([ppe, toolset])
+
+        self.assertEqual(len(associations), 1)
+        self.assertEqual(
+            associations[0]["evidence"]["canonical_class_name"],
+            "gloves",
+        )
+
+    def test_non_overlapping_gloves_from_different_detectors_stay_separate(self):
+        ppe = {
+            "object_id": "object_0032",
+            "detector": "PPE",
+            "class_name": "gloves",
+            "box_xyxy": [10, 10, 50, 50],
+        }
+        toolset = {
+            "object_id": "object_0033",
+            "detector": "Toolset-35",
+            "class_name": "gloves",
+            "box_xyxy": [150, 150, 190, 190],
+        }
+
+        associations = extract_object_associations([ppe, toolset])
+
+        self.assertEqual(associations, [])
 if __name__ == "__main__":
     unittest.main()
+

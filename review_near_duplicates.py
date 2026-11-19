@@ -165,7 +165,7 @@ def associate_worker_findings(run_folder, adjudicated):
         (index, detection)
         for index, detection in enumerate(detections)
         if detection.get("class_name") == "Person"
-        and detection.get("bbox_xyxy")
+        and detection.get("box_xyxy")
     ]
 
     grouped = {}
@@ -195,21 +195,21 @@ def associate_worker_findings(run_folder, adjudicated):
                 source = detection
                 break
 
-        if source is None or not source.get("bbox_xyxy"):
+        if source is None or not source.get("box_xyxy"):
             unassigned.append({
                 "finding": finding,
                 "reason": "Original detection or bounding box not found."
             })
             continue
 
-        ppe_box = source["bbox_xyxy"]
+        ppe_box = source["box_xyxy"]
         best_person = None
         best_ratio = 0.0
 
         for person_index, person in people:
             ratio = containment_ratio(
                 ppe_box,
-                person["bbox_xyxy"]
+                person["box_xyxy"]
             )
 
             if ratio > best_ratio:
@@ -235,7 +235,7 @@ def associate_worker_findings(run_folder, adjudicated):
             grouped[group_key] = {
                 "worker_detection_index": person_index,
                 "worker_confidence": person["confidence"],
-                "worker_bbox_xyxy": person["bbox_xyxy"],
+                "worker_box_xyxy": person["box_xyxy"],
                 "ppe_category": class_name,
                 "human_decision": "Confirmed",
                 "original_predictions": []
@@ -245,7 +245,7 @@ def associate_worker_findings(run_folder, adjudicated):
             "candidate_index": finding.get("candidate_index"),
             "confidence": finding.get("confidence"),
             "detector": finding.get("detector"),
-            "bbox_xyxy": source["bbox_xyxy"],
+            "box_xyxy": source["box_xyxy"],
             "containment_ratio": round(best_ratio, 5),
             "reviewer_notes": finding.get("reviewer_notes", "")
         })
@@ -308,7 +308,7 @@ def build_safety_reasoning(run_folder, worker_report, adjudicated):
                 "worker_detection_index"
             ),
             "worker_confidence": finding.get("worker_confidence"),
-            "worker_bbox_xyxy": finding.get("worker_bbox_xyxy"),
+            "worker_box_xyxy": finding.get("worker_box_xyxy"),
             "ppe_category": class_name,
             "human_decision": finding.get("human_decision"),
             "prediction_count": finding.get("prediction_count"),

@@ -15,13 +15,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 100, 100],
+                    "box_xyxy": [0, 0, 100, 100],
                 },
                 {
                     "detector": "PPE",
                     "class_name": "helmet",
                     "confidence": 0.8,
-                    "bbox_xyxy": [10, 5, 30, 20],
+                    "box_xyxy": [10, 5, 30, 20],
                 },
             ],
             100,
@@ -30,7 +30,7 @@ class SceneGraphTests(unittest.TestCase):
 
         self.assertEqual(len(graph["relationships"]), 1)
         relation = graph["relationships"][0]
-        self.assertEqual(relation["predicate"], "inside_person_bbox")
+        self.assertEqual(relation["predicate"], "inside_person_box")
         self.assertIn(
             "does not establish",
             relation["interpretation_limit"],
@@ -43,13 +43,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [10, 10, 30, 50],
+                    "box_xyxy": [10, 10, 30, 50],
                 },
                 {
                     "detector": "Vehicles",
                     "class_name": "Roller",
                     "confidence": 0.8,
-                    "bbox_xyxy": [35, 10, 70, 50],
+                    "box_xyxy": [35, 10, 70, 50],
                 },
             ],
             100,
@@ -57,10 +57,7 @@ class SceneGraphTests(unittest.TestCase):
         )
 
         relationship = graph["relationships"][0]
-        self.assertEqual(
-            relationship["predicate"],
-            "near_machinery_in_image",
-        )
+        self.assertEqual(relationship["predicate"], "near")
         self.assertEqual(relationship["source_id"], "object_0000")
         self.assertEqual(relationship["target_id"], "object_0001")
         self.assertAlmostEqual(
@@ -76,13 +73,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 20, 40],
+                    "box_xyxy": [0, 0, 20, 40],
                 },
                 {
                     "detector": "Vehicles",
                     "class_name": "Excavator",
                     "confidence": 0.8,
-                    "bbox_xyxy": [90, 90, 100, 100],
+                    "box_xyxy": [90, 90, 100, 100],
                 },
             ],
             100,
@@ -98,14 +95,14 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 100, 100],
+                    "box_xyxy": [0, 0, 100, 100],
                 },
                 {
                     "detector": "PPE",
                     "class_name": "no_vest",
                     "confidence": 0.7,
                     "confidence_threshold": 0.25,
-                    "bbox_xyxy": [10, 10, 50, 60],
+                    "box_xyxy": [10, 10, 50, 60],
                 },
             ],
             100,
@@ -156,7 +153,7 @@ class SceneGraphTests(unittest.TestCase):
                     "class_name": "no_vest",
                     "confidence": 0.9,
                     "confidence_threshold": 0.25,
-                    "bbox_xyxy": [10, 10, 50, 60],
+                    "box_xyxy": [10, 10, 50, 60],
                 },
             ],
             100,
@@ -172,14 +169,14 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 100, 100],
+                    "box_xyxy": [0, 0, 100, 100],
                 },
                 {
                     "detector": "PPE",
                     "class_name": "no_vest",
                     "confidence": 0.2,
                     "confidence_threshold": 0.25,
-                    "bbox_xyxy": [10, 10, 50, 60],
+                    "box_xyxy": [10, 10, 50, 60],
                 },
             ],
             100,
@@ -202,7 +199,7 @@ class SceneGraphTests(unittest.TestCase):
                 "detector": "PPE",
                 "class_name": "Person",
                 "confidence": 0.9,
-                "bbox_xyxy": [0, 0, 100, 100],
+                "box_xyxy": [0, 0, 100, 100],
             }
         ]
 
@@ -213,7 +210,7 @@ class SceneGraphTests(unittest.TestCase):
                     "class_name": class_name,
                     "confidence": 0.8,
                     "confidence_threshold": 0.25,
-                    "bbox_xyxy": [
+                    "box_xyxy": [
                         5 + index * 2,
                         5,
                         30 + index * 2,
@@ -251,13 +248,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [10, 10, 30, 50],
+                    "box_xyxy": [10, 10, 30, 50],
                 },
                 {
                     "detector": "Vehicles",
                     "class_name": "Roller",
                     "confidence": 0.8,
-                    "bbox_xyxy": [35, 10, 70, 50],
+                    "box_xyxy": [35, 10, 70, 50],
                 },
             ],
             100,
@@ -271,7 +268,7 @@ class SceneGraphTests(unittest.TestCase):
 
         self.assertEqual(
             finding["finding_category"],
-            "potential_worker_machinery_interaction",
+            "potential_worker_machinery_proximity",
         )
         self.assertEqual(finding["status"], "potential")
         self.assertEqual(
@@ -299,7 +296,7 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "Toolset-35",
                     "class_name": class_name,
                     "confidence": 0.8,
-                    "bbox_xyxy": [10, 10, 30, 30],
+                    "box_xyxy": [10, 10, 30, 30],
                 }
                 for class_name in ppe_classes
             ],
@@ -319,13 +316,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 100, 100],
+                    "box_xyxy": [0, 0, 100, 100],
                 },
                 {
                     "detector": "Toolset-35",
                     "class_name": "safety helmet",
                     "confidence": 0.8,
-                    "bbox_xyxy": [10, 5, 30, 20],
+                    "box_xyxy": [10, 5, 30, 20],
                 },
             ],
             100,
@@ -348,13 +345,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [10, 10, 30, 50],
+                    "box_xyxy": [10, 10, 30, 50],
                 },
                 {
                     "detector": "Toolset-35",
                     "class_name": "Excavator",
                     "confidence": 0.8,
-                    "bbox_xyxy": [35, 10, 70, 50],
+                    "box_xyxy": [35, 10, 70, 50],
                 },
             ],
             100,
@@ -371,13 +368,13 @@ class SceneGraphTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [10, 10, 30, 50],
+                    "box_xyxy": [10, 10, 30, 50],
                 },
                 {
                     "detector": "Vehicles",
                     "class_name": "Excavator",
                     "confidence": 0.8,
-                    "bbox_xyxy": [35, 10, 70, 50],
+                    "box_xyxy": [35, 10, 70, 50],
                 },
             ],
             100,
@@ -387,7 +384,7 @@ class SceneGraphTests(unittest.TestCase):
         self.assertEqual(graph["nodes"][1]["object_category"], "machinery")
         self.assertEqual(
             graph["relationships"][0]["predicate"],
-            "near_machinery_in_image",
+            "near",
         )
 
     def test_invalid_detection_geometry_is_rejected(self):
@@ -397,7 +394,7 @@ class SceneGraphTests(unittest.TestCase):
                     {
                         "detector": "PPE",
                         "class_name": "Person",
-                        "bbox_xyxy": [0, 0, 0, 10],
+                        "box_xyxy": [0, 0, 0, 10],
                     }
                 ],
                 100,

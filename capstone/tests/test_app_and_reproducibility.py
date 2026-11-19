@@ -27,7 +27,7 @@ class CapstoneAppTests(unittest.TestCase):
         self.assertFalse(app.exception)
         self.assertTrue(
             any(
-                "Context-aware vision reasoning" in item.value
+               "ConstructionSafetyAI" in item.value
                 for item in app.title
             )
         )

@@ -18,7 +18,7 @@ def build_worker_recommendations(worker_findings):
                 "worker_detection_index"
             ),
             "worker_confidence": finding.get("worker_confidence"),
-            "worker_bbox_xyxy": finding.get("worker_bbox_xyxy"),
+            "worker_box_xyxy": finding.get("worker_box_xyxy"),
             "ppe_category": class_name,
             "human_decision": finding.get("human_decision"),
             "prediction_count": finding.get("prediction_count"),

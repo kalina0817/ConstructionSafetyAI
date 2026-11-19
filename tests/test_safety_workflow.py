@@ -1,3 +1,4 @@
+
 import unittest
 import csv
 import json
@@ -32,7 +33,7 @@ class AdjudicationTests(unittest.TestCase):
             "class_name": "no_goggle",
             "detector": "PPE",
             "confidence": 0.8,
-            "bbox_xyxy": [1, 2, 10, 12],
+            "box_xyxy": [1, 2, 10, 12],
         }
         self.detections_report = {
             "review_analysis": {"candidates": [self.candidate]}
@@ -56,7 +57,7 @@ class AdjudicationTests(unittest.TestCase):
 
         self.assertEqual(report["summary"]["confirmed_predictions"], 1)
         self.assertEqual(
-            report["confirmed_findings"][0]["bbox_xyxy"],
+            report["confirmed_findings"][0]["box_xyxy"],
             [1, 2, 10, 12],
         )
 
@@ -113,9 +114,9 @@ class DetectionLinkageTests(unittest.TestCase):
             "detector": "PPE",
             "class_name": "no_vest",
             "confidence": 0.8,
-            "bbox_xyxy": [1, 2, 10, 12],
+            "box_xyxy": [1, 2, 10, 12],
         }
-        second = {**first, "bbox_xyxy": [20, 22, 30, 32]}
+        second = {**first, "box_xyxy": [20, 22, 30, 32]}
         finding = {**first}
 
         self.assertIs(
@@ -128,9 +129,9 @@ class DetectionLinkageTests(unittest.TestCase):
             "detector": "PPE",
             "class_name": "no_vest",
             "confidence": 0.8,
-            "bbox_xyxy": [1, 2, 10, 12],
+            "box_xyxy": [1, 2, 10, 12],
         }
-        second = {**first, "bbox_xyxy": [20, 22, 30, 32]}
+        second = {**first, "box_xyxy": [20, 22, 30, 32]}
         finding = {
             "detector": "PPE",
             "class_name": "no_vest",
@@ -145,13 +146,13 @@ class DetectionLinkageTests(unittest.TestCase):
                 "detector": "PPE",
                 "class_name": "Person",
                 "confidence": 0.9,
-                "bbox_xyxy": [10, 10, 30, 50],
+                "box_xyxy": [10, 10, 30, 50],
             },
             {
                 "detector": "Vehicles",
                 "class_name": "Roller",
                 "confidence": 0.8,
-                "bbox_xyxy": [35, 10, 70, 50],
+                "box_xyxy": [35, 10, 70, 50],
             },
         ]
         graph = build_scene_graph(detections, 100, 100)
@@ -160,8 +161,8 @@ class DetectionLinkageTests(unittest.TestCase):
 
         self.assertEqual(candidate["person_analysis_index"], 0)
         self.assertEqual(candidate["machinery_analysis_index"], 1)
-        self.assertEqual(candidate["person_bbox_xyxy"], [10, 10, 30, 50])
-        self.assertEqual(candidate["machinery_bbox_xyxy"], [35, 10, 70, 50])
+        self.assertEqual(candidate["person_box_xyxy"], [10, 10, 30, 50])
+        self.assertEqual(candidate["machinery_box_xyxy"], [35, 10, 70, 50])
         self.assertEqual(candidate["machinery_detector"], "Vehicles")
         self.assertAlmostEqual(
             candidate["normalized_edge_distance"],
@@ -176,13 +177,13 @@ class DetectionLinkageTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 100, 100],
+                    "box_xyxy": [0, 0, 100, 100],
                 },
                 {
                     "detector": "PPE",
                     "class_name": "helmet",
                     "confidence": 0.8,
-                    "bbox_xyxy": [10, 5, 30, 20],
+                    "box_xyxy": [10, 5, 30, 20],
                 },
             ],
             100,
@@ -194,9 +195,10 @@ class DetectionLinkageTests(unittest.TestCase):
             graph["relationships"][0]["predicate"],
             "inside_person_bbox",
         )
-        self.assertIn("does not establish", graph["relationships"][0][
-            "interpretation_limit"
-        ])
+        self.assertIn(
+            "does not establish",
+            graph["relationships"][0]["interpretation_limit"],
+        )
 
     def test_distant_machinery_does_not_create_proximity_candidate(self):
         graph = build_scene_graph(
@@ -205,20 +207,23 @@ class DetectionLinkageTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 20, 40],
+                    "box_xyxy": [0, 0, 20, 40],
                 },
                 {
                     "detector": "Vehicles",
                     "class_name": "Excavator",
                     "confidence": 0.8,
-                    "bbox_xyxy": [90, 90, 100, 100],
+                    "box_xyxy": [90, 90, 100, 100],
                 },
             ],
             100,
             100,
         )
 
-        self.assertEqual(generate_review_candidates(graph)["candidate_count"], 0)
+        self.assertEqual(
+            generate_review_candidates(graph)["candidate_count"],
+            0,
+        )
 
     def test_screening_findings_are_uncertain_and_never_risk_scored(self):
         graph = build_scene_graph(
@@ -227,19 +232,19 @@ class DetectionLinkageTests(unittest.TestCase):
                     "detector": "PPE",
                     "class_name": "Person",
                     "confidence": 0.9,
-                    "bbox_xyxy": [0, 0, 80, 100],
+                    "box_xyxy": [0, 0, 80, 100],
                 },
                 {
                     "detector": "PPE",
                     "class_name": "no_vest",
                     "confidence": 0.75,
-                    "bbox_xyxy": [10, 10, 70, 90],
+                    "box_xyxy": [10, 10, 70, 90],
                 },
                 {
                     "detector": "Vehicles",
                     "class_name": "Roller",
                     "confidence": 0.8,
-                    "bbox_xyxy": [75, 0, 100, 100],
+                    "box_xyxy": [75, 0, 100, 100],
                 },
             ],
             100,
@@ -256,11 +261,20 @@ class DetectionLinkageTests(unittest.TestCase):
             1,
         )
         self.assertIsNone(assessment["risk_assessment"]["risk_score"])
+
         self.assertTrue(all(
-            finding["status"] == "requires_human_review"
+            finding["status"] == "potential"
+            and finding["alert_generated_automatically"] is True
+            and finding["review_required"] is False
+            and finding["verification_optional"] is True
             and finding["uncertainty_reasons"]
             for finding in assessment["findings"]
         ))
+
+        self.assertEqual(
+            assessment["summary"]["requires_human_review"],
+            0,
+        )
 
     def test_binary_metrics_and_rater_agreement(self):
         metrics = binary_metrics([1, 0, 1, 0], [1, 1, 0, 0])

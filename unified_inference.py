@@ -1,11 +1,11 @@
-﻿
+
 from pathlib import Path
 from datetime import datetime
 import argparse
 import json
 
 import cv2
-from ultralytics import YOLO
+from ultralytics import YOLO, RTDETR
 
 from reasoning_engine import (
     MACHINERY_CLASSES,
@@ -22,11 +22,65 @@ from reasoning_engine import (
 # ============================================================
 
 ROOT = Path(__file__).resolve().parent
+FORBIDDEN_OBSERVATION_PHRASES = (
+    "human-confirmed",
+    "human confirmed",
+    "confirmed missing ",
+    "confirmed absence of ",
+    "confirmed lack of ",
+    "confirmed ppe violation",
+    "confirmed ppe finding",
+)
+
+
+def validate_automatic_findings(report):
+    """Reject automatic findings that incorrectly imply human confirmation."""
+
+    assessment = report.get("safety_assessment", {})
+    findings = assessment.get("findings", [])
+
+    if not isinstance(findings, list):
+        raise ValueError(
+            "Invalid safety assessment: findings must be a list."
+        )
+
+    issues = []
+
+    for index, finding in enumerate(findings):
+        if not isinstance(finding, dict):
+            raise ValueError(
+                f"Invalid safety finding at index {index}."
+            )
+
+        observation = finding.get("observation", "")
+
+        if not isinstance(observation, str):
+            continue
+
+        observation_lower = observation.lower()
+
+        for phrase in FORBIDDEN_OBSERVATION_PHRASES:
+            if phrase in observation_lower:
+                finding_id = finding.get(
+                    "finding_id", f"index {index}"
+                )
+                issues.append(
+                    f"{finding_id}: {observation}"
+                )
+                break
+
+    if issues:
+        raise ValueError(
+            "Automatic finding validation failed:\n"
+            + "\n".join(issues)
+        )
+
+    return len(findings)
 
 MODEL_PATHS = {
     "PPE": ROOT / "runs/detect/runs/detect/ppe_yolo11n_postcorrection_15ep/weights/best.pt",
     "Toolset": ROOT / "models/toolset35_final_model/toolset35_yolo11n_best.pt",
-    "Vehicles": ROOT / "runs/detect/runs/detect/vehicle_yolo11n_continuation_5ep/weights/best.pt",
+    "Vehicles": ROOT / "runs/detect/runs/detect/vehicle_yolo11n_corrected_dataset_5ep/weights/best.pt",
 }
 
 MODEL_COLORS = {
@@ -34,7 +88,11 @@ MODEL_COLORS = {
     "Toolset": (255, 150, 0),
     "Vehicles": (0, 100, 255),
 }
-
+RTDETR_MODEL_PATHS = {
+    "PPE": ROOT / "models/rtdetr_l_comparison/ConstructionSafetyAI_model_comparison/rtdetr_l_ppe_best.pt",
+    "Toolset": ROOT / "models/rtdetr_l_comparison/ConstructionSafetyAI_model_comparison/rtdetr_l_toolset35_best.pt",
+    "Vehicles": ROOT / "models/rtdetr_l_comparison/ConstructionSafetyAI_model_comparison/rtdetr_l_vehicles_best.pt",
+}
 
 # ============================================================
 # BOUNDING BOX UTILITIES
@@ -68,81 +126,113 @@ def calculate_iou(box_a, box_b):
 
 
 # ============================================================
-# DUPLICATE PERSON DETECTION FILTER
+# SEMANTIC CLASS MAPPING
 # ============================================================
 
-def filter_duplicate_person_detections(
+def get_semantic_class(class_name):
+    """Map approved equivalent labels to a shared object category."""
+
+    aliases = {
+        # PPE and Toolset equivalents
+        "helmet": "helmet",
+        "safety helmet": "helmet",
+        "gloves": "gloves",
+        "vest": "vest",
+        "safety_vest": "vest",
+        "goggles": "goggles",
+        "safety glass": "goggles",
+
+        # Toolset and Vehicles equivalent
+        "excavator": "excavator",
+
+        # Toolset equivalent labels
+        "shovel": "shovel",
+        "spade": "shovel",
+        "knife": "knife",
+        "utility knife": "knife",
+        "measuring tape": "measuring tool",
+        "meter": "measuring tool",
+        "ruler": "measuring tool",
+    }
+
+    normalized_name = class_name.strip().lower()
+    return aliases.get(normalized_name, normalized_name)
+
+
+# ============================================================
+# GLOBAL DUPLICATE DETECTION FILTER
+# ============================================================
+
+def filter_duplicate_detections(
     detections,
     iou_threshold=0.60,
     containment_threshold=0.85,
-    min_area_ratio=0.35
+    min_area_ratio=0.30,
 ):
     """
-    Identify likely duplicate person detections from the same detector.
+    Identify likely duplicate physical objects across all detectors.
 
-    Duplicate conditions:
+    Same semantic class:
+        Suppress overlapping duplicate detections using IoU or
+        containment and area ratio.
 
-    1. IoU >= iou_threshold
-
-    OR
-
-    2. Containment >= containment_threshold AND
-       smaller/larger bounding-box area >= min_area_ratio.
+    Different semantic classes:
+        Suppress only nearly identical boxes. Other overlaps are
+        recorded for review instead of automatically removed.
 
     The highest-confidence detection is retained.
-
     Original detections are not modified.
-
-    This is an analytical filtering step, not proof of
-    real-world object identity.
     """
 
-    person_detections = [
-        detection for detection in detections
-        if detection["class_name"].strip().lower() == "person"
-    ]
-
-    person_detections.sort(
+    ordered_detections = sorted(
+        detections,
         key=lambda detection: detection["confidence"],
-        reverse=True
+        reverse=True,
     )
 
     kept = []
     suppressed = []
+    overlap_reviews = []
 
-    for candidate in person_detections:
+    for candidate in ordered_detections:
+
+        candidate_box = candidate["box_xyxy"]
+        candidate_class = get_semantic_class(
+            candidate["class_name"]
+        )
 
         duplicate_of = None
-        duplicate_iou = 0.0
-        duplicate_containment = 0.0
-        duplicate_area_ratio = 0.0
-
-        candidate_box = candidate["bbox_xyxy"]
+        duplicate_metrics = None
 
         for existing in kept:
 
-            # Only compare detections from the same detector.
-            if candidate["detector"] != existing["detector"]:
+            existing_box = existing["box_xyxy"]
+            existing_class = get_semantic_class(
+                existing["class_name"]
+            )
+
+            # A person and another class are separate objects.
+            if (
+                candidate_class == "person"
+                or existing_class == "person"
+            ):
                 continue
 
-            existing_box = existing["bbox_xyxy"]
+            iou = calculate_iou(
+                candidate_box,
+                existing_box,
+            )
 
-            iou = calculate_iou(candidate_box, existing_box)
-
-            # Calculate intersection.
             x_left = max(candidate_box[0], existing_box[0])
             y_top = max(candidate_box[1], existing_box[1])
             x_right = min(candidate_box[2], existing_box[2])
             y_bottom = min(candidate_box[3], existing_box[3])
 
-            intersection_width = max(0, x_right - x_left)
-            intersection_height = max(0, y_bottom - y_top)
-
             intersection_area = (
-                intersection_width * intersection_height
+                max(0, x_right - x_left)
+                * max(0, y_bottom - y_top)
             )
 
-            # Calculate bounding-box areas.
             candidate_area = (
                 max(0, candidate_box[2] - candidate_box[0])
                 * max(0, candidate_box[3] - candidate_box[1])
@@ -156,75 +246,64 @@ def filter_duplicate_person_detections(
             smaller_area = min(candidate_area, existing_area)
             larger_area = max(candidate_area, existing_area)
 
-            # Containment measures overlap relative to smaller box.
             containment = (
                 intersection_area / smaller_area
                 if smaller_area > 0 else 0.0
             )
 
-            # Prevent a much larger box from suppressing a smaller
-            # detection based on containment alone.
             area_ratio = (
                 smaller_area / larger_area
                 if larger_area > 0 else 0.0
             )
 
-            is_duplicate = (
-                iou >= iou_threshold
-                or (
-                    containment >= containment_threshold
-                    and area_ratio >= min_area_ratio
-                )
+            same_semantic_class = (
+                candidate_class == existing_class
             )
 
+            if same_semantic_class:
+                is_duplicate = (
+                    iou >= iou_threshold
+                    or (
+                        containment >= containment_threshold
+                        and area_ratio >= min_area_ratio
+                    )
+                )
+            else:
+                # Different semantic classes are never automatically
+                # suppressed based on bounding-box overlap.
+                is_duplicate = False
+
+                if iou >= iou_threshold:
+                    overlap_reviews.append({
+                        "candidate": candidate,
+                        "overlapping_detection": existing,
+                        "candidate_class": candidate["class_name"],
+                        "overlapping_class": existing["class_name"],
+                        "iou": round(iou, 4),
+                        "status": "different_class_overlap_requires_review",
+                    })
+
             if is_duplicate:
-
                 duplicate_of = existing
-                duplicate_iou = iou
-                duplicate_containment = containment
-                duplicate_area_ratio = area_ratio
-
+                duplicate_metrics = {
+                    "iou": round(iou, 4),
+                    "containment": round(containment, 4),
+                    "area_ratio": round(area_ratio, 4),
+                    "same_semantic_class": same_semantic_class,
+                }
                 break
 
         if duplicate_of is None:
-
             kept.append(candidate)
-
         else:
-
-            suppression_reason = (
-                "iou"
-                if duplicate_iou >= iou_threshold
-                else "containment_and_area_ratio"
-            )
-
             suppressed.append({
                 "candidate": candidate,
                 "kept_detection": duplicate_of,
-                "iou": round(duplicate_iou, 4),
-                "containment": round(duplicate_containment, 4),
-                "area_ratio": round(duplicate_area_ratio, 4),
-                "suppression_reason": suppression_reason
+                **duplicate_metrics,
+                "reason": "duplicate_object_overlap",
             })
 
-    return kept, suppressed
-
-
-# ============================================================
-# SEMANTIC CLASS MAPPING
-# ============================================================
-
-def get_semantic_class(class_name):
-    """Map known class-name aliases to a shared semantic category."""
-
-    aliases = {
-        "helmet": "helmet",
-        "safety helmet": "helmet",
-    }
-
-    normalized_name = class_name.strip().lower()
-
-    return aliases.get(normalized_name, normalized_name)
+    return kept, suppressed, overlap_reviews
 
 
 # ============================================================
@@ -233,14 +312,13 @@ def get_semantic_class(class_name):
 
 def compare_cross_model_detections(
     detections,
-    iou_threshold=0.50
+    iou_threshold=0.50,
 ):
     """Find overlapping detections produced by different models."""
 
     comparisons = []
 
     for i in range(len(detections)):
-
         for j in range(i + 1, len(detections)):
 
             first = detections[i]
@@ -250,8 +328,8 @@ def compare_cross_model_detections(
                 continue
 
             iou = calculate_iou(
-                first["bbox_xyxy"],
-                second["bbox_xyxy"]
+                first["box_xyxy"],
+                second["box_xyxy"],
             )
 
             if iou >= iou_threshold:
@@ -270,8 +348,12 @@ def compare_cross_model_detections(
                 comparisons.append({
                     "detection_index_a": i,
                     "detection_index_b": j,
-                    "source_detection_index_a": first.get("source_detection_index", i),
-                    "source_detection_index_b": second.get("source_detection_index", j),
+                    "source_detection_index_a": first.get(
+                        "source_detection_index", i
+                    ),
+                    "source_detection_index_b": second.get(
+                        "source_detection_index", j
+                    ),
                     "detector_a": first["detector"],
                     "class_a": first["class_name"],
                     "confidence_a": first["confidence"],
@@ -285,84 +367,89 @@ def compare_cross_model_detections(
 
     return comparisons
 
+# ============================================================
+# YOLO11n VS RT-DETR-L SAME-DATASET COMPARISON
+# ============================================================
 
-def suppress_duplicate_excavator_detections(
-    detections,
-    comparisons,
-    iou_threshold=0.60
+def compare_detection_models(
+    yolo_detections,
+    rtdetr_detections,
+    iou_threshold=0.50,
 ):
-    """Suppress lower-confidence cross-model duplicate excavator detections."""
+    """
+    Compare YOLO11n and RT-DETR-L detections within each dataset.
+
+    Uses greedy one-to-one matching, selecting the highest-IoU
+    eligible pairs first. This comparison does not affect safety
+    reasoning or merge predictions.
+    """
 
     candidates = []
 
-    for comparison in comparisons:
-        if comparison.get("relationship") != "possible_same_object":
+    for yolo_index, yolo in enumerate(yolo_detections):
+        for rtdetr_index, rtdetr in enumerate(rtdetr_detections):
+
+            if yolo["detector"] != rtdetr["detector"]:
+                continue
+
+            iou = calculate_iou(
+                yolo["box_xyxy"],
+                rtdetr["box_xyxy"],
+            )
+
+            if iou >= iou_threshold:
+                candidates.append(
+                    (iou, yolo_index, rtdetr_index, yolo, rtdetr)
+                )
+
+    candidates.sort(key=lambda item: item[0], reverse=True)
+
+    matched_yolo = set()
+    matched_rtdetr = set()
+    comparisons = []
+
+    for iou, yolo_index, rtdetr_index, yolo, rtdetr in candidates:
+
+        if yolo_index in matched_yolo:
             continue
 
-        if comparison.get("iou", 0) < iou_threshold:
+        if rtdetr_index in matched_rtdetr:
             continue
 
-        if comparison.get("class_a", "").strip().lower() != "excavator":
-            continue
+        matched_yolo.add(yolo_index)
+        matched_rtdetr.add(rtdetr_index)
 
-        if comparison.get("class_b", "").strip().lower() != "excavator":
-            continue
+        same_class = (
+            get_semantic_class(yolo["class_name"])
+            == get_semantic_class(rtdetr["class_name"])
+        )
 
-        detector_pair = {
-            comparison.get("detector_a"),
-            comparison.get("detector_b"),
-        }
-
-        if detector_pair != {"Toolset", "Vehicles"}:
-            continue
-
-        candidates.append(comparison)
-
-    candidates.sort(key=lambda item: item["iou"], reverse=True)
-
-    matched_indices = set()
-    suppressed_indices = set()
-    review_records = []
-
-    for comparison in candidates:
-        index_a = comparison["source_detection_index_a"]
-        index_b = comparison["source_detection_index_b"]
-
-        if index_a in matched_indices or index_b in matched_indices:
-            continue
-
-        detection_a = detections[index_a]
-        detection_b = detections[index_b]
-
-        confidence_a = detection_a["confidence"]
-        confidence_b = detection_b["confidence"]
-
-        matched_indices.update({index_a, index_b})
-
-        if confidence_a == confidence_b:
-            review_records.append({
-                **comparison,
-                "decision": "retained_confidence_tie",
-                "reason": "Equal confidence; both detections retained for review.",
-            })
-            continue
-
-        if confidence_a > confidence_b:
-            kept_index, suppressed_index = index_a, index_b
-        else:
-            kept_index, suppressed_index = index_b, index_a
-
-        suppressed_indices.add(suppressed_index)
-
-        review_records.append({
-            **comparison,
-            "decision": "suppressed_lower_confidence",
-            "kept_source_detection_index": kept_index,
-            "suppressed_source_detection_index": suppressed_index,
-            "reason": "Higher-confidence cross-model excavator detection retained.",
+        comparisons.append({
+            "dataset": yolo["detector"],
+            "yolo_detection_index": yolo_index,
+            "rtdetr_detection_index": rtdetr_index,
+            "yolo_class": yolo["class_name"],
+            "rtdetr_class": rtdetr["class_name"],
+            "yolo_confidence": yolo["confidence"],
+            "rtdetr_confidence": rtdetr["confidence"],
+            "iou": round(iou, 4),
+            "same_semantic_class": same_class,
+            "relationship": (
+                "matching_class_overlap"
+                if same_class
+                else "class_disagreement"
+            ),
         })
 
-    return suppressed_indices, review_records
+    return comparisons
+
+
+# ============================================================
+# SAVED REPORT COMPARISON
+# ============================================================
+
+# Comparison-only mode reuses compare_detection_models above.
+# It does not load detector checkpoints or run safety reasoning.
 
 
 # ============================================================
@@ -372,7 +459,7 @@ def suppress_duplicate_excavator_detections(
 def analyze_person_machinery_proximity(
     detections,
     image_width,
-    image_height
+    image_height,
 ):
     """
     Measure image-space distance between detected people
@@ -415,14 +502,14 @@ def analyze_person_machinery_proximity(
 
     for person_index, person in people:
 
-        px1, py1, px2, py2 = person["bbox_xyxy"]
+        px1, py1, px2, py2 = person["box_xyxy"]
 
         person_center_x = (px1 + px2) / 2
         person_center_y = (py1 + py2) / 2
 
         for machine_index, machine in machinery:
 
-            mx1, my1, mx2, my2 = machine["bbox_xyxy"]
+            mx1, my1, mx2, my2 = machine["box_xyxy"]
 
             machine_center_x = (mx1 + mx2) / 2
             machine_center_y = (my1 + my2) / 2
@@ -445,7 +532,7 @@ def analyze_person_machinery_proximity(
                 "person_class": person["class_name"],
                 "person_detector": person["detector"],
                 "person_confidence": person["confidence"],
-                "person_bbox_xyxy": person["bbox_xyxy"],
+                "person_box_xyxy": person["box_xyxy"],
                 "machinery_analysis_index": machine_index,
                 "machinery_source_detection_index": machine.get(
                     "source_detection_index", machine_index
@@ -453,7 +540,7 @@ def analyze_person_machinery_proximity(
                 "machinery_class": machine["class_name"],
                 "machinery_detector": machine["detector"],
                 "machinery_confidence": machine["confidence"],
-                "machinery_bbox_xyxy": machine["bbox_xyxy"],
+                "machinery_box_xyxy": machine["box_xyxy"],
                 "center_distance_pixels": round(pixel_distance, 2),
                 "normalized_image_distance": round(
                     normalized_distance, 5
@@ -493,27 +580,42 @@ def build_scene_inventory(detections):
         "unclassified": [],
     }
 
+    ppe_names = {
+        name.replace("_", " ").lower()
+        for name in PPE_OBJECT_CLASSES
+    }
+
+    tool_names = {
+        name.replace("_", " ").lower()
+        for name in TOOLSET_TOOL_CLASSES
+    }
+
+    machinery_names = {
+        name.replace("_", " ").lower()
+        for name in MACHINERY_CLASSES
+    }
+
     for detection in detections:
+
         normalized_class = (
             detection["class_name"].strip().lower().replace("_", " ")
         )
 
         if normalized_class == "person":
             category = "people"
+
         elif normalized_class.startswith("no "):
             category = "ppe_predictions"
-        elif normalized_class in {
-            name.replace("_", " ") for name in PPE_OBJECT_CLASSES
-        }:
+
+        elif normalized_class in ppe_names:
             category = "ppe_predictions"
-        elif normalized_class in {
-            name.replace("_", " ") for name in TOOLSET_TOOL_CLASSES
-        }:
+
+        elif normalized_class in tool_names:
             category = "tools_and_equipment"
-        elif normalized_class in {
-            name.replace("_", " ") for name in MACHINERY_CLASSES
-        }:
+
+        elif normalized_class in machinery_names:
             category = "vehicles_and_heavy_machinery"
+
         else:
             category = "unclassified"
 
@@ -540,427 +642,779 @@ def build_scene_inventory(detections):
 # MAIN INFERENCE PIPELINE
 # ============================================================
 
-def main():
+def classify_screening_outcome(findings, detector_names):
+    """Classify the overall visual screening result."""
 
-    parser = argparse.ArgumentParser(
-        description=(
-            "Run the three ConstructionSafetyAI detectors on one image."
+    findings = findings or []
+    selected = set(detector_names)
+
+    if findings:
+        outcome = "POTENTIAL"
+        explanation = (
+            f"The screening rules generated {len(findings)} "
+            "potential finding(s). These require interpretation "
+            "and do not confirm a hazard."
         )
+    elif {"PPE", "Vehicles"}.issubset(selected):
+        outcome = "NO_SUPPORTED"
+        explanation = (
+            "No findings were generated by the currently implemented "
+            "screening rules. This does not establish that the site is safe."
+        )
+    else:
+        outcome = "INSUFFICIENT"
+        explanation = (
+            "The selected detector configuration does not cover all "
+            "currently implemented screening rules."
+        )
+
+    return {
+        "outcome": outcome,
+        "explanation": explanation,
+        "finding_count": len(findings),
+        "detector_coverage": {
+            "PPE": "PPE" in selected,
+            "Toolset": "Toolset" in selected,
+            "Vehicles": "Vehicles" in selected,
+        },
+        "high_confidence_alert_available": False,
+        "high_confidence_alert_limitation": (
+            "No independently validated hazard-specific criterion "
+            "currently supports a high-confidence alert."
+        ),
+        "interpretation_limit": (
+            "NO_SUPPORTED does not mean safe. INSUFFICIENT means "
+            "the selected detector configuration does not cover "
+            "all current screening rules."
+        ),
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Run ConstructionSafetyAI YOLO11n, RT-DETR-L, or both."
     )
 
-    parser.add_argument(
-        "--image",
-        required=True,
-        help="Path to the input image"
-    )
-
-    parser.add_argument(
-        "--conf",
-        type=float,
-        default=0.25
-    )
-
-    parser.add_argument(
-        "--imgsz",
-        type=int,
-        default=640
-    )
-
+    parser.add_argument("--image", help="Path to input image")
+    parser.add_argument("--compare", action="store_true",
+                        help="Compare two saved inference reports without loading models.")
+    parser.add_argument("--yolo-report", type=Path,
+                        help="Saved YOLO11n detections.json report.")
+    parser.add_argument("--rtdetr-report", type=Path,
+                        help="Saved RT-DETR-L detections.json report.")
+    parser.add_argument("--conf", type=float, default=0.25)
+    parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument(
         "--output-dir",
         type=Path,
-        help="Optional explicit output directory for this inference run."
+        help="Optional explicit output directory.",
+    )
+    parser.add_argument(
+        "--model-mode",
+        choices=["yolo", "rtdetr", "both"],
+        default="yolo",
+        help="Run YOLO11n or RT-DETR-L separately. Use --compare for saved reports.",
+    )
+
+    parser.add_argument(
+        "--ppe-model",
+        choices=["yolo", "rtdetr"],
+        default=None,
+        help="Architecture for the PPE detector.",
+    )
+    parser.add_argument(
+        "--toolset-model",
+        choices=["yolo", "rtdetr"],
+        default=None,
+        help="Architecture for the Toolset-35 detector.",
+    )
+    parser.add_argument(
+        "--vehicles-model",
+        choices=["yolo", "rtdetr"],
+        default=None,
+        help="Architecture for the Vehicles detector.",
     )
 
     args = parser.parse_args()
 
+    independent_mode = any(
+        value is not None
+        for value in (
+            args.ppe_model,
+            args.toolset_model,
+            args.vehicles_model,
+        )
+    )
+
+    model_selection = {
+        "PPE": args.ppe_model or "yolo",
+        "Toolset": args.toolset_model or "yolo",
+        "Vehicles": args.vehicles_model or "yolo",
+    }
+
+    if args.compare:
+        if args.image:
+            parser.error("--image cannot be used with --compare.")
+        if not args.yolo_report or not args.rtdetr_report:
+            parser.error("--compare requires both --yolo-report and --rtdetr-report.")
+
+        yolo_path = args.yolo_report.resolve()
+        rtdetr_path = args.rtdetr_report.resolve()
+
+        if not yolo_path.is_file():
+            parser.error(f"YOLO report not found: {yolo_path}")
+        if not rtdetr_path.is_file():
+            parser.error(f"RT-DETR report not found: {rtdetr_path}")
+
+        with yolo_path.open("r", encoding="utf-8") as file:
+            yolo_report = json.load(file)
+        with rtdetr_path.open("r", encoding="utf-8") as file:
+            rtdetr_report = json.load(file)
+
+        if yolo_report.get("model_mode") != "yolo":
+            parser.error("The YOLO report must come from a --model-mode yolo run.")
+        if rtdetr_report.get("model_mode") != "rtdetr":
+            parser.error("The RT-DETR report must come from a --model-mode rtdetr run.")
+
+        if Path(yolo_report.get("input_image", "")).resolve() != Path(
+            rtdetr_report.get("input_image", "")
+        ).resolve():
+            parser.error("Reports use different input images.")
+
+        if yolo_report.get("confidence_threshold") != rtdetr_report.get("confidence_threshold"):
+            parser.error("Reports use different confidence thresholds.")
+        if yolo_report.get("image_size") != rtdetr_report.get("image_size"):
+            parser.error("Reports use different image sizes.")
+
+        yolo_detections = yolo_report.get("yolo11n_detections")
+        rtdetr_detections = rtdetr_report.get("rtdetr_l_detections")
+
+        if not isinstance(yolo_detections, list) or not isinstance(rtdetr_detections, list):
+            parser.error("A report is missing its model detection list.")
+
+        comparisons = compare_detection_models(
+            yolo_detections,
+            rtdetr_detections,
+            iou_threshold=0.50,
+        )
+
+        summary = {}
+        for dataset in ("PPE", "Toolset", "Vehicles"):
+            yolo_items = [
+                item for item in yolo_detections
+                if item.get("detector") == dataset
+            ]
+            rtdetr_items = [
+                item for item in rtdetr_detections
+                if item.get("detector") == dataset
+            ]
+            dataset_matches = [
+                item for item in comparisons
+                if item["dataset"] == dataset
+            ]
+
+            matched_yolo = {
+                item["yolo_detection_index"] for item in dataset_matches
+            }
+            matched_rtdetr = {
+                item["rtdetr_detection_index"] for item in dataset_matches
+            }
+
+            yolo_indices = {
+                index for index, item in enumerate(yolo_detections)
+                if item.get("detector") == dataset
+            }
+            rtdetr_indices = {
+                index for index, item in enumerate(rtdetr_detections)
+                if item.get("detector") == dataset
+            }
+
+            summary[dataset] = {
+                "yolo11n_detection_count": len(yolo_items),
+                "rtdetr_l_detection_count": len(rtdetr_items),
+                "matched_box_count": len(dataset_matches),
+                "matching_class_count": sum(
+                    item["same_semantic_class"] for item in dataset_matches
+                ),
+                "class_disagreement_count": sum(
+                    not item["same_semantic_class"] for item in dataset_matches
+                ),
+                "yolo_only_detection_count": len(yolo_indices - matched_yolo),
+                "rtdetr_only_detection_count": len(rtdetr_indices - matched_rtdetr),
+            }
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        output_dir = (
+            args.output_dir.resolve()
+            if args.output_dir
+            else ROOT / "reports" / "model_comparisons" / timestamp
+        )
+        output_dir.mkdir(parents=True, exist_ok=False)
+
+        comparison_report = {
+            "input_image": yolo_report["input_image"],
+            "confidence_threshold": yolo_report["confidence_threshold"],
+            "image_size": yolo_report["image_size"],
+            "models": ["YOLO11n", "RT-DETR-L"],
+            "comparison_method": "Greedy one-to-one bounding-box IoU matching with semantic class comparison.",
+            "iou_threshold": 0.50,
+            "source_yolo_report": str(yolo_path),
+            "source_rtdetr_report": str(rtdetr_path),
+            "summary_by_dataset": summary,
+            "comparisons": comparisons,
+            "interpretation_note": (
+                "These are model prediction comparisons, not ground truth. "
+                "Unmatched detections are not automatically false positives or false negatives. "
+                "Predictions are not merged and are not used for safety reasoning."
+            ),
+        }
+
+        output_file = output_dir / "model_comparison.json"
+        output_file.write_text(
+            json.dumps(comparison_report, indent=4),
+            encoding="utf-8",
+        )
+
+        print("\nSaved-report comparison completed.")
+        print(f"Input image: {comparison_report['input_image']}")
+        print("\nComparison summary:")
+        for dataset, values in summary.items():
+            print(f"\n{dataset}:")
+            for label, value in values.items():
+                print(f"  {label}: {value}")
+        print(f"\nComparison report: {output_file}")
+        return
+
+    if args.yolo_report or args.rtdetr_report:
+        parser.error("--yolo-report and --rtdetr-report require --compare.")
+    if not args.image:
+        parser.error("--image is required unless --compare is used.")
+
     if not 0 <= args.conf <= 1:
         parser.error("--conf must be between 0 and 1.")
     if args.imgsz <= 0:
-        parser.error("--imgsz must be a positive integer.")
+        parser.error("--imgsz must be positive.")
 
     image_path = Path(args.image).resolve()
 
-    # --------------------------------------------------------
-    # Validate input image and model checkpoints.
-    # --------------------------------------------------------
-
     if not image_path.is_file():
-        raise FileNotFoundError(
-            f"Input image not found: {image_path}"
-        )
+        raise FileNotFoundError(f"Input image not found: {image_path}")
 
-    for name, path in MODEL_PATHS.items():
+    if independent_mode:
+        for name, architecture in model_selection.items():
+            paths = MODEL_PATHS if architecture == "yolo" else RTDETR_MODEL_PATHS
+            checkpoint = paths[name]
+            if not checkpoint.is_file():
+                raise FileNotFoundError(
+                    f"{name} {architecture} checkpoint not found: {checkpoint}"
+                )
+    else:
+        if args.model_mode in ("yolo", "both"):
+            for name, path in MODEL_PATHS.items():
+                if not path.is_file():
+                    raise FileNotFoundError(
+                        f"{name} YOLO11n checkpoint not found: {path}"
+                    )
 
-        if not path.is_file():
-            raise FileNotFoundError(
-                f"{name} checkpoint not found: {path}"
-            )
+        if args.model_mode in ("rtdetr", "both"):
+            for name, path in RTDETR_MODEL_PATHS.items():
+                if not path.is_file():
+                    raise FileNotFoundError(
+                        f"RT-DETR-L {name} checkpoint not found: {path}"
+                    )
 
     image = cv2.imread(str(image_path))
-
     if image is None:
-        raise ValueError(
-            f"Could not read image: {image_path}"
-        )
+        raise ValueError(f"Could not read image: {image_path}")
 
     annotated = image.copy()
-
-    all_detections = []
+    yolo_detections = []
+    rtdetr_detections = []
 
     # --------------------------------------------------------
-    # Run all three detectors.
+    # Inference: independent per-dataset selection or legacy mode
     # --------------------------------------------------------
 
-    for model_name, model_path in MODEL_PATHS.items():
+    independent_selected_detections = []
 
-        print(f"\nLoading {model_name} model...")
+    if independent_mode:
+        for dataset_name, architecture in model_selection.items():
+            if architecture == "yolo":
+                model_path = MODEL_PATHS[dataset_name]
+                model = YOLO(str(model_path))
+                model_label = "YOLO11n"
+                destination = yolo_detections
+            else:
+                model_path = RTDETR_MODEL_PATHS[dataset_name]
+                model = RTDETR(str(model_path))
+                model_label = "RT-DETR-L"
+                destination = rtdetr_detections
 
-        model = YOLO(str(model_path))
+            print(f"\\nLoading {model_label} {dataset_name} model...")
 
-        print(f"Running {model_name} detection...")
+            results = model.predict(
+                source=str(image_path),
+                conf=args.conf,
+                imgsz=args.imgsz,
+                device="cpu",
+                verbose=False,
+            )
 
-        results = model.predict(
-            source=str(image_path),
-            conf=args.conf,
-            imgsz=args.imgsz,
-            device="cpu",
-            verbose=False,
+            result = results[0]
+            dataset_detections = []
+
+            for box in result.boxes:
+                class_id = int(box.cls[0].item())
+                confidence = float(box.conf[0].item())
+                x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+
+                detection = {
+                    "detector": dataset_name,
+                    "model_variant": model_label,
+                    "class_id": class_id,
+                    "class_name": model.names[class_id],
+                    "confidence": round(confidence, 5),
+                    "box_xyxy": [x1, y1, x2, y2],
+                }
+                destination.append(detection)
+                dataset_detections.append(detection)
+
+            independent_selected_detections.extend(dataset_detections)
+            print(
+                f"{model_label} {dataset_name}: "
+                f"{len(result.boxes)} detections"
+            )
+
+    else:
+        # Original YOLO11n inference mode.
+        if args.model_mode in ("yolo", "both"):
+            for model_name, model_path in MODEL_PATHS.items():
+                print(f"\\nLoading YOLO11n {model_name} model...")
+                model = YOLO(str(model_path))
+
+                results = model.predict(
+                    source=str(image_path),
+                    conf=args.conf,
+                    imgsz=args.imgsz,
+                    device="cpu",
+                    verbose=False,
+                )
+
+                result = results[0]
+
+                for box in result.boxes:
+                    class_id = int(box.cls[0].item())
+                    confidence = float(box.conf[0].item())
+                    x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+
+                    yolo_detections.append({
+                        "detector": model_name,
+                        "model_variant": "YOLO11n",
+                        "class_id": class_id,
+                        "class_name": model.names[class_id],
+                        "confidence": round(confidence, 5),
+                        "box_xyxy": [x1, y1, x2, y2],
+                    })
+
+                print(
+                    f"YOLO11n {model_name}: {len(result.boxes)} detections"
+                )
+
+        # Original RT-DETR-L inference mode.
+        if args.model_mode in ("rtdetr", "both"):
+            for model_name, model_path in RTDETR_MODEL_PATHS.items():
+                print(f"\\nLoading RT-DETR-L {model_name} model...")
+                model = RTDETR(str(model_path))
+
+                results = model.predict(
+                    source=str(image_path),
+                    conf=args.conf,
+                    imgsz=args.imgsz,
+                    device="cpu",
+                    verbose=False,
+                )
+
+                result = results[0]
+
+                for box in result.boxes:
+                    class_id = int(box.cls[0].item())
+                    confidence = float(box.conf[0].item())
+                    x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+
+                    rtdetr_detections.append({
+                        "detector": model_name,
+                        "model_variant": "RT-DETR-L",
+                        "class_id": class_id,
+                        "class_name": model.names[class_id],
+                        "confidence": round(confidence, 5),
+                        "box_xyxy": [x1, y1, x2, y2],
+                    })
+
+                print(
+                    f"RT-DETR-L {model_name}: {len(result.boxes)} detections"
+                )
+
+    # Preserve source indices separately for each model.
+    for index, detection in enumerate(yolo_detections):
+        detection["source_detection_index"] = index
+
+    for index, detection in enumerate(rtdetr_detections):
+        detection["source_detection_index"] = index
+
+    # --------------------------------------------------------
+    # Model comparisons
+    # --------------------------------------------------------
+
+    model_comparisons = []
+    model_comparison_summary = {}
+
+    if args.model_mode == "both":
+        model_comparisons = compare_detection_models(
+            yolo_detections,
+            rtdetr_detections,
+            iou_threshold=0.50,
         )
 
-        result = results[0]
+        for dataset_name in MODEL_PATHS:
+            dataset_comparisons = [
+                item for item in model_comparisons
+                if item["dataset"] == dataset_name
+            ]
 
-        color = MODEL_COLORS[model_name]
-
-        for box in result.boxes:
-
-            class_id = int(box.cls[0].item())
-
-            confidence = float(box.conf[0].item())
-
-            x1, y1, x2, y2 = map(
-                int,
-                box.xyxy[0].tolist()
-            )
-
-            class_name = model.names[class_id]
-
-            label = (
-                f"{model_name}: {class_name} {confidence:.2f}"
-            )
-
-            detection = {
-                "detector": model_name,
-                "class_id": class_id,
-                "class_name": class_name,
-                "confidence": round(confidence, 5),
-                "bbox_xyxy": [x1, y1, x2, y2],
+            model_comparison_summary[dataset_name] = {
+                "yolo11n_raw_detection_count": sum(
+                    1 for item in yolo_detections
+                    if item["detector"] == dataset_name
+                ),
+                "rtdetr_l_raw_detection_count": sum(
+                    1 for item in rtdetr_detections
+                    if item["detector"] == dataset_name
+                ),
+                "overlap_comparison_count": len(dataset_comparisons),
+                "matching_class_overlap_count": sum(
+                    1 for item in dataset_comparisons
+                    if item["same_semantic_class"]
+                ),
+                "class_disagreement_count": sum(
+                    1 for item in dataset_comparisons
+                    if not item["same_semantic_class"]
+                ),
             }
 
-            all_detections.append(detection)
-
-            # Draw original detector predictions.
-            cv2.rectangle(
-                annotated,
-                (x1, y1),
-                (x2, y2),
-                color,
-                2
-            )
-
-            cv2.putText(
-                annotated,
-                label,
-                (x1, max(y1 - 8, 15)),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.45,
-                color,
-                1,
-                cv2.LINE_AA,
-            )
-
-        print(
-            f"{model_name}: {len(result.boxes)} detections"
-        )
-
-    # Preserve original detection indices across filtering.
-    for source_index, detection in enumerate(all_detections):
-        detection["source_detection_index"] = source_index
-
-    # --------------------------------------------------------
-    # Cross-model comparison.
-    # --------------------------------------------------------
+    # Use one selected architecture per dataset in independent mode.
+    if independent_mode:
+        selected_detections = independent_selected_detections
+        for index, detection in enumerate(selected_detections):
+            detection["source_detection_index"] = index
+    elif args.model_mode == "rtdetr":
+        selected_detections = rtdetr_detections
+    else:
+        selected_detections = yolo_detections
 
     cross_model_comparisons = compare_cross_model_detections(
-        all_detections,
-        iou_threshold=0.50
+        selected_detections,
+        iou_threshold=0.50,
     )
 
-    # --------------------------------------------------------
-    # Duplicate person detection filtering.
-    # --------------------------------------------------------
-
-    filtered_person_detections, possible_duplicate_persons = (
-        filter_duplicate_person_detections(
-            all_detections,
-            iou_threshold=0.60,
-            containment_threshold=0.85,
-            min_area_ratio=0.35
-        )
-    )
-
-    # --------------------------------------------------------
-    # Build analysis detections.
-    # Keep all non-person detections and filtered persons.
-    # --------------------------------------------------------
-
-    analysis_detections = [
-        detection for detection in all_detections
-        if detection["class_name"].strip().lower() != "person"
-    ] + filtered_person_detections
-
-    # --------------------------------------------------------
-    # Scene inventory.
-    # --------------------------------------------------------
-
-    scene_inventory = build_scene_inventory(
-        analysis_detections
-    )
-
-    # --------------------------------------------------------
-    # Suppress duplicate Toolset/Vehicles excavator detections.
-    # --------------------------------------------------------
-
-    suppressed_excavator_indices, possible_duplicate_excavators = (
-        suppress_duplicate_excavator_detections(
-            all_detections,
-            cross_model_comparisons,
-            iou_threshold=0.60,
-        )
-    )
-
-    reasoning_detections = [
-        detection for detection in analysis_detections
-        if detection.get("source_detection_index")
-        not in suppressed_excavator_indices
+    cross_model_class_disagreements = [
+        item for item in cross_model_comparisons
+        if item.get("relationship") == "overlap_requires_review"
     ]
 
     # --------------------------------------------------------
-    # Spatial analysis.
+    # Duplicate filtering and scene inventory
     # --------------------------------------------------------
 
-    spatial_analysis = analyze_person_machinery_proximity(
-        reasoning_detections,
-        image_width=image.shape[1],
-        image_height=image.shape[0]
+    (
+        analysis_detections,
+        suppressed_duplicate_detections,
+        possible_cross_class_duplicates,
+    ) = filter_duplicate_detections(
+        selected_detections,
+        iou_threshold=0.60,
+        containment_threshold=0.85,
+        min_area_ratio=0.30,
     )
 
-    # --------------------------------------------------------
-    # Review candidates.
-    # --------------------------------------------------------
-
-    scene_graph = build_scene_graph(
-        reasoning_detections,
-        image_width=image.shape[1],
-        image_height=image.shape[0],
-    )
-    safety_assessment = evaluate_safety_rules(scene_graph)
-    review_analysis = generate_review_candidates(
-        scene_graph
-    )
+    scene_inventory = build_scene_inventory(analysis_detections)
 
     # --------------------------------------------------------
-    # Print analysis results.
+    # Draw detections
     # --------------------------------------------------------
 
-    print("\nScene inventory:")
+    display_detections = analysis_detections
 
-    for category, count in scene_inventory[
-        "category_counts"
-    ].items():
+    for detection in display_detections:
+        x1, y1, x2, y2 = detection["box_xyxy"]
+        model_name = detection["detector"]
+        color = MODEL_COLORS.get(model_name, (255, 255, 255))
 
-        print(f"{category}: {count}")
+        label = (
+            f"{detection['model_variant']} {model_name}: "
+            f"{detection['class_name']} "
+            f"{detection['confidence']:.2f}"
+        )
 
-    print("\nPerson detection filtering:")
+        cv2.rectangle(
+            annotated,
+            (x1, y1),
+            (x2, y2),
+            color,
+            2,
+        )
+
+        cv2.putText(
+            annotated,
+            label,
+            (x1, max(y1 - 8, 15)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.45,
+            color,
+            1,
+            cv2.LINE_AA,
+        )
+
+    # --------------------------------------------------------
+    # Safety reasoning
+    # RT-DETR-only mode does not run YOLO safety rules.
+    # --------------------------------------------------------
+
+    if args.model_mode == "rtdetr" and not independent_mode:
+        reasoning_detections = []
+        scene_graph = {
+            "status": "NOT_RUN",
+            "reason": "YOLO-based safety reasoning is not run in RT-DETR-only mode.",
+        }
+        spatial_analysis = {
+            "person_count": 0,
+            "machinery_count": 0,
+            "relationship_count": 0,
+            "relationships": [],
+            "status": "NOT_RUN",
+            "interpretation_note": (
+                "YOLO-based spatial analysis was not run in RT-DETR-only mode."
+            ),
+        }
+        safety_assessment = {
+            "status": "NOT_RUN",
+            "findings": [],
+            "message": (
+                "RT-DETR-L detections are displayed, but YOLO-based "
+                "safety reasoning was not run."
+            ),
+        }
+        screening_outcome = {
+            "outcome": "INSUFFICIENT",
+            "explanation": (
+                "RT-DETR-L detection was run without the implemented "
+                "YOLO-based safety reasoning."
+            ),
+            "finding_count": 0,
+        }
+        review_analysis = {
+            "candidate_count": 0,
+            "candidates": [],
+            "status": "NOT_RUN",
+        }
+
+    else:
+        reasoning_detections = analysis_detections
+
+        spatial_analysis = analyze_person_machinery_proximity(
+            reasoning_detections,
+            image_width=image.shape[1],
+            image_height=image.shape[0],
+        )
+
+        scene_graph = build_scene_graph(
+            reasoning_detections,
+            image_width=image.shape[1],
+            image_height=image.shape[0],
+        )
+
+        safety_assessment = evaluate_safety_rules(scene_graph)
+
+        screening_outcome = classify_screening_outcome(
+            safety_assessment.get("findings", []),
+            MODEL_PATHS.keys(),
+        )
+
+        review_analysis = generate_review_candidates(
+            scene_graph,
+            cross_model_comparisons=cross_model_comparisons,
+        )
+
+    # --------------------------------------------------------
+    # Analysis counts
+    # --------------------------------------------------------
 
     raw_person_count = sum(
-        1 for detection in all_detections
+        1 for detection in selected_detections
         if detection["class_name"].strip().lower() == "person"
     )
 
-    print(f"Raw person detections: {raw_person_count}")
-
-    print(
-        f"Filtered person detections: "
-        f"{len(filtered_person_detections)}"
-    )
-
-    print(
-        f"Possible duplicate persons suppressed: "
-        f"{len(possible_duplicate_persons)}"
-    )
-
-    print("\nPerson-machinery spatial analysis:")
-
-    print(
-        f"People: {spatial_analysis['person_count']}"
-    )
-
-    print(
-        f"Machinery: {spatial_analysis['machinery_count']}"
-    )
-
-    print(
-        f"Relationships: {spatial_analysis['relationship_count']}"
-    )
-
-    print("\nRule-based review analysis:")
-
-    print(
-        f"Review candidates: {review_analysis['candidate_count']}"
-    )
-
-    print(
-        f"Potential cross-model overlaps: "
-        f"{len(cross_model_comparisons)}"
+    filtered_person_count = sum(
+        1 for detection in analysis_detections
+        if detection["class_name"].strip().lower() == "person"
     )
 
     # --------------------------------------------------------
-    # Save results in a new timestamped folder.
+    # Print results
+    # --------------------------------------------------------
+
+    print("\nScene inventory:")
+    for category, count in scene_inventory["category_counts"].items():
+        print(f"{category}: {count}")
+
+    print("\nDetection summary:")
+    print(
+        "Selected model mode: "
+        + ("independent per-dataset selection" if independent_mode else args.model_mode)
+    )
+    if independent_mode:
+        print(f"Selected architectures: {model_selection}")
+    print(f"Raw detections: {len(selected_detections)}")
+    print(f"Retained detections: {len(analysis_detections)}")
+    print(
+        "Suppressed duplicates: "
+        f"{len(suppressed_duplicate_detections)}"
+    )
+    print(
+        "Different-class overlaps requiring review: "
+        f"{len(possible_cross_class_duplicates)}"
+    )
+
+    print("\nPerson detection counts:")
+    print(f"Original person detections: {raw_person_count}")
+    print(f"Retained person detections: {filtered_person_count}")
+
+    print("\nScreening outcome:")
+    print(screening_outcome)
+
+    print("\nOptional review analysis:")
+    print(f"Review candidates: {review_analysis['candidate_count']}")
+
+    # --------------------------------------------------------
+    # Save results
     # --------------------------------------------------------
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+
     output_dir = (
         args.output_dir.resolve()
         if args.output_dir
         else ROOT / "reports" / "inference_runs" / timestamp
     )
 
-    output_dir.mkdir(
-        parents=True,
-        exist_ok=False
-    )
+    output_dir.mkdir(parents=True, exist_ok=False)
 
     image_output = output_dir / "unified_detections.jpg"
-
     json_output = output_dir / "detections.json"
 
-    # --------------------------------------------------------
-    # Save annotated image.
-    # --------------------------------------------------------
-
-    if not cv2.imwrite(
-        str(image_output),
-        annotated
-    ):
+    if not cv2.imwrite(str(image_output), annotated):
         raise IOError(
             f"Could not save annotated image: {image_output}"
         )
 
-    # --------------------------------------------------------
-    # Create JSON report.
-    # --------------------------------------------------------
-
     report = {
         "input_image": str(image_path),
-
         "confidence_threshold": args.conf,
-
         "image_size": args.imgsz,
-
         "device": "cpu",
-
-        "total_detections": len(all_detections),
-
+        "model_mode": "independent" if independent_mode else args.model_mode,
+        "model_selection": (
+            {
+                name: "YOLO11n" if architecture == "yolo" else "RT-DETR-L"
+                for name, architecture in model_selection.items()
+            }
+            if independent_mode else None
+        ),
+        "total_detections": len(selected_detections),
+        "retained_detection_count": len(analysis_detections),
+        "suppressed_duplicate_count": len(
+            suppressed_duplicate_detections
+        ),
+        "different_class_overlap_review_count": len(
+            possible_cross_class_duplicates
+        ),
         "raw_person_detection_count": raw_person_count,
-
-        "filtered_person_detection_count": len(
-            filtered_person_detections
-        ),
-
-        "possible_duplicate_person_count": len(
-            possible_duplicate_persons
-        ),
-
+        "filtered_person_detection_count": filtered_person_count,
         "duplicate_filter_thresholds": {
             "iou": 0.60,
             "containment": 0.85,
-            "minimum_area_ratio": 0.35,
+            "minimum_area_ratio": 0.30,
         },
-
-        "possible_duplicate_persons": possible_duplicate_persons,
-        "possible_duplicate_excavator_count": len(
-            suppressed_excavator_indices
+        "suppressed_duplicate_detections": (
+            suppressed_duplicate_detections
         ),
-        "duplicate_excavator_iou_threshold": 0.60,
-        "possible_duplicate_excavators": possible_duplicate_excavators,
-        "reasoning_detections": reasoning_detections,
-
-        "detections": all_detections,
-
+        "possible_cross_class_duplicates": (
+            possible_cross_class_duplicates
+        ),
+        "detections": selected_detections,
+        "selected_model_detections": selected_detections,
+        "yolo11n_detections": yolo_detections,
+        "rtdetr_l_detections": rtdetr_detections,
         "analysis_detections": analysis_detections,
-
+        "reasoning_detections": reasoning_detections,
         "cross_model_comparisons": cross_model_comparisons,
-
+        "cross_model_class_disagreements": (
+            cross_model_class_disagreements
+        ),
+        "model_comparison": {
+            "models": ["YOLO11n", "RT-DETR-L"],
+            "comparison_method": (
+                "Same-dataset semantic class comparison "
+                "and bounding-box IoU."
+            ),
+            "iou_threshold": 0.50,
+            "summary_by_dataset": model_comparison_summary,
+            "comparisons": model_comparisons,
+            "interpretation_note": (
+                "YOLO11n and RT-DETR-L predictions are preserved "
+                "separately. Their predictions are not merged for "
+                "scene analysis or safety reasoning."
+            ),
+        },
         "scene_inventory": scene_inventory,
-
         "spatial_analysis": spatial_analysis,
-
         "scene_graph": scene_graph,
-
         "safety_assessment": safety_assessment,
-
+        "screening_outcome": screening_outcome,
         "review_analysis": review_analysis,
-
         "interpretation_note": (
-            "Independent detector outputs. Overlapping boxes are possible "
-            "duplicates requiring review. Semantic matches are candidates, "
-            "not confirmed object identities. Detections alone do not "
-            "establish PPE compliance or prove a physical hazard."
+            "Detector outputs are predictions, not confirmed observations. "
+            "Bounding-box overlap does not prove physical object identity. "
+            "Image-space proximity does not establish real-world distance "
+            "or danger. Missing PPE detections do not prove PPE absence. "
+            "NO_SUPPORTED does not mean the site is safe. This system is "
+            "a screening aid, not a safety certification."
         ),
     }
 
+    validated_finding_count = validate_automatic_findings(report)
+
+    print(
+        "\nAutomatic finding validation passed: "
+        f"{validated_finding_count} finding(s)."
+    )
+
     json_output.write_text(
         json.dumps(report, indent=4),
-        encoding="utf-8"
+        encoding="utf-8",
     )
-
-    # --------------------------------------------------------
-    # Completion summary.
-    # --------------------------------------------------------
 
     print("\nUnified inference completed.")
-
-    print(
-        f"Total detections: {len(all_detections)}"
-    )
-
-    print(
-        f"Raw person detections: {raw_person_count}"
-    )
-
-    print(
-        f"Filtered person detections: "
-        f"{len(filtered_person_detections)}"
-    )
-
-    print(
-        f"Suppressed person detections: "
-        f"{len(possible_duplicate_persons)}"
-    )
-
+    print(f"Total selected detections: {len(selected_detections)}")
+    print(f"Retained detections: {len(analysis_detections)}")
     print(f"Annotated image: {image_output}")
-
     print(f"Detection report: {json_output}")
 
 
-# ============================================================
 # ENTRY POINT
 # ============================================================
 
 if __name__ == "__main__":
     main()
-
 
 
 

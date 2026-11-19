@@ -4,8 +4,8 @@ from copy import deepcopy
 from construction_safety.registry import get_method, validate_method
 
 
-REQUIRED_PERCEPTION_DETECTORS = {"ppe", "toolset", "vehicles"}
-OPTIONAL_PERCEPTION_DETECTORS = {"toolset35"}
+REQUIRED_PERCEPTION_DETECTORS = {"ppe", "toolset35", "vehicles"}
+OPTIONAL_PERCEPTION_DETECTORS = {"toolset"}
 
 PERCEPTION_DETECTORS = (
     REQUIRED_PERCEPTION_DETECTORS | OPTIONAL_PERCEPTION_DETECTORS
@@ -17,7 +17,7 @@ BASELINE_CONFIG = {
     "preset": "baseline",
     "perception": {
         "ppe": "ppe_yolo11n_existing",
-        "toolset": "toolset_yolo11n_existing",
+        "toolset35": "toolset35_yolo11n_existing",
         "vehicles": "vehicles_yolo11n_existing",
     },
     "association": "existing_geometric_relationships",
@@ -34,8 +34,8 @@ PRESETS = {
         "label": "Baseline",
         "status": "available",
         "description": (
-            "Existing detectors, geometric scene graph, and rule-based "
-            "screening."
+            "PPE, Toolset-35, and vehicle detectors, geometric scene graph, "
+            "and rule-based screening."
         ),
         "config": BASELINE_CONFIG,
     },
@@ -181,8 +181,8 @@ def update_stage(config, stage, method_id, detector=None):
     """
     Return a validated copy with exactly one stage selection changed.
 
-    For perception, provide detector='ppe', 'toolset', 'vehicles',
-    or the optional 'toolset35'.
+    For perception, provide detector='ppe', 'toolset35', 'vehicles',
+    or the optional historical 'toolset'.
     Other stages use their configuration field name.
     """
     updated = deepcopy(config)
@@ -190,8 +190,8 @@ def update_stage(config, stage, method_id, detector=None):
     if stage == "perception":
         if detector not in PERCEPTION_DETECTORS:
             raise ValueError(
-                "Perception updates require detector='ppe', 'toolset', "
-                "'vehicles', or 'toolset35'."
+                "Perception updates require detector='ppe', "
+                "'toolset35', 'vehicles', or 'toolset'."
             )
 
         specification = validate_method(

@@ -15,7 +15,7 @@ class PipelineTests(unittest.TestCase):
             "schema_version": "1.0",
             "input_image": "sample.jpg",
             "image_dimensions": {"width": 32, "height": 32},
-            "configuration": {"detectors": ["ppe", "toolset", "vehicles"]},
+            "configuration": {"detectors": ["ppe", "toolset35", "vehicles"]},
             "checkpoint_provenance": {},
             "detections": [],
             "scene_graph": {"nodes": [], "relationships": []},
@@ -40,7 +40,15 @@ class PipelineTests(unittest.TestCase):
         run_pipeline("sample.jpg", self.config)
 
         kwargs = mock_inference.call_args.kwargs
-        self.assertEqual(kwargs["model_names"], ("ppe", "toolset", "vehicles"))
+        self.assertEqual(kwargs["model_names"], ("ppe", "toolset35", "vehicles"))
+        self.assertEqual(
+            kwargs["model_variants"],
+            {
+                "ppe": "yolo11n",
+                "toolset35": "yolo11n",
+                "vehicles": "yolo11n",
+            },
+        )
 
     @patch("construction_safety.pipeline.run_inference")
     def test_confidence_settings_are_preserved(self, mock_inference):
@@ -123,7 +131,7 @@ class PipelineTests(unittest.TestCase):
         run_pipeline("sample.jpg", updated)
 
         kwargs = mock_inference.call_args.kwargs
-        self.assertEqual(kwargs["model_names"], ("ppe", "toolset", "vehicles"))
+        self.assertEqual(kwargs["model_names"], ("ppe", "toolset35", "vehicles"))
         self.assertEqual(
             updated["perception"]["vehicles"],
             self.config["perception"]["vehicles"],
@@ -146,7 +154,7 @@ class PipelineTests(unittest.TestCase):
         _, report = run_pipeline("sample.jpg", self.config)
 
         perception = report["pipeline"]["execution"]["perception"]
-        self.assertEqual(set(perception), {"ppe", "toolset", "vehicles"})
+        self.assertEqual(set(perception), {"ppe", "toolset35", "vehicles"})
         for detector in perception.values():
             self.assertEqual(detector["status"], "executed")
 

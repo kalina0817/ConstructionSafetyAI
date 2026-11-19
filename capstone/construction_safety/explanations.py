@@ -1,41 +1,77 @@
-"""Evidence-based explanations for construction safety findings."""
+﻿
+"""Clear, evidence-based explanations for construction safety findings."""
+
+PPE_NAMES = {
+    "boots": "safety boots",
+    "helmet": "safety helmet",
+    "gloves": "protective gloves",
+    "goggles": "safety goggles",
+    "goggle": "safety goggles",
+    "vest": "high-visibility vest",
+}
+
+MISSING_PPE_RULES = {
+    "MISSING_PPE_PREDICTION_REQUIRES_REVIEW",
+    "MISSING_PPE_PREDICTION_REQUIRES_VERIFICATION",
+}
+
+PROXIMITY_RULES = {
+    "IMAGE_SPACE_PROXIMITY_REQUIRES_VERIFICATION",
+    "PERSON_MACHINERY_IMAGE_PROXIMITY",
+}
 
 
 def generate_explanations(findings):
-    """Return explanation fields keyed by finding ID."""
+    """Return user-facing explanation fields keyed by finding ID."""
     results = {}
 
     for finding in findings:
         rule_id = finding["rule_id"]
+        evidence = finding.get("evidence", {})
 
-        if rule_id == "MISSING_PPE_PREDICTION_REQUIRES_REVIEW":
+        if rule_id in MISSING_PPE_RULES:
+            class_name = str(evidence.get("class_name", "PPE")).lower()
+            normalized_name = class_name.removeprefix("no_")
+            equipment = PPE_NAMES.get(
+                normalized_name,
+                normalized_name.replace("_", " "),
+            )
+
             explanation = {
                 "observation": (
-                    f"The detector predicted `{finding['evidence']['class_name']}`."
+                    f"The PPE detector flagged a possible absence of "
+                    f"{equipment} for the detected person."
                 ),
                 "uncertainty_reasons": [
-                    "A detector prediction is not a confirmed visual assessment.",
-                    "Occlusion, image quality, and task requirements are unknown.",
+                    "The detector prediction may be incorrect.",
+                    "Occlusion, image quality, and visibility may affect detection.",
+                    "The person's actual PPE and task requirements are not confirmed.",
                 ],
                 "limitation": (
-                    "A prediction does not establish PPE absence or a violation."
+                    f"The image cannot confirm whether the detected person is "
+                    f"wearing {equipment} or whether a safety violation has occurred."
                 ),
             }
-        elif rule_id == "IMAGE_SPACE_PROXIMITY_REQUIRES_VERIFICATION":
+
+        elif rule_id in PROXIMITY_RULES:
             explanation = {
                 "observation": (
-                    "Person and machinery detector boxes are close in the image."
+                    "A person has been detected near machinery or a vehicle "
+                    "based on the configured image-space proximity threshold. "
+                    "This may indicate a potential struck-by or caught-between "
+                    "hazard."
                 ),
                 "uncertainty_reasons": [
-                    "Image perspective affects apparent distance.",
-                    "Machine operating status and site controls are unknown.",
-                    "Detector outputs may be false positives.",
+                    "Camera perspective can affect apparent distance.",
+                    "Actual physical separation and equipment operating status are unknown.",
+                    "Detector predictions may be incorrect.",
                 ],
                 "limitation": (
-                    "The image cannot establish physical distance, operation, "
-                    "a violation, or an unsafe interaction."
+                    "The image cannot confirm actual physical distance, "
+                    "equipment operation, a safety violation, or an unsafe interaction."
                 ),
             }
+
         else:
             raise ValueError(f"Unsupported finding rule: {rule_id}")
 

@@ -67,7 +67,7 @@ def main():
                     "class_id": class_id,
                     "class_name": model.names[class_id],
                     "confidence": round(confidence, 5),
-                    "bbox_xyxy": coordinates,
+                    "box_xyxy": coordinates,
                 })
 
         records.append({

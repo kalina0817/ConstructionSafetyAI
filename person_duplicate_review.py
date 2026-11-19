@@ -1,3 +1,4 @@
+
 import csv
 import json
 from datetime import datetime, timezone
@@ -24,6 +25,34 @@ REQUIRED_MANIFEST_COLUMNS = {
     "manual_review_notes",
 }
 
+SOURCE_IMAGE_FALLBACKS = (
+    Path("data/raw/construction-ppe/test/images"),
+    Path("data/standardized/construction-ppe/test/images"),
+    Path("data/processed/construction-ppe/test/images"),
+    Path("data/processed/ppe_detector/test/images"),
+)
+
+
+def resolve_source_image(project_root, source_image, image_name):
+    source_image = source_image.resolve()
+
+    if source_image.is_file():
+        return source_image
+
+    for relative_directory in SOURCE_IMAGE_FALLBACKS:
+        candidate = (
+            project_root / relative_directory / image_name
+        ).resolve()
+
+        if candidate.is_file():
+            return candidate
+
+    raise FileNotFoundError(
+        f"Source image not found for {image_name}. "
+        f"Original path: {source_image}. "
+        "Checked the configured PPE image fallback directories."
+    )
+
 
 def load_review_items(project_root):
     project_root = Path(project_root).resolve()
@@ -42,23 +71,28 @@ def load_review_items(project_root):
 
         items = []
         seen_images = set()
+
         for line_number, row in enumerate(reader, start=2):
             image_name = row["image"].strip()
             run_id = row["run_id"].strip()
+
             if not image_name or not run_id:
                 raise ValueError(
                     f"Review manifest row {line_number} has an empty image "
                     "or run ID."
                 )
+
             if Path(image_name).name != image_name:
                 raise ValueError(
                     f"Review manifest row {line_number} has an invalid image "
                     f"name: {image_name!r}"
                 )
+
             if image_name in seen_images:
                 raise ValueError(
                     f"Duplicate image in review manifest: {image_name!r}"
                 )
+
             seen_images.add(image_name)
 
             run_folder = (runs_dir / run_id).resolve()
@@ -70,11 +104,13 @@ def load_review_items(project_root):
 
             report_path = run_folder / "detections.json"
             overlay_path = run_folder / "unified_detections.jpg"
+
             if not report_path.is_file():
                 raise FileNotFoundError(
                     f"Detection report not found for {image_name}: "
                     f"{report_path}"
                 )
+
             if not overlay_path.is_file():
                 raise FileNotFoundError(
                     f"Detection overlay not found for {image_name}: "
@@ -83,19 +119,22 @@ def load_review_items(project_root):
 
             with report_path.open("r", encoding="utf-8") as report_file:
                 report = json.load(report_file)
+
             source_image = Path(report.get("input_image", ""))
             if not source_image.is_absolute():
                 source_image = project_root / source_image
-            source_image = source_image.resolve()
+
             if source_image.name != image_name:
                 raise ValueError(
                     f"Detection report {report_path} references "
                     f"{source_image.name!r}, expected {image_name!r}."
                 )
-            if not source_image.is_file():
-                raise FileNotFoundError(
-                    f"Source image not found for {image_name}: {source_image}"
-                )
+
+            source_image = resolve_source_image(
+                project_root,
+                source_image,
+                image_name,
+            )
 
             for column, report_key in (
                 ("raw_person_detections", "raw_person_detection_count"),
@@ -113,6 +152,7 @@ def load_review_items(project_root):
                 raise ValueError(
                     f"Invalid possible_duplicate_persons in {report_path}."
                 )
+
             if len(possible_duplicates) != int(
                 row["suppressed_person_duplicates"]
             ):
@@ -143,6 +183,7 @@ def load_review_items(project_root):
 
     if not items:
         raise ValueError(f"No images found in review manifest: {manifest_path}")
+
     return items
 
 
@@ -153,34 +194,42 @@ def load_saved_reviews(review_path, valid_images):
 
     with review_path.open("r", encoding="utf-8") as file:
         payload = json.load(file)
+
     if payload.get("schema_version") != REVIEW_SCHEMA_VERSION:
         raise ValueError(
             f"Unsupported review schema version in {review_path}."
         )
 
     saved = {}
+
     for review in payload.get("reviews", []):
         image_name = review.get("image")
+
         if image_name not in valid_images:
             raise ValueError(
                 f"Saved review references an image outside the manifest: "
                 f"{image_name!r}"
             )
+
         if image_name in saved:
             raise ValueError(
                 f"Duplicate saved review for {image_name!r}."
             )
+
         saved[image_name] = review
+
     return saved
 
 
 def save_review(review_path, items, reviews, review):
     image_name = review.get("image")
     valid_images = {item["image"] for item in items}
+
     if image_name not in valid_images:
         raise ValueError(
             f"Review image is not in the manifest: {image_name!r}"
         )
+
     if review.get("count_assessment") not in {
         "confident",
         "tentative",
@@ -189,12 +238,14 @@ def save_review(review_path, items, reviews, review):
         raise ValueError("Invalid person-count assessment.")
 
     visible_count = review.get("visible_person_count")
+
     if visible_count is not None and (
         not isinstance(visible_count, int) or visible_count < 0
     ):
         raise ValueError(
             "Visible person count must be a non-negative integer or null."
         )
+
     if (
         review["count_assessment"] == "confident"
         and visible_count is None
@@ -208,11 +259,14 @@ def save_review(review_path, items, reviews, review):
         for item in items
         if item["image"] == image_name
     )
+
     suppression_reviews = review.get("suppression_reviews", [])
+
     if len(suppression_reviews) != expected_suppression_count:
         raise ValueError(
             "Every suppressed person detection must have one review decision."
         )
+
     if any(
         decision not in SUPPRESSION_DECISIONS
         for decision in suppression_reviews
@@ -221,11 +275,13 @@ def save_review(review_path, items, reviews, review):
 
     updated_reviews = dict(reviews)
     updated_reviews[image_name] = review
+
     ordered_reviews = [
         updated_reviews[item["image"]]
         for item in items
         if item["image"] in updated_reviews
     ]
+
     payload = {
         "schema_version": REVIEW_SCHEMA_VERSION,
         "source_manifest": str(MANIFEST_PATH),
@@ -239,9 +295,11 @@ def save_review(review_path, items, reviews, review):
 
     review_path = Path(review_path)
     review_path.parent.mkdir(parents=True, exist_ok=True)
+
     temporary_path = review_path.with_suffix(
         review_path.suffix + ".tmp"
     )
+
     try:
         temporary_path.write_text(
             json.dumps(payload, indent=2),
@@ -251,6 +309,7 @@ def save_review(review_path, items, reviews, review):
     finally:
         if temporary_path.exists():
             temporary_path.unlink()
+
     return updated_reviews
 
 
@@ -265,9 +324,11 @@ def build_person_overlay(item):
         for detection in report.get("analysis_detections", [])
         if detection.get("class_name", "").strip().lower() == "person"
     ]
+
     for index, detection in enumerate(retained, start=1):
-        box = tuple(int(value) for value in detection["bbox_xyxy"])
+        box = tuple(int(value) for value in detection["box_xyxy"])
         label = f"Kept {index} ({detection['confidence']:.2f})"
+
         draw.rectangle(box, outline=(0, 170, 0), width=3)
         draw.text(
             (box[0], max(0, box[1] - 14)),
@@ -283,8 +344,9 @@ def build_person_overlay(item):
         start=1,
     ):
         detection = pair["candidate"]
-        box = tuple(int(value) for value in detection["bbox_xyxy"])
+        box = tuple(int(value) for value in detection["box_xyxy"])
         label = f"Suppressed {index} ({detection['confidence']:.2f})"
+
         draw.rectangle(box, outline=(220, 0, 0), width=3)
         draw.text(
             (box[0], max(0, box[1] - 14)),
@@ -294,4 +356,5 @@ def build_person_overlay(item):
             stroke_width=2,
             stroke_fill=(150, 0, 0),
         )
+
     return image
