@@ -1,0 +1,42 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:18:43.549925+00:00",
+  "image_id": "CDC-004.jpg",
+  "model": "minicpm-v:latest",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 88.425,
+    "prompt_eval_count": 776,
+    "eval_count": 209,
+    "total_duration_ns": 86353029600,
+    "load_duration_ns": 23537900,
+    "prompt_eval_duration_ns": 53287442000,
+    "eval_duration_ns": 32628791000,
+    "thinking_disabled": false
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"not_supported\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"No PPE is visible in the image.\",\n    \"uncertainty\": \"No PPE is visible in the image.\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"The image does not provide sufficient evidence to determine if a worker is interacting with the machinery.\",\n    \"uncertainty\": \"The image does not provide sufficient evidence to determine if a worker is interacting with the machinery.\"\n  },\n  \"overall_limitations\": [\"Detector predictions are fallible.\", \"A no_* PPE prediction does not prove PPE is absent.\", \"Image-space proximity does not establish physical distance.\", \"Bounding-box overlap does not prove physical contact.\", \"The image may not establish machine operation or site requirements.\"],\n  \"unsupported_claims_to_avoid\": []\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "not_supported",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "No PPE is visible in the image.",
+      "uncertainty": "No PPE is visible in the image."
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "The image does not provide sufficient evidence to determine if a worker is interacting with the machinery.",
+      "uncertainty": "The image does not provide sufficient evidence to determine if a worker is interacting with the machinery."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": []
+  },
+  "error": null
+}

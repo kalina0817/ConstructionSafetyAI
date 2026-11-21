@@ -1,0 +1,57 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T20:59:10.868238+00:00",
+  "image_id": "CAND-007.jpg",
+  "model": "minicpm-v:latest",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 193.987,
+    "prompt_eval_count": 1401,
+    "eval_count": 331,
+    "total_duration_ns": 191922825700,
+    "load_duration_ns": 22758500,
+    "prompt_eval_duration_ns": 136464910000,
+    "eval_duration_ns": 55172763000,
+    "thinking_disabled": false
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"not_supported\",\n    \"visual_evidence\": [\n      {\n        \"type\": \"gloves\",\n        \"description\": \"Person wearing red gloves\",\n        \"confidence\": 0.82762\n      }\n    ],\n    \"detector_evidence_assessment\": \"Person is wearing red gloves, which indicates they are wearing PPE for the hands.\",\n    \"uncertainty\": \"No other PPE is visible on the person.\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [\n      {\n        \"type\": \"gloves\",\n        \"description\": \"Person wearing red gloves\",\n        \"confidence\": 0.82762\n      }\n    ],\n    \"detector_evidence_assessment\": \"Person is wearing red gloves, which indicates they are wearing PPE for the hands. However, no machinery is visible in the image to assess interaction.\",\n    \"uncertainty\": \"No machinery is visible in the image to assess interaction.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible.\",\n    \"A no_* PPE prediction does not prove PPE is absent.\",\n    \"Image-space proximity does not establish physical distance.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"The image may not establish machine operation or site requirements.\"\n  ],\n  \"unsupported_claims_to_avoid\": [\n    \"Do not assume machinery is operating.\",\n    \"Do not infer a person's task or exclusion-zone boundaries.\"\n  ]\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "not_supported",
+      "visual_evidence": [
+        {
+          "type": "gloves",
+          "description": "Person wearing red gloves",
+          "confidence": 0.82762
+        }
+      ],
+      "detector_evidence_assessment": "Person is wearing red gloves, which indicates they are wearing PPE for the hands.",
+      "uncertainty": "No other PPE is visible on the person."
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [
+        {
+          "type": "gloves",
+          "description": "Person wearing red gloves",
+          "confidence": 0.82762
+        }
+      ],
+      "detector_evidence_assessment": "Person is wearing red gloves, which indicates they are wearing PPE for the hands. However, no machinery is visible in the image to assess interaction.",
+      "uncertainty": "No machinery is visible in the image to assess interaction."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": [
+      "Do not assume machinery is operating.",
+      "Do not infer a person's task or exclusion-zone boundaries."
+    ]
+  },
+  "error": null
+}

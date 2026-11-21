@@ -1,0 +1,13 @@
+image_id,finding_category,ground_truth,rater_1,rater_2,,
+CAND-007.jpg,potential_missing_ppe,uncertain,uncertain,uncertain,,
+CAND-007.jpg,potential_worker_machinery_interaction,0,0,0,,
+CDC-001.jpg,     potential_missing_ppe   1,,,1,,
+CDC-001.jpg  potential_worker_machinery_interaction  1,,,,,,1
+CDC-002.jpg,     potential_missing_ppe   1,,,1,,
+CDC-002.jpg   potential_worker_machinery_interaction uncertain,,,,,,uncertain
+CDC-003.jpg,    potential_missing_ppe    1,,,1,,
+CDC-003.jpg   potential_worker_machinery_interaction uncertain,,,,,,uncertain
+CDC-004.jpg,    potential_missing_ppe    1,,,1,,
+CDC-004.jpg,    potential_worker_machinery_interaction,,,,uncertain,uncertain
+MASSDOT-001.jpg,    potential_missing_ppe    1,,,1,,
+MASSDOT-001.jpg,    potential_worker_machinery_interaction,,,,1,1

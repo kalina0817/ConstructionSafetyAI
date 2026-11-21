@@ -1,0 +1,48 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:17:15.051411+00:00",
+  "image_id": "CDC-003.jpg",
+  "model": "qwen3-vl:4b-instruct",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 174.786,
+    "prompt_eval_count": 1880,
+    "eval_count": 501,
+    "total_duration_ns": 172689817900,
+    "load_duration_ns": 24562400,
+    "prompt_eval_duration_ns": 91682240000,
+    "eval_duration_ns": 80659186000,
+    "thinking_disabled": true
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector predicts 'no_helmet' with low confidence (0.36976) and a bounding box around the person's head. However, the image is in black and white and the head is partially obscured by shadow and structure, making it ambiguous whether a helmet is present or not. The detector also predicts gloves with low confidence, but the image shows hands holding a tool, which may or may not be gloves. No clear visual evidence confirms or denies missing PPE beyond the detector's low-confidence prediction.\",\n    \"uncertainty\": \"Ambiguity in head coverage due to shadow and occlusion; low-confidence detector predictions; lack of clear visual evidence for or against missing PPE.\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector predicts a 'ForkLift' with low confidence (0.51162) and a bounding box that overlaps with the person. However, the bounding box is large and includes the entire structure, not necessarily the machinery. The person is crouching on wooden beams, and no visible machinery is operating or in direct contact with the worker. The detector's prediction is not reliable for establishing interaction.\",\n    \"uncertainty\": \"Detector prediction of machinery is low confidence and spatially ambiguous; no visual evidence of interaction; no indication of machinery operation.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible and not ground truth.\",\n    \"A 'no_* PPE' prediction does not prove PPE is absent.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"Image-space proximity does not establish real-world distance.\",\n    \"Detector predicts machinery but does not confirm operation or interaction.\",\n    \"Image quality and occlusion prevent reliable visual assessment of PPE or interaction.\"\n  ],\n  \"unsupported_claims_to_avoid\": [\n    \"Claiming the worker is missing PPE based on low-confidence detector prediction.\",\n    \"Claiming machinery is interacting with the worker based on low-confidence detector prediction.\",\n    \"Assuming machinery is operating or worker is in a hazardous zone based on detector output.\",\n    \"Assuming the worker is performing a specific task or is in an exclusion zone.\"\n  ]\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector predicts 'no_helmet' with low confidence (0.36976) and a bounding box around the person's head. However, the image is in black and white and the head is partially obscured by shadow and structure, making it ambiguous whether a helmet is present or not. The detector also predicts gloves with low confidence, but the image shows hands holding a tool, which may or may not be gloves. No clear visual evidence confirms or denies missing PPE beyond the detector's low-confidence prediction.",
+      "uncertainty": "Ambiguity in head coverage due to shadow and occlusion; low-confidence detector predictions; lack of clear visual evidence for or against missing PPE."
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector predicts a 'ForkLift' with low confidence (0.51162) and a bounding box that overlaps with the person. However, the bounding box is large and includes the entire structure, not necessarily the machinery. The person is crouching on wooden beams, and no visible machinery is operating or in direct contact with the worker. The detector's prediction is not reliable for establishing interaction.",
+      "uncertainty": "Detector prediction of machinery is low confidence and spatially ambiguous; no visual evidence of interaction; no indication of machinery operation."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible and not ground truth.",
+      "A 'no_* PPE' prediction does not prove PPE is absent.",
+      "Bounding-box overlap does not prove physical contact.",
+      "Image-space proximity does not establish real-world distance.",
+      "Detector predicts machinery but does not confirm operation or interaction.",
+      "Image quality and occlusion prevent reliable visual assessment of PPE or interaction."
+    ],
+    "unsupported_claims_to_avoid": [
+      "Claiming the worker is missing PPE based on low-confidence detector prediction.",
+      "Claiming machinery is interacting with the worker based on low-confidence detector prediction.",
+      "Assuming machinery is operating or worker is in a hazardous zone based on detector output.",
+      "Assuming the worker is performing a specific task or is in an exclusion zone."
+    ]
+  },
+  "error": null
+}

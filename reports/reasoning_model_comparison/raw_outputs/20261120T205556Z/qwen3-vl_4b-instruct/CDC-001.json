@@ -1,0 +1,46 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:07:55.519663+00:00",
+  "image_id": "CDC-001.jpg",
+  "model": "qwen3-vl:4b-instruct",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 152.973,
+    "prompt_eval_count": 1869,
+    "eval_count": 362,
+    "total_duration_ns": 150893610500,
+    "load_duration_ns": 20831600,
+    "prompt_eval_duration_ns": 92821782000,
+    "eval_duration_ns": 57358402000,
+    "thinking_disabled": true
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector predicts 'no_helmet' and 'no_vest' with low confidence, but visual inspection of the image does not confirm or deny the presence of these items. The worker is wearing a cap, which may or may not be a helmet. No vest is clearly visible. The detector's confidence thresholds are low, and the image is in black and white, limiting visual clarity.\",\n    \"uncertainty\": \"Image quality, occlusion, and ambiguity prevent reliable assessment of PPE presence or absence.\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector does not provide evidence of interaction. The bounding box for the person overlaps with machinery, but this does not prove physical contact. The image does not establish whether the machinery is operating or whether the worker is actively interacting with it.\",\n    \"uncertainty\": \"Ambiguity in spatial relationship and lack of context prevent reliable assessment of interaction.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible.\",\n    \"A no_* PPE prediction does not prove PPE is absent.\",\n    \"Image-space proximity does not establish physical distance.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"The image may not establish machine operation or site requirements.\"\n  ],\n  \"unsupported_claims_to_avoid\": [\n    \"Claiming PPE is missing based on detector predictions.\",\n    \"Claiming worker-machinery interaction based on bounding box overlap.\",\n    \"Assuming machinery is operating or worker is performing a task.\"\n  ]\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector predicts 'no_helmet' and 'no_vest' with low confidence, but visual inspection of the image does not confirm or deny the presence of these items. The worker is wearing a cap, which may or may not be a helmet. No vest is clearly visible. The detector's confidence thresholds are low, and the image is in black and white, limiting visual clarity.",
+      "uncertainty": "Image quality, occlusion, and ambiguity prevent reliable assessment of PPE presence or absence."
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector does not provide evidence of interaction. The bounding box for the person overlaps with machinery, but this does not prove physical contact. The image does not establish whether the machinery is operating or whether the worker is actively interacting with it.",
+      "uncertainty": "Ambiguity in spatial relationship and lack of context prevent reliable assessment of interaction."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": [
+      "Claiming PPE is missing based on detector predictions.",
+      "Claiming worker-machinery interaction based on bounding box overlap.",
+      "Assuming machinery is operating or worker is performing a task."
+    ]
+  },
+  "error": null
+}

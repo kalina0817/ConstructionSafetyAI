@@ -1,0 +1,31 @@
+{
+  "run_id": "20261120T205556Z",
+  "created_utc": "2026-11-20T20:55:56.612073+00:00",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "models": [
+    "minicpm-v:latest",
+    "qwen3-vl:4b-instruct"
+  ],
+  "images": [
+    "CAND-007.jpg",
+    "CDC-001.jpg",
+    "CDC-002.jpg",
+    "CDC-003.jpg",
+    "CDC-004.jpg",
+    "MASSDOT-001.jpg"
+  ],
+  "categories": [
+    "potential_missing_ppe",
+    "potential_worker_machinery_interaction"
+  ],
+  "temperature": 0,
+  "seed": 42,
+  "num_ctx": 8192,
+  "num_predict": 1024,
+  "max_image_dimension": 1600,
+  "image_jpeg_quality": 88,
+  "qwen_thinking_disabled": true,
+  "annotation_file": "research\\independent_scenario_evaluation\\independent_human_annotations_clean.csv",
+  "detector_source": "reports\\independent_scenario_evaluation\\predictions_current",
+  "human_annotations_sent_to_models": false
+}

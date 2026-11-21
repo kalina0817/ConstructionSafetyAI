@@ -1,0 +1,87 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:14:20.253437+00:00",
+  "image_id": "CDC-003.jpg",
+  "model": "minicpm-v:latest",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 94.566,
+    "prompt_eval_count": 1003,
+    "eval_count": 516,
+    "total_duration_ns": 92464193700,
+    "load_duration_ns": 22784000,
+    "prompt_eval_duration_ns": 3620026000,
+    "eval_duration_ns": 88070023000,
+    "thinking_disabled": false
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"not_supported\",\n    \"visual_evidence\": [\n      {\n        \"type\": \"gloves\",\n        \"confidence\": 0.52902,\n        \"box_xyxy\": [245, 222, 263, 249]\n      },\n      {\n        \"type\": \"gloves\",\n        \"confidence\": 0.39112,\n        \"box_xyxy\": [303, 176, 353, 231]\n      },\n      {\n        \"type\": \"no_helmet\",\n        \"confidence\": 0.36976,\n        \"box_xyxy\": [251, 98, 308, 172]\n      }\n    ],\n    \"detector_evidence_assessment\": \"Visible evidence indicates the worker is wearing gloves and a helmet, which are considered PPE. However, the confidence levels are relatively low, and the bounding boxes do not fully encompass the worker's body, suggesting potential missing PPE.\",\n    \"uncertainty\": \"The low confidence levels and partial bounding boxes suggest uncertainty in the detection of all PPE items.\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"supported\",\n    \"visual_evidence\": [\n      {\n        \"type\": \"ForkLift\",\n        \"confidence\": 0.51162,\n        \"box_xyxy\": [1, 0, 518, 545]\n      }\n    ],\n    \"detector_evidence_assessment\": \"The worker is interacting with a ForkLift, as indicated by the bounding box around the machinery. The worker's position and the tool in hand suggest active engagement with the machinery.\",\n    \"uncertainty\": \"The worker's exact task is not clear, but the interaction with the machinery is supported by visible evidence.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible.\",\n    \"A no_* PPE prediction does not prove PPE is absent.\",\n    \"Image-space proximity does not establish physical distance.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"The image may not establish machine operation or site requirements.\"\n  ],\n  \"unsupported_claims_to_avoid\": [\n    \"Do not assume machinery is operating.\",\n    \"Do not infer a person's task or exclusion-zone boundaries.\"\n  ]\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "not_supported",
+      "visual_evidence": [
+        {
+          "type": "gloves",
+          "confidence": 0.52902,
+          "box_xyxy": [
+            245,
+            222,
+            263,
+            249
+          ]
+        },
+        {
+          "type": "gloves",
+          "confidence": 0.39112,
+          "box_xyxy": [
+            303,
+            176,
+            353,
+            231
+          ]
+        },
+        {
+          "type": "no_helmet",
+          "confidence": 0.36976,
+          "box_xyxy": [
+            251,
+            98,
+            308,
+            172
+          ]
+        }
+      ],
+      "detector_evidence_assessment": "Visible evidence indicates the worker is wearing gloves and a helmet, which are considered PPE. However, the confidence levels are relatively low, and the bounding boxes do not fully encompass the worker's body, suggesting potential missing PPE.",
+      "uncertainty": "The low confidence levels and partial bounding boxes suggest uncertainty in the detection of all PPE items."
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "supported",
+      "visual_evidence": [
+        {
+          "type": "ForkLift",
+          "confidence": 0.51162,
+          "box_xyxy": [
+            1,
+            0,
+            518,
+            545
+          ]
+        }
+      ],
+      "detector_evidence_assessment": "The worker is interacting with a ForkLift, as indicated by the bounding box around the machinery. The worker's position and the tool in hand suggest active engagement with the machinery.",
+      "uncertainty": "The worker's exact task is not clear, but the interaction with the machinery is supported by visible evidence."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": [
+      "Do not assume machinery is operating.",
+      "Do not infer a person's task or exclusion-zone boundaries."
+    ]
+  },
+  "error": null
+}

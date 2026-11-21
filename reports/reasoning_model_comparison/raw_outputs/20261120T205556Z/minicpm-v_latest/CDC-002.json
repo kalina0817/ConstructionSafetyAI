@@ -1,0 +1,47 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:10:06.484173+00:00",
+  "image_id": "CDC-002.jpg",
+  "model": "minicpm-v:latest",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 130.884,
+    "prompt_eval_count": 1226,
+    "eval_count": 220,
+    "total_duration_ns": 128833169700,
+    "load_duration_ns": 25932200,
+    "prompt_eval_duration_ns": 92446511000,
+    "eval_duration_ns": 36085925000,
+    "thinking_disabled": false
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"supported\",\n    \"visual_evidence\": [\n      \"Person without helmet\",\n      \"Person without gloves\",\n      \"Person without safety vest\"\n    ],\n    \"detector_evidence_assessment\": \"Visible evidence supports the absence of a helmet, gloves, and safety vest as predicted by the detector.\",\n    \"uncertainty\": \"\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [\n      \"Person holding a piece of wood\",\n      \"Person standing near machinery\"\n    ],\n    \"detector_evidence_assessment\": \"The image does not provide sufficient evidence to support or refute the potential for worker-machinery interaction.\",\n    \"uncertainty\": \"The image quality and occlusion prevent a reliable decision.\"\n  },\n  \"overall_limitations\": [\n    \"Image quality, occlusion, ambiguity, or missing context prevents a reliable decision.\"\n  ],\n  \"unsupported_claims_to_avoid\": [\n    \"Do not assume machinery is operating.\"\n  ]\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "supported",
+      "visual_evidence": [
+        "Person without helmet",
+        "Person without gloves",
+        "Person without safety vest"
+      ],
+      "detector_evidence_assessment": "Visible evidence supports the absence of a helmet, gloves, and safety vest as predicted by the detector.",
+      "uncertainty": ""
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [
+        "Person holding a piece of wood",
+        "Person standing near machinery"
+      ],
+      "detector_evidence_assessment": "The image does not provide sufficient evidence to support or refute the potential for worker-machinery interaction.",
+      "uncertainty": "The image quality and occlusion prevent a reliable decision."
+    },
+    "overall_limitations": [
+      "Image quality, occlusion, ambiguity, or missing context prevents a reliable decision."
+    ],
+    "unsupported_claims_to_avoid": [
+      "Do not assume machinery is operating."
+    ]
+  },
+  "error": null
+}

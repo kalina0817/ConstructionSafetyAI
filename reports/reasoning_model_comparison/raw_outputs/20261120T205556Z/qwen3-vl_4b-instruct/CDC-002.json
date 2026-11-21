@@ -1,0 +1,46 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:12:45.662974+00:00",
+  "image_id": "CDC-002.jpg",
+  "model": "qwen3-vl:4b-instruct",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 159.171,
+    "prompt_eval_count": 1970,
+    "eval_count": 372,
+    "total_duration_ns": 157133331200,
+    "load_duration_ns": 33766100,
+    "prompt_eval_duration_ns": 96761522000,
+    "eval_duration_ns": 60073912000,
+    "thinking_disabled": true
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector predicts 'no_helmet', 'no_gloves', 'no_vest' with low confidence, and visual evidence is insufficient to confirm or deny absence of PPE. The worker is wearing a cap and overalls, but no gloves or vest are visibly confirmed or denied.\",\n    \"uncertainty\": \"The worker's headwear is a cap, not a helmet. Gloves are not visible on hands. A vest is not clearly visible or confirmed absent. Image quality and occlusion prevent definitive assessment.\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector predicts 'Excavator' but no visual evidence confirms proximity or interaction. The excavator is not clearly visible or identifiable in the image.\",\n    \"uncertainty\": \"The excavator is not visible in the image. No visual evidence of worker-machinery interaction is present. The detector's prediction is not supported by visual evidence.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible.\",\n    \"A no_* PPE prediction does not prove PPE is absent.\",\n    \"Image-space proximity does not establish physical distance.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"The image may not establish machine operation or site requirements.\"\n  ],\n  \"unsupported_claims_to_avoid\": [\n    \"Claiming the worker is missing PPE based on detector predictions.\",\n    \"Claiming machinery is operating or interacting with the worker based on detector predictions.\",\n    \"Assuming the excavator is present or interacting with the worker based on detector output.\"\n  ]\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector predicts 'no_helmet', 'no_gloves', 'no_vest' with low confidence, and visual evidence is insufficient to confirm or deny absence of PPE. The worker is wearing a cap and overalls, but no gloves or vest are visibly confirmed or denied.",
+      "uncertainty": "The worker's headwear is a cap, not a helmet. Gloves are not visible on hands. A vest is not clearly visible or confirmed absent. Image quality and occlusion prevent definitive assessment."
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector predicts 'Excavator' but no visual evidence confirms proximity or interaction. The excavator is not clearly visible or identifiable in the image.",
+      "uncertainty": "The excavator is not visible in the image. No visual evidence of worker-machinery interaction is present. The detector's prediction is not supported by visual evidence."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": [
+      "Claiming the worker is missing PPE based on detector predictions.",
+      "Claiming machinery is operating or interacting with the worker based on detector predictions.",
+      "Assuming the excavator is present or interacting with the worker based on detector output."
+    ]
+  },
+  "error": null
+}

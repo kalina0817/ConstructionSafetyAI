@@ -1,0 +1,13 @@
+run_id,image_id,model,status,elapsed_seconds,output_file,error
+20261120T205556Z,CAND-007.jpg,minicpm-v:latest,SUCCESS,193.987,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\minicpm-v_latest\CAND-007.json,
+20261120T205556Z,CAND-007.jpg,qwen3-vl:4b-instruct,SUCCESS,241.301,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\qwen3-vl_4b-instruct\CAND-007.json,
+20261120T205556Z,CDC-001.jpg,minicpm-v:latest,SUCCESS,130.254,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\minicpm-v_latest\CDC-001.json,
+20261120T205556Z,CDC-001.jpg,qwen3-vl:4b-instruct,SUCCESS,152.973,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\qwen3-vl_4b-instruct\CDC-001.json,
+20261120T205556Z,CDC-002.jpg,minicpm-v:latest,SUCCESS,130.884,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\minicpm-v_latest\CDC-002.json,
+20261120T205556Z,CDC-002.jpg,qwen3-vl:4b-instruct,SUCCESS,159.171,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\qwen3-vl_4b-instruct\CDC-002.json,
+20261120T205556Z,CDC-003.jpg,minicpm-v:latest,SUCCESS,94.566,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\minicpm-v_latest\CDC-003.json,
+20261120T205556Z,CDC-003.jpg,qwen3-vl:4b-instruct,SUCCESS,174.786,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\qwen3-vl_4b-instruct\CDC-003.json,
+20261120T205556Z,CDC-004.jpg,minicpm-v:latest,SUCCESS,88.425,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\minicpm-v_latest\CDC-004.json,
+20261120T205556Z,CDC-004.jpg,qwen3-vl:4b-instruct,SUCCESS,130.294,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\qwen3-vl_4b-instruct\CDC-004.json,
+20261120T205556Z,MASSDOT-001.jpg,minicpm-v:latest,SUCCESS,184.262,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\minicpm-v_latest\MASSDOT-001.json,
+20261120T205556Z,MASSDOT-001.jpg,qwen3-vl:4b-instruct,SUCCESS,171.387,reports\reasoning_model_comparison\raw_outputs\20261120T205556Z\qwen3-vl_4b-instruct\MASSDOT-001.json,

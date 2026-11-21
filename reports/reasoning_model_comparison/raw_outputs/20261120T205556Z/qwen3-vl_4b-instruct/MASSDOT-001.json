@@ -1,0 +1,42 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:26:49.593637+00:00",
+  "image_id": "MASSDOT-001.jpg",
+  "model": "qwen3-vl:4b-instruct",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 171.387,
+    "prompt_eval_count": 2603,
+    "eval_count": 264,
+    "total_duration_ns": 169303100000,
+    "load_duration_ns": 23584100,
+    "prompt_eval_duration_ns": 120922443000,
+    "eval_duration_ns": 48089090000,
+    "thinking_disabled": true
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"not_supported\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector predictions of 'no_vest' are fallible and do not prove actual absence of PPE. Visual inspection shows some individuals wearing vests or helmets, and no clear evidence of missing PPE is visible in the image.\",\n    \"uncertainty\": \"\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector identifies a vehicle as 'Toolset' with 'Excavator' confidence, but no visual evidence confirms interaction or proximity of workers to machinery. No bounding boxes indicate physical contact or operational proximity.\",\n    \"uncertainty\": \"Image quality, occlusion, and ambiguity prevent reliable assessment of worker-machinery interaction.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible.\",\n    \"A no_* PPE prediction does not prove PPE is absent.\",\n    \"Image-space proximity does not establish physical distance.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"The image may not establish machine operation or site requirements.\"\n  ],\n  \"unsupported_claims_to_avoid\": []\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "not_supported",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector predictions of 'no_vest' are fallible and do not prove actual absence of PPE. Visual inspection shows some individuals wearing vests or helmets, and no clear evidence of missing PPE is visible in the image.",
+      "uncertainty": ""
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector identifies a vehicle as 'Toolset' with 'Excavator' confidence, but no visual evidence confirms interaction or proximity of workers to machinery. No bounding boxes indicate physical contact or operational proximity.",
+      "uncertainty": "Image quality, occlusion, and ambiguity prevent reliable assessment of worker-machinery interaction."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": []
+  },
+  "error": null
+}

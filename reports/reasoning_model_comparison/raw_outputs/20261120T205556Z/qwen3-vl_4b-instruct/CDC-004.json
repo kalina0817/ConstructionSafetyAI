@@ -1,0 +1,42 @@
+{
+  "run_id": "20261120T205556Z",
+  "timestamp_utc": "2026-11-20T21:20:53.852448+00:00",
+  "image_id": "CDC-004.jpg",
+  "model": "qwen3-vl:4b-instruct",
+  "prompt_version": "reasoning_comparison_v3_no_thinking",
+  "status": "SUCCESS",
+  "metadata": {
+    "elapsed_seconds": 130.294,
+    "prompt_eval_count": 1633,
+    "eval_count": 269,
+    "total_duration_ns": 128257105100,
+    "load_duration_ns": 45378900,
+    "prompt_eval_duration_ns": 86572981000,
+    "eval_duration_ns": 40255969000,
+    "thinking_disabled": true
+  },
+  "raw_response": "{\n  \"potential_missing_ppe\": {\n    \"decision\": \"not_supported\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"No detector predictions for people or PPE were generated, and no visible human figures are present in the image to assess PPE status.\",\n    \"uncertainty\": \"\"\n  },\n  \"potential_worker_machinery_interaction\": {\n    \"decision\": \"uncertain\",\n    \"visual_evidence\": [],\n    \"detector_evidence_assessment\": \"Detector did not identify any person-machinery relationships. The image shows a piece of heavy machinery (a bulldozer) and no visible workers, making it impossible to assess interaction.\",\n    \"uncertainty\": \"No workers are visible in the image, and the machinery is stationary. It is unclear whether any workers are nearby or interacting with the machinery. The image does not provide sufficient context to determine if interaction is occurring or possible.\"\n  },\n  \"overall_limitations\": [\n    \"Detector predictions are fallible.\",\n    \"A no_* PPE prediction does not prove PPE is absent.\",\n    \"Image-space proximity does not establish physical distance.\",\n    \"Bounding-box overlap does not prove physical contact.\",\n    \"The image may not establish machine operation or site requirements.\"\n  ],\n  \"unsupported_claims_to_avoid\": []\n}",
+  "parsed_response": {
+    "potential_missing_ppe": {
+      "decision": "not_supported",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "No detector predictions for people or PPE were generated, and no visible human figures are present in the image to assess PPE status.",
+      "uncertainty": ""
+    },
+    "potential_worker_machinery_interaction": {
+      "decision": "uncertain",
+      "visual_evidence": [],
+      "detector_evidence_assessment": "Detector did not identify any person-machinery relationships. The image shows a piece of heavy machinery (a bulldozer) and no visible workers, making it impossible to assess interaction.",
+      "uncertainty": "No workers are visible in the image, and the machinery is stationary. It is unclear whether any workers are nearby or interacting with the machinery. The image does not provide sufficient context to determine if interaction is occurring or possible."
+    },
+    "overall_limitations": [
+      "Detector predictions are fallible.",
+      "A no_* PPE prediction does not prove PPE is absent.",
+      "Image-space proximity does not establish physical distance.",
+      "Bounding-box overlap does not prove physical contact.",
+      "The image may not establish machine operation or site requirements."
+    ],
+    "unsupported_claims_to_avoid": []
+  },
+  "error": null
+}
