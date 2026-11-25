@@ -1,0 +1,39 @@
+{
+  "recorded_utc": "2026-11-25T03:09:20.288795+00:00",
+  "purpose": "Verify the same configuration before running or scoring this batch. No model predictions collected here.",
+  "detector": "YOLO11n",
+  "confidence": 0.25,
+  "image_size": 640,
+  "reasoning_options": [
+    "Scene-graph rules",
+    "MiniCPM-V",
+    "Qwen3-VL"
+  ],
+  "source_sha256": {
+    "app.py": "f6ffffffe3c6db1aeb4d3fbf3351e29f490341ac239277867a920dfbbb571ed8",
+    "integrated_app.py": "ab6d37c6ba844f28d7e7d4f7a1a70553eba90b79b2be5591a1670347829bf077",
+    "screening_assessment.py": "cc5b2e5a8dc1c42623f98facaea1a27e675c58a440ad830e68ec21fcf291a5ea",
+    "vision_language_reasoning.py": "b192f7e506d12f1f109043340101778b53a5882dbc92c63af858ef5c302604e0",
+    "unified_inference.py": "4bcad672ac12bc7a1406ad8f944d382d3b5e6f10500436f2df7118c8fb3a6844",
+    "reasoning_engine.py": "a7b7e77799e5bdfcbeaa1bf67d8be0dc1c633eb61a38edd3891c2eaecf2c0fa3",
+    "ppe_safety_rules.py": "1be8c9dddc4b68f3ab02f1fd19a4b23724f30aa2e9d1e5d0c0f717d0bc2553ba"
+  },
+  "checkpoints": {
+    "PPE": {
+      "path": "runs\\detect\\runs\\detect\\ppe_yolo11n_postcorrection_15ep\\weights\\best.pt",
+      "sha256": "3c6be2472623f8ecdaf91a9835e14c10e423313ff9189a64a5263a1e98dd3dbf"
+    },
+    "Toolset": {
+      "path": "models\\toolset35_final_model\\toolset35_yolo11n_best.pt",
+      "sha256": "93a1b83b8a7d3295d16fd63adefdd6ff4ae9aeea2d7656c441c73ee0365817a0"
+    },
+    "Vehicles": {
+      "path": "runs\\detect\\runs\\detect\\vehicle_yolo11n_corrected_dataset_5ep\\weights\\best.pt",
+      "sha256": "4f769e836f282973f381af9687e132dcfc1b9423615a1a656af2c4e7b56e13db"
+    }
+  },
+  "ollama_digests": {
+    "qwen3-vl:4b-instruct": "84f7ed8042fa7cdbd902f7dcb7d0370e032095047cc3244179f263b77b5bc318",
+    "minicpm-v:latest": "c92bfad0120556eda311984f1ac2f0d0a589b8d68c4053c13486b526276aa205"
+  }
+}

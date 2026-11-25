@@ -1,0 +1,23 @@
+{
+  "files_size_checked": 203192,
+  "exact_sha256_matches": [],
+  "scan_errors": [],
+  "review_and_upload_images_perceptually_checked": 100,
+  "closest_dhash_hamming_distance": {
+    "Photo_01": 25,
+    "Photo_02": 25,
+    "Photo_03": 21,
+    "Photo_04": 27,
+    "Photo_05": 20,
+    "Photo_06": 23,
+    "Photo_07": 23,
+    "Photo_08": 24,
+    "Photo_09": 19,
+    "Photo_10": 26,
+    "Photo_11": 25,
+    "Photo_12": 20
+  },
+  "perceptual_flags": [],
+  "within_batch_perceptual_flags": [],
+  "limitations": "Exact hash search covers loose project images; perceptual screening covers uploaded, blind-review and candidate photos. External model training history and archive-only duplicates are unknown."
+}

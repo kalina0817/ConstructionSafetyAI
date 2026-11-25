@@ -1,146 +1,52 @@
-
-import json
 from pathlib import Path
 
 import streamlit as st
 
+STUDY = Path(__file__).resolve().parent / "research" / "worker_machine_blind_12"
+example = STUDY / "evaluation/yolo11n_rules_baseline/Photo_01/unified_detections.jpg"
 
-ROOT = Path(__file__).resolve().parent
-EVALUATION_ROOT = ROOT / "reports" / "detector_evaluations"
+st.html("""
+<style>
+.st-key-project_intro {
+    background: linear-gradient(110deg, #201c16, #121313 56%);
+    border: 1px solid #484136;
+    border-radius: 18px;
+    padding: clamp(1rem, 2.5vw, 2.4rem);
+}
+.st-key-project_intro h1 {
+    font-size: clamp(2.6rem, 4vw, 4.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+}
+.st-key-project_intro img { border-radius: 10px; }
+</style>
+""")
 
+with st.container(key="project_intro"):
+    intro, picture = st.columns([5, 6], gap="large", vertical_alignment="center")
+    with intro:
+        st.caption("Jobsite Photo Review")
+        st.title("Construction Safety AI")
+        st.write("Review a jobsite photo for two things that matter to worker safety: "
+                 "what protective gear each person appears to be wearing and where people are standing near machinery.")
+        if st.button("Check a site photo", type="primary", icon=":material/image_search:"):
+            st.switch_page("integrated_app.py")
+    with picture:
+        if example.is_file():
+            st.image(str(example), width="stretch", alt="Worker in an excavator cab with boxes around objects found by the app")
+            st.caption("The boxes show where the app found objects in the photo.")
 
-def load_validation_records():
-    if not EVALUATION_ROOT.is_dir():
-        return []
-
-    latest_by_detector = {}
-
-    for report_path in EVALUATION_ROOT.glob("*/evaluation.json"):
-        with report_path.open("r", encoding="utf-8") as file:
-            report = json.load(file)
-
-        if report.get("evaluation_split") != "val":
-            continue
-
-        detector = report.get("detector")
-        if detector not in {"ppe", "toolset", "vehicles"}:
-            continue
-
-        current = latest_by_detector.get(detector)
-
-        if current is None or report.get("created_at_utc", "") > current[
-            "created_at_utc"
-        ]:
-            latest_by_detector[detector] = report
-
-    return list(latest_by_detector.values())
-
-
-st.title("Context-aware vision reasoning for proactive construction safety")
-
-st.write(
-    "This research application helps identify possible safety concerns "
-    "in construction-site pictures. It looks for workers, personal "
-    "protective equipment, tools, vehicles, and machinery. It also "
-    "examines image-space relationships between detected objects to "
-    "identify situations that may need attention."
-)
-
-st.warning(
-    "This application provides potential safety alerts, not final safety "
-    "decisions. A warning does not automatically mean that a safety "
-    "violation has occurred. Findings must be interpreted in context "
-    "and checked against actual site conditions.",
-    icon=":material/health_and_safety:",
-)
-
-st.header("What does the application check?")
-
-st.markdown(
-    """
-- **Personal protective equipment:** Detects helmets, safety vests,
-  gloves, boots, goggles, and supported missing-PPE predictions.
-- **Tools and equipment:** Identifies supported construction tools
-  and equipment.
-- **Vehicles and machinery:** Identifies construction vehicles
-  and machinery.
-- **Worker and machinery relationships:** Examines image-space
-  positions and proximity between detected workers and machinery.
-- **Potential safety concerns:** Generates alerts when supported
-  detection and relationship evidence meets the screening rules.
-"""
-)
-
-st.header("Understanding the results")
-
-st.markdown(
-    """
-- **High-confidence alert:** Strong detector evidence supports a
-  potential concern. This is not proof of a safety violation.
-- **Potential concern:** The available image evidence suggests a
-  situation that may need attention.
-- **Insufficient information:** The image does not provide enough
-  evidence for a useful assessment.
-- **No supported concern found:** The system did not identify a
-  concern covered by its current screening rules. This does not
-  guarantee that the site is safe.
-"""
-)
-
-st.header("What should you do next?")
-
-st.write(
-    "Review the image and the generated findings. Check the actual "
-    "worksite conditions before taking action. Human verification "
-    "is available when needed, but it is not required for the system "
-    "to generate potential alerts."
-)
-
-st.header("Project progress")
-
-progress_rows = [
-    {
-        "Area": "Worker and PPE detection",
-        "Status": "Implemented",
-    },
-    {
-        "Area": "Tool and equipment detection",
-        "Status": "Implemented",
-    },
-    {
-        "Area": "Vehicle and machinery detection",
-        "Status": "Implemented",
-    },
-    {
-        "Area": "Cross-dataset object association",
-        "Status": "Implemented; evaluation ongoing",
-    },
-    {
-        "Area": "Worker and machinery relationship analysis",
-        "Status": "Implemented; evaluation ongoing",
-    },
-    {
-        "Area": "Automatic potential safety alerts",
-        "Status": "Implemented; evaluation ongoing",
-    },
-    {
-        "Area": "Safety explanations and recommendations",
-        "Status": "Implemented; evaluation ongoing",
-    },
-    {
-        "Area": "Model comparison and evaluation",
-        "Status": "Ongoing",
-    },
-]
-
-st.dataframe(
-    progress_rows,
-    hide_index=True,
-    width="stretch",
-)
-
-st.caption(
-    "Research prototype only. Image-space relationships do not establish "
-    "physical distance, actual equipment operation, or confirmed safety "
-    "violations. Findings should be checked against real site conditions."
-)
+st.header("From photo to safety report")
+setup, report = st.columns(2, gap="large")
+with setup, st.container(border=True):
+    st.subheader("What the app checks")
+    st.write("Upload a photo and choose how the app finds objects and how it checks for risks. "
+             "Run the check once to get a labeled photo and a report.")
+    st.write("For each worker it finds, the app checks five items: a hard hat, a safety vest, "
+             "gloves, boots, and goggles. It also looks at the worker’s position around machines.")
+with report, st.container(border=True):
+    st.subheader("What you can learn")
+    st.write("Each finding explains what raised the concern, what remains unclear, "
+             "and what to check on site. You can download the report to share those details.")
+    st.write("For example, if a tool hides someone’s hands, the report can mark their gloves "
+             "as “cannot tell.” A clearer photo or a check on site can settle the question.")

@@ -1,0 +1,150 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        1003,
+        116,
+        1200,
+        673
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [
+        "object_0004",
+        "object_0005"
+      ],
+      "visual_basis_or_uncertainty": "PPE detections conflict or overlap more than one worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        1003,
+        116,
+        1200,
+        673
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [
+        "object_0001"
+      ],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        1003,
+        116,
+        1200,
+        673
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        1003,
+        116,
+        1200,
+        673
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        1003,
+        116,
+        1200,
+        673
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    }
+  ],
+  "visual_reasoning": {
+    "worker_ppe": [
+      {
+        "worker": "object_0000",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      }
+    ],
+    "machinery_assessments": {},
+    "worker_context": [
+      {
+        "worker": "object_0000",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      }
+    ]
+  },
+  "reasoning_model": "MiniCPM-V",
+  "reasoning_model_id": "minicpm-v:latest",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "ed565bcf5bb9351548d1993352c8a9d303ab02b96218fedb45a9ee08de27d347",
+  "photo_sha256": "071de2f78f0342b27efbec2b9d8f807362595aa4c85301d37711d074e4806d0e",
+  "worker_machinery_assessments": [],
+  "machinery_coverage": {
+    "candidate_pairs": 0,
+    "assessed_pairs": 0,
+    "workers_with_equipment_observed_without_candidate_pair": [],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "INSUFFICIENT",
+    "explanation": "The selected model did not provide enough object-linked evidence for a safety alert.",
+    "finding_count": 0
+  }
+}

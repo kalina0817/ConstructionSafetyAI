@@ -1,0 +1,370 @@
+{
+  "dataset": "ConstructionSite 10k",
+  "source": "https://huggingface.co/datasets/LouisChen15/ConstructionSite",
+  "license": "CC BY-NC 4.0",
+  "authors": "Xuezheng Chen and Zhengbo Zou",
+  "note": "Sampling strata and published captions are selection aids. Limited visibility does not establish an unassessable relationship.",
+  "photos": {
+    "Photo_09": {
+      "source_id": "0005025",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "2100dbb51b7d72736a79c104bc0008f86dcc426c44c0e91834a667e5dc5a2f66",
+      "stratum": "alongside_equipment",
+      "source_annotation": {
+        "image_id": "0005025",
+        "image_caption": "In the image, a muddy construction site is visible with tire tracks imprinted on the ground. Some metal sheets are paved on the ground. On the left side, there is a steep dirt embankment. Moving towards the center, there is a single worker standing in front of a yellow excavator that is positioned on a flat area with a dirt surface. On the right, a row of transmission tower and a row of street lamps can be observed above the trees and bushes.",
+        "illumination": "normal lighting",
+        "camera_distance": "long distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.49,
+            0.14,
+            0.54,
+            0.24
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_08": {
+      "source_id": "0005450",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "a1841a600c2e624d6e9c9db3a596894e1c55192b7865d4d594d73985b9b50aa0",
+      "stratum": "alongside_equipment",
+      "source_annotation": {
+        "image_id": "0005450",
+        "image_caption": "In the foreground, there is a car parked on the left, and a green dump truck is loaded with soil on the right. To the right of the dump truck, a worker is standing next to a bulldozer. Piles of orange pipes are behind the bulldozer. In the background, an excavator is operating on a raised area of dirt to the left. Buildings and vegetation are visible in the far background.",
+        "illumination": "normal lighting",
+        "camera_distance": "mid distance",
+        "view": "elevation view",
+        "quality_of_info": "rich info",
+        "rule_1_violation": {
+          "bounding_box": [
+            [
+              0.95,
+              0.63,
+              0.97,
+              0.71
+            ]
+          ],
+          "reason": "The worker on the right is not wearing a hard hat."
+        },
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.24,
+            0.54,
+            0.34,
+            0.62
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_03": {
+      "source_id": "0005913",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "40b7a8e0f639269022a890ce5a4fbcd7ad8d043dcce3b138e98a1a15ed2d88de",
+      "stratum": "alongside_equipment",
+      "source_annotation": {
+        "image_id": "0005913",
+        "image_caption": "In the foreground, a worker wearing a yellow hard hat and dark clothing is standing in front of a yellow excavator in the center. The excavator is positioned on a mound of broken bricks and debris. The background features a terraced landscape with fencing and vegetation. Power pylons are also visible running along the terrace.",
+        "illumination": "normal lighting",
+        "camera_distance": "short distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.3,
+            0.24,
+            0.7,
+            0.93
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_10": {
+      "source_id": "0006353",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "f38ba8fd9fc40f8b6f54c58f1e6a8a7f440a2a4fcf772850805d4ee24691e9a1",
+      "stratum": "alongside_equipment",
+      "source_annotation": {
+        "image_id": "0006353",
+        "image_caption": "The image shows a worker standing next to a roller compactor on the left, and a dump truck is positioned in the center with its box fully loaded. Various construction vehicles, including excavators and bulldozers, are actively engaged around piles of earth and construction materials in the midground. Several piles of orange pipes are on the left and two stacks of black corrugated pipes are on the right. A large crawler crane is situated towards the right in the background, with its boom extended upwards.",
+        "illumination": "normal lighting",
+        "camera_distance": "mid distance",
+        "view": "elevation view",
+        "quality_of_info": "rich info",
+        "rule_1_violation": {
+          "bounding_box": [
+            [
+              0.31,
+              0.67,
+              0.35,
+              0.78
+            ]
+          ],
+          "reason": "The worker on the left is not wearing a hard hat."
+        },
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.42,
+            0.55,
+            0.6,
+            0.66
+          ],
+          [
+            0.85,
+            0.57,
+            0.99,
+            0.66
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_12": {
+      "source_id": "0007157",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "101bee401d9b4561aff43a461c90b30ebbc8b5e40e2eaf6163c5f564aff615c5",
+      "stratum": "limited_visibility_candidate",
+      "source_annotation": {
+        "image_id": "0007157",
+        "image_caption": "The image shows a trench with a large black corrugated pipe installed at the bottom. A worker is standing inside the trench, inspecting or installing the pipe. To the right, two workers are present on the surface; one is standing with his back to the camera, wearing a white hard hat and a high-visibility vest, while the other is partially visible and appears to be observing or directing the work. An excavator is visible in the background, suggesting recent digging or earthmoving activity.",
+        "illumination": "overexposed",
+        "camera_distance": "mid distance",
+        "view": "elevation view",
+        "quality_of_info": "rich info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.54,
+            0.01,
+            0.67,
+            0.24
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_01": {
+      "source_id": "0007159",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "73d95d0aef5b63a84eb2ef9ba5749d639fb6344dcfd71134440015ba15bbd2f7",
+      "stratum": "on_equipment",
+      "source_annotation": {
+        "image_id": "0007159",
+        "image_caption": "In the foreground, an operator is seated inside an excavator that is positioned on an area of bare earth. The excavator's arm is extended to the left, and the bucket is resting on the ground. In the background, there is a large white tarp covering a section of the ground, and another piece of construction equipment is visible in the distance, slightly to the right.",
+        "illumination": "normal lighting",
+        "camera_distance": "short distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.01,
+            0.25,
+            0.96,
+            0.9
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_11": {
+      "source_id": "0007168",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "4bb9f55fa0f91898fbc83688ee801dd81f7a4a2f63f41298d884a4b69a08b283",
+      "stratum": "limited_visibility_candidate",
+      "source_annotation": {
+        "image_id": "0007168",
+        "image_caption": "The image shows a muddy construction site with a large black corrugated pipe on the ground. Two yellow excavators are positioned on either side of a trench, with one actively digging. There are several large concrete cylinders near the trench, with one being placed inside the trench. A worker in a blue shirt is visible near the trench, and another worker is partially visible behind the concrete cylinder.",
+        "illumination": "normal lighting",
+        "camera_distance": "mid distance",
+        "view": "elevation view",
+        "quality_of_info": "rich info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.52,
+            0.24,
+            0.69,
+            0.47
+          ],
+          [
+            0.63,
+            0.23,
+            0.94,
+            0.6
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_02": {
+      "source_id": "0007965",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "aad6401793dd1683f9c9dbca463f4f86a8b58732ac4da2da93da1a9239564d4a",
+      "stratum": "on_equipment",
+      "source_annotation": {
+        "image_id": "0007965",
+        "image_caption": "In the foreground, a worker is standing on a wheel loader, which is positioned next to another wheel loader on its right. Both wheel loaders are facing towards the right of the image, with the closest one having a bucket in a raised position.",
+        "illumination": "normal lighting",
+        "camera_distance": "mid distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_04": {
+      "source_id": "0008814",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "071de2f78f0342b27efbec2b9d8f807362595aa4c85301d37711d074e4806d0e",
+      "stratum": "limited_visibility_candidate",
+      "source_annotation": {
+        "image_id": "0008814",
+        "image_caption": "The image shows an excavator in operation, digging into a large mound of earth. The operator is visible inside the cab of the excavator. In the foreground, a person wearing a white shirt and a safety helmet is partially visible observing the work. The excavator is positioned on the edge of the freshly dug area, which appears to be part of a larger excavation site with exposed soil layers.",
+        "illumination": "normal lighting",
+        "camera_distance": "short distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.44,
+            0.01,
+            0.7,
+            0.69
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_07": {
+      "source_id": "0008847",
+      "source_shard": "train-00001-of-00002.parquet",
+      "sha256": "5a492fbde2707d37b6880a7bd17e401d2277dc1f030659f00549337ffc92f9b4",
+      "stratum": "on_equipment",
+      "source_annotation": {
+        "image_id": "0008847",
+        "image_caption": "The image shows a yellow excavator in the center, positioned on a mound of earth, with its arm extended and bucket in the air. A worker wearing a red shirt is standing on the excavator's tracks, appearing to be engaged in either operating or maintaining the equipment.",
+        "illumination": "normal lighting",
+        "camera_distance": "short distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.16,
+            0.23,
+            0.75,
+            0.77
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_05": {
+      "source_id": "0011780",
+      "source_shard": "train-00002-of-00002.parquet",
+      "sha256": "e9ebb94122c042355d0ddb1543b0b0658ae9f532c02a2832eae58f4157ddb513",
+      "stratum": "on_equipment",
+      "source_annotation": {
+        "image_id": "0011780",
+        "image_caption": "In the center of the image, an operator is seated inside a blue Kobelco excavator that is positioned on a dirt surface with visible tracks. The excavator's arm is extended towards the ground, which is covered with a mixture of soil and debris.",
+        "illumination": "normal lighting",
+        "camera_distance": "mid distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.0,
+            0.14,
+            0.95,
+            0.85
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    },
+    "Photo_06": {
+      "source_id": "0012610",
+      "source_shard": "train-00002-of-00002.parquet",
+      "sha256": "fe7a51ef17caa1b88f0f010f675ac159a64276f26fce5a61cec91073327bbfe3",
+      "stratum": "limited_visibility_candidate",
+      "source_annotation": {
+        "image_id": "0012610",
+        "image_caption": "In the foreground, a yellow excavator is positioned on a mound of dirt, with its arm extended and bucket resting on the ground. Behind the excavator, a large red crane with a vertical structure extends upward beyond the frame of the image. Blue tarps are draped over a structure or materials in the background, and a worker is partially visible behind the tarps, elevated on a platform or scaffolding.",
+        "illumination": "underexposed",
+        "camera_distance": "short distance",
+        "view": "elevation view",
+        "quality_of_info": "poor info",
+        "rule_1_violation": null,
+        "rule_2_violation": null,
+        "rule_3_violation": null,
+        "rule_4_violation": null,
+        "excavator": [
+          [
+            0.23,
+            0.53,
+            0.85,
+            0.99
+          ]
+        ],
+        "rebar": [],
+        "worker_with_white_hard_hat": []
+      }
+    }
+  }
+}

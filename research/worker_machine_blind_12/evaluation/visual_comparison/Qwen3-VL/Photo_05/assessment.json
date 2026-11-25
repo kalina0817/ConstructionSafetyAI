@@ -1,0 +1,320 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        769,
+        411,
+        855,
+        570
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        769,
+        411,
+        855,
+        570
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [
+        "object_0005"
+      ],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        769,
+        411,
+        855,
+        570
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        769,
+        411,
+        855,
+        570
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        769,
+        411,
+        855,
+        570
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        0,
+        139,
+        171,
+        679
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        0,
+        139,
+        171,
+        679
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [
+        "object_0002"
+      ],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        0,
+        139,
+        171,
+        679
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        0,
+        139,
+        171,
+        679
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        0,
+        139,
+        171,
+        679
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    }
+  ],
+  "visual_reasoning": {
+    "worker_ppe": [
+      {
+        "worker": "object_0001",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      }
+    ],
+    "machinery_assessments": {
+      "relationship_0000": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      },
+      "relationship_0001": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      },
+      "relationship_0003": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      }
+    },
+    "worker_context": [
+      {
+        "worker": "object_0001",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      }
+    ]
+  },
+  "reasoning_model": "Qwen3-VL",
+  "reasoning_model_id": "qwen3-vl:4b-instruct",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "c0c182679cf95c6963a7987ddde7811295fe4925f907f2dc9fd0e943eed85516",
+  "photo_sha256": "e9ebb94122c042355d0ddb1543b0b0658ae9f532c02a2832eae58f4157ddb513",
+  "worker_machinery_assessments": [
+    {
+      "worker": "object_0001",
+      "machine": "object_0000",
+      "relationship_id": "relationship_0000",
+      "machine_identity": "construction_vehicle",
+      "body_support": "not_visible",
+      "decision": "unassessable",
+      "visual_evidence": "The close-up does not establish an identifiable worker.",
+      "limitation": "A worker-specific relation requires an identifiable worker.",
+      "visible_relation": "unclear"
+    },
+    {
+      "worker": "object_0001",
+      "machine": "object_0003",
+      "relationship_id": "relationship_0001",
+      "machine_identity": "construction_vehicle",
+      "body_support": "not_visible",
+      "decision": "unassessable",
+      "visual_evidence": "The close-up does not establish an identifiable worker.",
+      "limitation": "A worker-specific relation requires an identifiable worker.",
+      "visible_relation": "unclear"
+    },
+    {
+      "worker": "object_0004",
+      "machine": "object_0000",
+      "relationship_id": "relationship_0003",
+      "machine_identity": "construction_vehicle",
+      "body_support": "not_visible",
+      "decision": "unassessable",
+      "visual_evidence": "The close-up does not establish an identifiable worker.",
+      "limitation": "A worker-specific relation requires an identifiable worker.",
+      "visible_relation": "unclear"
+    }
+  ],
+  "machinery_coverage": {
+    "candidate_pairs": 3,
+    "assessed_pairs": 3,
+    "workers_with_equipment_observed_without_candidate_pair": [],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "INSUFFICIENT",
+    "explanation": "The selected model did not provide enough object-linked evidence for a safety alert.",
+    "finding_count": 0
+  }
+}

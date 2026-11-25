@@ -1,0 +1,535 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        743,
+        520,
+        830,
+        640
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: no protective headgear visible",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        743,
+        520,
+        830,
+        640
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "vest obscured",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        743,
+        520,
+        830,
+        640
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: gloves visibly present",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        743,
+        520,
+        830,
+        640
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: boots visibly present",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0001",
+      "worker_box_xyxy": [
+        743,
+        520,
+        830,
+        640
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: eye protection visibly present",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        0,
+        394,
+        93,
+        600
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        0,
+        394,
+        93,
+        600
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        0,
+        394,
+        93,
+        600
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        0,
+        394,
+        93,
+        600
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        0,
+        394,
+        93,
+        600
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        741,
+        576,
+        777,
+        626
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: Visible hard hat on the person's head",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        741,
+        576,
+        777,
+        626
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: Visible vest on the person",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        741,
+        576,
+        777,
+        626
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: Visible gloves on the person's hands",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        741,
+        576,
+        777,
+        626
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: Visible boots on the person's feet",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0004",
+      "worker_box_xyxy": [
+        741,
+        576,
+        777,
+        626
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "Eye protection is obscured or not visible",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    }
+  ],
+  "visual_reasoning": {
+    "worker_ppe": [
+      {
+        "worker": "object_0001",
+        "item": "helmet",
+        "status": "potentially_missing",
+        "visual_basis": "no protective headgear visible"
+      },
+      {
+        "worker": "object_0001",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "vest obscured"
+      },
+      {
+        "worker": "object_0001",
+        "item": "gloves",
+        "status": "present",
+        "visual_basis": "gloves visibly present"
+      },
+      {
+        "worker": "object_0001",
+        "item": "boots",
+        "status": "present",
+        "visual_basis": "boots visibly present"
+      },
+      {
+        "worker": "object_0001",
+        "item": "eye_protection",
+        "status": "present",
+        "visual_basis": "eye protection visibly present"
+      },
+      {
+        "worker": "object_0002",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "helmet",
+        "status": "present",
+        "visual_basis": "Visible hard hat on the person's head"
+      },
+      {
+        "worker": "object_0004",
+        "item": "high_visibility_vest",
+        "status": "present",
+        "visual_basis": "Visible vest on the person"
+      },
+      {
+        "worker": "object_0004",
+        "item": "gloves",
+        "status": "potentially_missing",
+        "visual_basis": "Visible gloves on the person's hands"
+      },
+      {
+        "worker": "object_0004",
+        "item": "boots",
+        "status": "present",
+        "visual_basis": "Visible boots on the person's feet"
+      },
+      {
+        "worker": "object_0004",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "Eye protection is obscured or not visible"
+      }
+    ],
+    "machinery_assessments": {
+      "relationship_0000": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "not_supported",
+        "visual_evidence": "operator's feet on the machine step or deck",
+        "limitation": "operator's feet on the machine step or deck",
+        "visible_relation": "on_machine"
+      },
+      "relationship_0001": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "not_supported",
+        "visual_evidence": "operator's feet on the machine step or deck",
+        "limitation": "operator's feet on the machine step or deck",
+        "visible_relation": "on_machine"
+      },
+      "relationship_0002": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      },
+      "relationship_0003": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "supported",
+        "visual_evidence": "Visible feet on the machine step or deck, seated on the operator station",
+        "limitation": "No motion or real distance inferred",
+        "visible_relation": "on_machine"
+      },
+      "relationship_0004": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "supported",
+        "visual_evidence": "Visible feet on the machine step or deck, seated on the operator station",
+        "limitation": "No motion or real distance inferred",
+        "visible_relation": "on_machine"
+      }
+    },
+    "worker_context": [
+      {
+        "worker": "object_0001",
+        "subject": "person",
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "position": "standing_on_equipment",
+        "reason": "feet visibly rest on the machine step or deck"
+      },
+      {
+        "worker": "object_0002",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "subject": "person",
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "position": "standing_on_equipment",
+        "reason": "The person is seated on the operator station of the excavator"
+      }
+    ]
+  },
+  "reasoning_model": "MiniCPM-V",
+  "reasoning_model_id": "minicpm-v:latest",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "90ac89df9d2381ad83407bfcf6aa26fbe7ba62a559f359467c3ed50a4b6593d3",
+  "photo_sha256": "73d95d0aef5b63a84eb2ef9ba5749d639fb6344dcfd71134440015ba15bbd2f7",
+  "worker_machinery_assessments": [
+    {
+      "worker": "object_0001",
+      "machine": "object_0000",
+      "relationship_id": "relationship_0000",
+      "machine_identity": "construction_vehicle",
+      "body_support": "feet_on_machine_step_or_deck",
+      "decision": "not_supported",
+      "visual_evidence": "operator's feet on the machine step or deck",
+      "limitation": "operator's feet on the machine step or deck",
+      "visible_relation": "on_machine"
+    },
+    {
+      "worker": "object_0001",
+      "machine": "object_0003",
+      "relationship_id": "relationship_0001",
+      "machine_identity": "construction_vehicle",
+      "body_support": "feet_on_machine_step_or_deck",
+      "decision": "not_supported",
+      "visual_evidence": "operator's feet on the machine step or deck",
+      "limitation": "operator's feet on the machine step or deck",
+      "visible_relation": "on_machine"
+    },
+    {
+      "worker": "object_0002",
+      "machine": "object_0000",
+      "relationship_id": "relationship_0002",
+      "machine_identity": "construction_vehicle",
+      "body_support": "not_visible",
+      "decision": "unassessable",
+      "visual_evidence": "The close-up does not establish an identifiable worker.",
+      "limitation": "A worker-specific relation requires an identifiable worker.",
+      "visible_relation": "unclear"
+    },
+    {
+      "worker": "object_0004",
+      "machine": "object_0000",
+      "relationship_id": "relationship_0003",
+      "machine_identity": "construction_vehicle",
+      "body_support": "feet_on_machine_step_or_deck",
+      "decision": "supported",
+      "visual_evidence": "Visible feet on the machine step or deck, seated on the operator station",
+      "limitation": "No motion or real distance inferred",
+      "visible_relation": "on_machine"
+    },
+    {
+      "worker": "object_0004",
+      "machine": "object_0003",
+      "relationship_id": "relationship_0004",
+      "machine_identity": "construction_vehicle",
+      "body_support": "feet_on_machine_step_or_deck",
+      "decision": "supported",
+      "visual_evidence": "Visible feet on the machine step or deck, seated on the operator station",
+      "limitation": "No motion or real distance inferred",
+      "visible_relation": "on_machine"
+    }
+  ],
+  "machinery_coverage": {
+    "candidate_pairs": 5,
+    "assessed_pairs": 5,
+    "workers_with_equipment_observed_without_candidate_pair": [],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [
+      {
+        "finding_id": "finding_0000",
+        "finding_category": "potential_worker_machinery_interaction",
+        "status": "potential",
+        "alert_generated_automatically": true,
+        "source_object_ids": [
+          "object_0004",
+          "object_0000"
+        ],
+        "observation": "Visual reasoning flagged a potential worker\u2013machinery interaction.",
+        "evidence": {
+          "relationship": {
+            "relationship_id": "relationship_0003",
+            "source_id": "object_0004",
+            "predicate": "near_machinery_in_image",
+            "target_id": "object_0000",
+            "evidence": {
+              "edge_distance_pixels": 0.0,
+              "normalized_edge_distance": 0.0,
+              "review_threshold": 0.05,
+              "boxes_overlap": true,
+              "center_distance_pixels": 391.82
+            },
+            "interpretation_limit": "This is image-space geometry only; it does not establish physical distance, machine operation, an exclusion zone, or a hazard."
+          },
+          "visual_evidence": "Visible feet on the machine step or deck, seated on the operator station"
+        },
+        "recommendation": "Check the machinery's operating status and applicable site exclusion zones. Maintain appropriate separation procedures and confirm that workers are following the site's machinery safety requirements.",
+        "limitation": "No motion or real distance inferred A single image and bounding boxes cannot establish operating status, real-world distance, an exclusion-zone boundary, or an unsafe interaction.",
+        "uncertainty_reasons": [
+          "No motion or real distance inferred A single image and bounding boxes cannot establish operating status, real-world distance, an exclusion-zone boundary, or an unsafe interaction."
+        ]
+      },
+      {
+        "finding_id": "finding_0001",
+        "finding_category": "potential_worker_machinery_interaction",
+        "status": "potential",
+        "alert_generated_automatically": true,
+        "source_object_ids": [
+          "object_0004",
+          "object_0003"
+        ],
+        "observation": "Visual reasoning flagged a potential worker\u2013machinery interaction.",
+        "evidence": {
+          "relationship": {
+            "relationship_id": "relationship_0004",
+            "source_id": "object_0004",
+            "predicate": "near_machinery_in_image",
+            "target_id": "object_0003",
+            "evidence": {
+              "edge_distance_pixels": 0.0,
+              "normalized_edge_distance": 0.0,
+              "review_threshold": 0.05,
+              "boxes_overlap": true,
+              "center_distance_pixels": 155.02
+            },
+            "interpretation_limit": "This is image-space geometry only; it does not establish physical distance, machine operation, an exclusion zone, or a hazard."
+          },
+          "visual_evidence": "Visible feet on the machine step or deck, seated on the operator station"
+        },
+        "recommendation": "Check the machinery's operating status and applicable site exclusion zones. Maintain appropriate separation procedures and confirm that workers are following the site's machinery safety requirements.",
+        "limitation": "No motion or real distance inferred A single image and bounding boxes cannot establish operating status, real-world distance, an exclusion-zone boundary, or an unsafe interaction.",
+        "uncertainty_reasons": [
+          "No motion or real distance inferred A single image and bounding boxes cannot establish operating status, real-world distance, an exclusion-zone boundary, or an unsafe interaction."
+        ]
+      }
+    ],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "POTENTIAL",
+    "explanation": "The selected model generated 2 potential safety alert(s).",
+    "finding_count": 2
+  }
+}

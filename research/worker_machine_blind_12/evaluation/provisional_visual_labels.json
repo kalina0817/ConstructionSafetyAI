@@ -1,0 +1,167 @@
+{
+  "author": "Codex (AI visual review)",
+  "review_date": "2026-11-24",
+  "scope": "Selected identifiable worker-machine pairs in 12 full-resolution images; no inference outputs consulted. Source captions and strata were available from prior sampling. Exploratory reference only. Unlisted pairs are unscored.",
+  "rows": [
+    {
+      "photo": "Photo_01",
+      "worker": "Dark jacket inside open cab",
+      "machine": "Cream tracked excavator",
+      "relationship": "on_machine",
+      "evidence": "Bent knees, feet in the footwell and seat directly behind the torso identify a seated occupant.",
+      "uncertainty": "Seat is visible. Control use and motion cannot be established.",
+      "hazard": "unsupported",
+      "hazard_evidence": "Cab occupancy alone supplies no specific exposure."
+    },
+    {
+      "photo": "Photo_02",
+      "worker": "Red shirt at rear left of cab",
+      "machine": "Large foreground wheel loader",
+      "relationship": "unassessable",
+      "evidence": "Head and upper torso appear beside the cab above the rear housing.",
+      "uncertainty": "Housing hides legs, feet and their support. The source describes standing on the loader; the exact support is unresolved in the photo.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The person's footing and task are hidden."
+    },
+    {
+      "photo": "Photo_03",
+      "worker": "Yellow helmet and dark clothing, left foreground",
+      "machine": "Yellow excavator facing camera",
+      "relationship": "beside_machine",
+      "evidence": "Both feet are on rubble to the left of the bucket in the image.",
+      "uncertainty": "Depth and physical clearance from the bucket are uncertain.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The bucket is visible near the worker in projection; its path and clearance cannot be established."
+    },
+    {
+      "photo": "Photo_04",
+      "worker": "Striped shirt behind cab glass",
+      "machine": "Orange excavator",
+      "relationship": "on_machine",
+      "evidence": "Torso and bent legs occupy the operator station behind the front glass.",
+      "uncertainty": "The glass limits detail at the controls.",
+      "hazard": "unsupported",
+      "hazard_evidence": "A person in the operator station alone supplies no specific exposure."
+    },
+    {
+      "photo": "Photo_04",
+      "worker": "White shirt cropped at right edge",
+      "machine": "Same orange excavator",
+      "relationship": "in_same_scene_as",
+      "evidence": "The person's shoulder and arm are visible in the foreground and the excavator is across the trench.",
+      "uncertainty": "Feet and distance from the bucket are outside or unresolved in the frame.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The person's location relative to the bucket path is unclear."
+    },
+    {
+      "photo": "Photo_05",
+      "worker": "Purple shirt in open cab",
+      "machine": "Blue Kobelco excavator",
+      "relationship": "on_machine",
+      "evidence": "The person's back is against the seat, knees are bent, and feet are inside the cab.",
+      "uncertainty": "Machine movement and use of the controls are uncertain.",
+      "hazard": "unsupported",
+      "hazard_evidence": "The visible seated position alone supplies no specific exposure."
+    },
+    {
+      "photo": "Photo_06",
+      "worker": "Distant blue figure behind tarps, left",
+      "machine": "Yellow foreground excavator",
+      "relationship": "in_same_scene_as",
+      "evidence": "A small upper body is visible behind the railing and tarp to the left of the excavator.",
+      "uncertainty": "The tarp hides the lower body. The actual support surface and distance are unresolved.",
+      "hazard": "unassessable",
+      "hazard_evidence": "Occlusion and depth prevent judging exposure."
+    },
+    {
+      "photo": "Photo_07",
+      "worker": "Red jacket just behind boom",
+      "machine": "Yellow Komatsu excavator",
+      "relationship": "in_same_scene_as",
+      "evidence": "The visible legs project against the dirt bank above the track. The boom obscures part of the body.",
+      "uncertainty": "The source describes standing on the track. The feet cannot be linked visually to that track; the exact support is unassessable.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The worker projects close to the boom. Depth and clearance are unresolved."
+    },
+    {
+      "photo": "Photo_08",
+      "worker": "Dark-clothed person at far right",
+      "machine": "Tracked bulldozer beside orange pipes",
+      "relationship": "beside_machine",
+      "evidence": "Legs extend to the dirt to the right of the bulldozer; the tracks are visible separately.",
+      "uncertainty": "Depth, machine movement and sight lines are uncertain.",
+      "hazard": "unsupported",
+      "hazard_evidence": "The photo establishes co-location without a specific contact or load exposure."
+    },
+    {
+      "photo": "Photo_09",
+      "worker": "Small dark figure at far end of access road",
+      "machine": "Central yellow excavator",
+      "relationship": "in_same_scene_as",
+      "evidence": "The upright figure is visible immediately left of the excavator in projection.",
+      "uncertainty": "Distance and image detail prevent a reliable support or clearance judgment.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The person's position relative to the bucket path is unresolved."
+    },
+    {
+      "photo": "Photo_10",
+      "worker": "Dark-clothed foreground worker, left of truck",
+      "machine": "Yellow roller compactor",
+      "relationship": "beside_machine",
+      "evidence": "The worker stands on dirt beside the large rear wheel. The legs extend to the dirt below the wheel hub.",
+      "uncertainty": "Distance and vehicle movement are unresolved.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The wheel is close in projection; actual clearance and travel direction are unknown."
+    },
+    {
+      "photo": "Photo_11",
+      "worker": "Blue-clothed person at pipe mouth in trench",
+      "machine": "Rear excavator beside red truck",
+      "relationship": "in_same_scene_as",
+      "evidence": "Worker and corrugated pipe are visible below the rear excavator. The bucket is visible against the sky.",
+      "uncertainty": "Depth between the worker, boom and bucket cannot be established.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The image does not resolve whether the bucket could reach this worker."
+    },
+    {
+      "photo": "Photo_11",
+      "worker": "Upright person on left lip of trench, behind pipe",
+      "machine": "Same rear excavator",
+      "relationship": "in_same_scene_as",
+      "evidence": "A small upright figure appears along the left edge near the pipe; the excavator is behind it in the frame.",
+      "uncertainty": "Person is too small for precise footing, clearance or action.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The relationship to the excavator's working area is unresolved."
+    },
+    {
+      "photo": "Photo_12",
+      "worker": "Yellow-helmeted person inside narrow trench",
+      "machine": "Excavator with bucket extending into trench",
+      "relationship": "in_same_scene_as",
+      "evidence": "Person stands below the banks with arms extended to the sides. The bucket occupies the same narrow trench ahead of the worker.",
+      "uncertainty": "A still image cannot establish whether the bucket is moving or its exact distance.",
+      "hazard": "supported",
+      "hazard_evidence": "Potential struck-by or crushing exposure warrants review because the worker and bucket occupy the same confined trench."
+    },
+    {
+      "photo": "Photo_12",
+      "worker": "Person in green trousers on upper bank",
+      "machine": "Same excavator",
+      "relationship": "beside_machine",
+      "evidence": "Both sets of legs end on the upper dirt bank to the right of the machine.",
+      "uncertainty": "Upper bodies and their tasks are cropped. Their clearance is uncertain.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The visible feet alone do not establish exposure to the bucket."
+    },
+    {
+      "photo": "Photo_12",
+      "worker": "Person in light trousers on upper bank",
+      "machine": "Same excavator",
+      "relationship": "beside_machine",
+      "evidence": "Both sets of legs end on the upper dirt bank to the right of the machine.",
+      "uncertainty": "Upper bodies and their tasks are cropped. Their clearance is uncertain.",
+      "hazard": "unassessable",
+      "hazard_evidence": "The visible feet alone do not establish exposure to the bucket."
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "status": "COMPLETED",
+  "model_label": "MiniCPM-V",
+  "model_name": "minicpm-v:latest",
+  "prompt_version": "worker_scene_screening_v6",
+  "image_path": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_02.jpg",
+  "created_utc": "2026-11-25T04:57:36.671200+00:00",
+  "metadata": {
+    "views": {
+      "object_0001": {
+        "elapsed_seconds": 300.826,
+        "prompt_eval_count": 594,
+        "eval_count": 379,
+        "total_duration_ns": 298737739800,
+        "load_duration_ns": 236568600,
+        "prompt_eval_duration_ns": 79883443000,
+        "eval_duration_ns": 85084518000,
+        "thinking_disabled": false
+      },
+      "object_0001_head_detail": {
+        "elapsed_seconds": 62.71,
+        "prompt_eval_count": 325,
+        "eval_count": 17,
+        "total_duration_ns": 60675906600,
+        "load_duration_ns": 54257600,
+        "prompt_eval_duration_ns": 56837369000,
+        "eval_duration_ns": 3587073000,
+        "thinking_disabled": false
+      }
+    },
+    "elapsed_seconds": 363.536
+  },
+  "analysis": {
+    "worker_ppe": [
+      {
+        "worker": "object_0001",
+        "item": "helmet",
+        "status": "potentially_missing",
+        "visual_basis": "Head detail: fabric"
+      },
+      {
+        "worker": "object_0001",
+        "item": "high_visibility_vest",
+        "status": "present",
+        "visual_basis": "vest visible on person"
+      },
+      {
+        "worker": "object_0001",
+        "item": "gloves",
+        "status": "potentially_missing",
+        "visual_basis": "gloves not visible"
+      },
+      {
+        "worker": "object_0001",
+        "item": "boots",
+        "status": "present",
+        "visual_basis": "boots visible on person"
+      },
+      {
+        "worker": "object_0001",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "eye protection obscured"
+      }
+    ],
+    "machinery_assessments": {
+      "relationship_0000": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "not_supported",
+        "visual_evidence": "feet on machine step or deck, person seated on equipment",
+        "limitation": "no evidence of motion or real distance",
+        "visible_relation": "on_machine"
+      },
+      "relationship_0001": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "not_supported",
+        "visual_evidence": "feet on machine step or deck, person seated on equipment",
+        "limitation": "no evidence of motion or real distance",
+        "visible_relation": "on_machine"
+      }
+    },
+    "worker_context": [
+      {
+        "worker": "object_0001",
+        "subject": "person",
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "position": "standing_on_equipment",
+        "reason": "feet on machine step or deck, person seated on equipment"
+      }
+    ]
+  },
+  "raw_response": {
+    "object_0001": "{ \"subject\": \"person\", \"headwear\": { \"appearance\": \"rigid_hard_hat\",\"reason\": \"visible hard hat on person's head\" }, \"ppe\": { \"high_visibility_vest\": { \"status\": \"p\",\"reason\": \"vest visible on person\" }, \"gloves\": { \"status\": \"m\",\"reason\": \"gloves not visible\" }, \"boots\": { \"status\": \"p\",\"reason\": \"boots visible on person\" }, \"eye_protection\": { \"status\": \"u\",\"reason\": \"eye protection obscured\" } }, \"equipment_context\": { \"machine_identity\": \"construction_vehicle\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"seated_on_equipment\", \"reason\": \"feet on machine step or deck, person seated on equipment\" }, \"machinery\": { \"relationship_0000\": { \"machine_identity\": \"construction_vehicle\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"seated_on_equipment\", \"decision\": \"not_supported\",\"visual_evidence\": \"feet on machine step or deck, person seated on equipment\",\"limitation\": \"no evidence of motion or real distance\" }, \"relationship_0001\": { \"machine_identity\": \"construction_vehicle\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"seated_on_equipment\", \"decision\": \"not_supported\",\"visual_evidence\": \"feet on machine step or deck, person seated on equipment\",\"limitation\": \"no evidence of motion or real distance\" } } }",
+    "object_0001_head_detail": "{ \"appearance\": \"soft_cap\", \"reason\": \"fabric\" }"
+  },
+  "error": null
+}

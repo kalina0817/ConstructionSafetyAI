@@ -1,0 +1,378 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        665,
+        149,
+        763,
+        297
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "present",
+      "evidence_object_ids": [
+        "object_0001"
+      ],
+      "visual_basis_or_uncertainty": "visible hard hat on head",
+      "preventive_recommendation": ""
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        665,
+        149,
+        763,
+        297
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "present",
+      "evidence_object_ids": [
+        "object_0004"
+      ],
+      "visual_basis_or_uncertainty": "visible vest on person",
+      "preventive_recommendation": ""
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        665,
+        149,
+        763,
+        297
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: visible gloves on hands",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        665,
+        149,
+        763,
+        297
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "present",
+      "evidence_object_ids": [
+        "object_0005"
+      ],
+      "visual_basis_or_uncertainty": "visible boots on feet",
+      "preventive_recommendation": ""
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        665,
+        149,
+        763,
+        297
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "unclear eye protection, possibly obscured by hair",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        910,
+        2,
+        956,
+        100
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        910,
+        2,
+        956,
+        100
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        910,
+        2,
+        956,
+        100
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        910,
+        2,
+        956,
+        100
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0002",
+      "worker_box_xyxy": [
+        910,
+        2,
+        956,
+        100
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0003",
+      "worker_box_xyxy": [
+        861,
+        0,
+        910,
+        53
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0003",
+      "worker_box_xyxy": [
+        861,
+        0,
+        910,
+        53
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0003",
+      "worker_box_xyxy": [
+        861,
+        0,
+        910,
+        53
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0003",
+      "worker_box_xyxy": [
+        861,
+        0,
+        910,
+        53
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0003",
+      "worker_box_xyxy": [
+        861,
+        0,
+        910,
+        53
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "The close-up does not establish an identifiable worker.",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    }
+  ],
+  "visual_reasoning": {
+    "worker_ppe": [
+      {
+        "worker": "object_0000",
+        "item": "helmet",
+        "status": "present",
+        "visual_basis": "visible hard hat on head"
+      },
+      {
+        "worker": "object_0000",
+        "item": "high_visibility_vest",
+        "status": "present",
+        "visual_basis": "visible vest on person"
+      },
+      {
+        "worker": "object_0000",
+        "item": "gloves",
+        "status": "present",
+        "visual_basis": "visible gloves on hands"
+      },
+      {
+        "worker": "object_0000",
+        "item": "boots",
+        "status": "present",
+        "visual_basis": "visible boots on feet"
+      },
+      {
+        "worker": "object_0000",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "unclear eye protection, possibly obscured by hair"
+      },
+      {
+        "worker": "object_0002",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      }
+    ],
+    "machinery_assessments": {},
+    "worker_context": [
+      {
+        "worker": "object_0000",
+        "subject": "person",
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "position": "standing_on_equipment",
+        "reason": "feet visibly rest on machine step or deck, indicating body support relative to the machine."
+      },
+      {
+        "worker": "object_0002",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      }
+    ]
+  },
+  "reasoning_model": "MiniCPM-V",
+  "reasoning_model_id": "minicpm-v:latest",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "ee97c1414470eb9e308e0e8b0d2d0a02c2302c703143c891fa118cc83d6c7834",
+  "photo_sha256": "101bee401d9b4561aff43a461c90b30ebbc8b5e40e2eaf6163c5f564aff615c5",
+  "worker_machinery_assessments": [],
+  "machinery_coverage": {
+    "candidate_pairs": 0,
+    "assessed_pairs": 0,
+    "workers_with_equipment_observed_without_candidate_pair": [
+      "object_0000"
+    ],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "INSUFFICIENT",
+    "explanation": "The selected model did not provide enough object-linked evidence for a safety alert.",
+    "finding_count": 0
+  }
+}

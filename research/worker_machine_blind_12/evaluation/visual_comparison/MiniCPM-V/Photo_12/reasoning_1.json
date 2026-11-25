@@ -1,0 +1,168 @@
+{
+  "status": "COMPLETED",
+  "model_label": "MiniCPM-V",
+  "model_name": "minicpm-v:latest",
+  "prompt_version": "worker_scene_screening_v6",
+  "image_path": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_12.jpg",
+  "created_utc": "2026-11-25T05:29:29.804251+00:00",
+  "metadata": {
+    "views": {
+      "object_0000": {
+        "elapsed_seconds": 124.728,
+        "prompt_eval_count": 572,
+        "eval_count": 191,
+        "total_duration_ns": 122699553200,
+        "load_duration_ns": 47402200,
+        "prompt_eval_duration_ns": 75295292000,
+        "eval_duration_ns": 47227597000,
+        "thinking_disabled": false
+      },
+      "object_0002": {
+        "elapsed_seconds": 121.095,
+        "prompt_eval_count": 572,
+        "eval_count": 199,
+        "total_duration_ns": 119046844800,
+        "load_duration_ns": 45123000,
+        "prompt_eval_duration_ns": 72017308000,
+        "eval_duration_ns": 46829627000,
+        "thinking_disabled": false
+      },
+      "object_0003": {
+        "elapsed_seconds": 138.905,
+        "prompt_eval_count": 638,
+        "eval_count": 201,
+        "total_duration_ns": 136876856500,
+        "load_duration_ns": 21918900,
+        "prompt_eval_duration_ns": 92006961000,
+        "eval_duration_ns": 44693939000,
+        "thinking_disabled": false
+      }
+    },
+    "elapsed_seconds": 384.728
+  },
+  "analysis": {
+    "worker_ppe": [
+      {
+        "worker": "object_0000",
+        "item": "helmet",
+        "status": "present",
+        "visual_basis": "visible hard hat on head"
+      },
+      {
+        "worker": "object_0000",
+        "item": "high_visibility_vest",
+        "status": "present",
+        "visual_basis": "visible vest on person"
+      },
+      {
+        "worker": "object_0000",
+        "item": "gloves",
+        "status": "present",
+        "visual_basis": "visible gloves on hands"
+      },
+      {
+        "worker": "object_0000",
+        "item": "boots",
+        "status": "present",
+        "visual_basis": "visible boots on feet"
+      },
+      {
+        "worker": "object_0000",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "unclear eye protection, possibly obscured by hair"
+      },
+      {
+        "worker": "object_0002",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0002",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      }
+    ],
+    "machinery_assessments": {},
+    "worker_context": [
+      {
+        "worker": "object_0000",
+        "subject": "person",
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "position": "standing_on_equipment",
+        "reason": "feet visibly rest on machine step or deck, indicating body support relative to the machine."
+      },
+      {
+        "worker": "object_0002",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0003",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      }
+    ]
+  },
+  "raw_response": {
+    "object_0000": "{\"subject\": \"person\", \"headwear\": {\"appearance\": \"rigid_hard_hat\", \"reason\": \"visible hard hat on head\"}, \"ppe\": {\"high_visibility_vest\": {\"status\": \"p\", \"reason\": \"visible vest on person\"}, \"gloves\": {\"status\": \"p\", \"reason\": \"visible gloves on hands\"}, \"boots\": {\"status\": \"p\", \"reason\": \"visible boots on feet\"}, \"eye_protection\": {\"status\": \"u\", \"reason\": \"unclear eye protection, possibly obscured by hair\"}},\"equipment_context\": {\"machine_identity\": \"construction_vehicle\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"standing_on_equipment\", \"reason\": \"feet visibly rest on machine step or deck, indicating body support relative to the machine.\"}, \"machinery\": {} }",
+    "object_0002": "{\"subject\": \"not_person\", \"headwear\": {\"appearance\": \"rigid_hard_hat\", \"reason\": \"visible hard hat worn by worker in trench\"}, \"ppe\": {\"high_visibility_vest\": {\"status\": \"p\", \"reason\": \"visible high-visibility vest on worker in trench\"}, \"gloves\": {\"status\": \"p\", \"reason\": \"visible gloves on worker in trench\"}, \"boots\": {\"status\": \"p\", \"reason\": \"visible boots on worker in trench\"}, \"eye_protection\": {\"status\": \"u\", \"reason\": \"eye protection obscured by helmet\"}}, \"equipment_context\": {\"machine_identity\": \"construction_vehicle\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"standing_on_equipment\", \"reason\": \"feet visible on machine step or deck, worker standing on it\"}, \"machinery\": {} }",
+    "object_0003": "{\"subject\": \"not_person\", \"headwear\": {\"appearance\": \"rigid_hard_hat\", \"reason\": \"Visible on the worker's head.\"}, \"ppe\": {\"high_visibility_vest\": {\"status\": \"p\", \"reason\": \"Visible on the worker's upper body.\"}, \"gloves\": {\"status\": \"p\", \"reason\": \"Visible on the worker's hands.\"}, \"boots\": {\"status\": \"p\", \"reason\": \"Visible on the worker's feet.\"}, \"eye_protection\": {\"status\": \"u\", \"reason\": \"Obscured by hair.\"}}, \"equipment_context\": {\"machine_identity\": \"powered_work_machine\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"standing_on_equipment\", \"reason\": \"The worker's feet are visible on the machine's step or deck, indicating physical support.\"}, \"machinery\": {} }"
+  },
+  "error": null
+}

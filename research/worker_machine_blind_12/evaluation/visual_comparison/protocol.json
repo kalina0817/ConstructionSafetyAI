@@ -1,0 +1,19 @@
+{
+  "review": "AI-assisted provisional, source captions previously visible; test of the app, not human-adjudicated accuracy.",
+  "matched_unit": "Use the representative edge recorded before inference for each of the 16 selected worker-machine pairs. An absent edge counts as unavailable for end-to-end coverage, never as a correct negative or a visual model abstention. Other edges are unscored.",
+  "relationship_scoring": "Exact label agreement among determinate linked pairs, with relation unclear treated as abstention. Report the unassessable reference pair separately. Scene-graph rules supply only image-space proximity and no semantic relationship classification.",
+  "evidence_scoring": "For each representative linked pair, compare the claimed worker support/contact with the original photo and provisional evidence: supported, contradicted, or indeterminate. A correct coarse label alone does not establish supported evidence. Account separately for abstained relations or absent edges.",
+  "hazards": "Scored against pair-specific supported, unsupported and unassessable references. Report alerts on unassessable pairs separately from false alerts. No PPE reference scores are available for this batch.",
+  "source_sha256": {
+    "app.py": "f6ffffffe3c6db1aeb4d3fbf3351e29f490341ac239277867a920dfbbb571ed8",
+    "integrated_app.py": "4552c4c441904fda738801ceb5acb059286192ff01b9ecb8ffa8e29e9b243652",
+    "screening_assessment.py": "cc5b2e5a8dc1c42623f98facaea1a27e675c58a440ad830e68ec21fcf291a5ea",
+    "vision_language_reasoning.py": "b192f7e506d12f1f109043340101778b53a5882dbc92c63af858ef5c302604e0",
+    "unified_inference.py": "4bcad672ac12bc7a1406ad8f944d382d3b5e6f10500436f2df7118c8fb3a6844",
+    "reasoning_engine.py": "a7b7e77799e5bdfcbeaa1bf67d8be0dc1c633eb61a38edd3891c2eaecf2c0fa3",
+    "ppe_safety_rules.py": "1be8c9dddc4b68f3ab02f1fd19a4b23724f30aa2e9d1e5d0c0f717d0bc2553ba"
+  },
+  "provisional_labels_sha256": "56baf177861502529fedcfe6e8c47e635bf540af513e930097358cd1d12a2652",
+  "coverage_sha256": "e7b2aef652b91524ec4fad5f8ce242360b4e1f0be9c58c84b052d30538e03869",
+  "ui_change_since_freeze": "integrated_app.py optional-review path repair; frozen scene graphs and unchanged reasoning code used directly."
+}

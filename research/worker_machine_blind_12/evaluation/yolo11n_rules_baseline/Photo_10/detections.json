@@ -1,0 +1,1156 @@
+{
+    "input_image": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_10.jpg",
+    "confidence_threshold": 0.25,
+    "image_size": 640,
+    "device": "cpu",
+    "model_mode": "yolo",
+    "screening_checkpoints": {
+        "PPE": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\runs\\detect\\runs\\detect\\ppe_yolo11n_postcorrection_15ep\\weights\\best.pt",
+        "Toolset": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\models\\toolset35_final_model\\toolset35_yolo11n_best.pt",
+        "Vehicles": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\runs\\detect\\runs\\detect\\vehicle_yolo11n_corrected_dataset_5ep\\weights\\best.pt"
+    },
+    "model_selection": {
+        "PPE": "YOLO11n",
+        "Toolset": "YOLO11n",
+        "Vehicles": "YOLO11n"
+    },
+    "total_detections": 7,
+    "retained_detection_count": 6,
+    "suppressed_duplicate_count": 1,
+    "different_class_overlap_review_count": 0,
+    "raw_person_detection_count": 2,
+    "filtered_person_detection_count": 1,
+    "duplicate_filter_thresholds": {
+        "iou": 0.6,
+        "containment": 0.85,
+        "minimum_area_ratio": 0.3
+    },
+    "suppressed_duplicate_detections": [
+        {
+            "candidate": {
+                "detector": "PPE",
+                "model_variant": "YOLO11n",
+                "class_id": 0,
+                "class_name": "Person",
+                "confidence": 0.5617,
+                "box_xyxy": [
+                    381,
+                    610,
+                    413,
+                    700
+                ],
+                "source_detection_index": 1
+            },
+            "kept_detection": {
+                "detector": "PPE",
+                "model_variant": "YOLO11n",
+                "class_id": 0,
+                "class_name": "Person",
+                "confidence": 0.57542,
+                "box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "source_detection_index": 0
+            },
+            "iou": 0.5075,
+            "containment": 0.9889,
+            "area_ratio": 0.5161,
+            "same_semantic_class": true,
+            "reason": "duplicate_object_overlap"
+        }
+    ],
+    "possible_cross_class_duplicates": [],
+    "detections": [
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.57542,
+            "box_xyxy": [
+                378,
+                606,
+                438,
+                699
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.5617,
+            "box_xyxy": [
+                381,
+                610,
+                413,
+                700
+            ],
+            "source_detection_index": 1
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 8,
+            "class_name": "Mobile Crane",
+            "confidence": 0.5262,
+            "box_xyxy": [
+                815,
+                135,
+                1013,
+                574
+            ],
+            "source_detection_index": 2
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 6,
+            "class_name": "Loader",
+            "confidence": 0.40807,
+            "box_xyxy": [
+                130,
+                539,
+                452,
+                702
+            ],
+            "source_detection_index": 3
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.39291,
+            "box_xyxy": [
+                500,
+                497,
+                708,
+                573
+            ],
+            "source_detection_index": 4
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 2,
+            "class_name": "Dump Truck",
+            "confidence": 0.36812,
+            "box_xyxy": [
+                613,
+                531,
+                970,
+                726
+            ],
+            "source_detection_index": 5
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.2929,
+            "box_xyxy": [
+                970,
+                521,
+                1199,
+                641
+            ],
+            "source_detection_index": 6
+        }
+    ],
+    "selected_model_detections": [
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.57542,
+            "box_xyxy": [
+                378,
+                606,
+                438,
+                699
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.5617,
+            "box_xyxy": [
+                381,
+                610,
+                413,
+                700
+            ],
+            "source_detection_index": 1
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 8,
+            "class_name": "Mobile Crane",
+            "confidence": 0.5262,
+            "box_xyxy": [
+                815,
+                135,
+                1013,
+                574
+            ],
+            "source_detection_index": 2
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 6,
+            "class_name": "Loader",
+            "confidence": 0.40807,
+            "box_xyxy": [
+                130,
+                539,
+                452,
+                702
+            ],
+            "source_detection_index": 3
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.39291,
+            "box_xyxy": [
+                500,
+                497,
+                708,
+                573
+            ],
+            "source_detection_index": 4
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 2,
+            "class_name": "Dump Truck",
+            "confidence": 0.36812,
+            "box_xyxy": [
+                613,
+                531,
+                970,
+                726
+            ],
+            "source_detection_index": 5
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.2929,
+            "box_xyxy": [
+                970,
+                521,
+                1199,
+                641
+            ],
+            "source_detection_index": 6
+        }
+    ],
+    "yolo11n_detections": [
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.57542,
+            "box_xyxy": [
+                378,
+                606,
+                438,
+                699
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.5617,
+            "box_xyxy": [
+                381,
+                610,
+                413,
+                700
+            ],
+            "source_detection_index": 1
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 8,
+            "class_name": "Mobile Crane",
+            "confidence": 0.5262,
+            "box_xyxy": [
+                815,
+                135,
+                1013,
+                574
+            ],
+            "source_detection_index": 2
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 6,
+            "class_name": "Loader",
+            "confidence": 0.40807,
+            "box_xyxy": [
+                130,
+                539,
+                452,
+                702
+            ],
+            "source_detection_index": 3
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.39291,
+            "box_xyxy": [
+                500,
+                497,
+                708,
+                573
+            ],
+            "source_detection_index": 4
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 2,
+            "class_name": "Dump Truck",
+            "confidence": 0.36812,
+            "box_xyxy": [
+                613,
+                531,
+                970,
+                726
+            ],
+            "source_detection_index": 5
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.2929,
+            "box_xyxy": [
+                970,
+                521,
+                1199,
+                641
+            ],
+            "source_detection_index": 6
+        }
+    ],
+    "rtdetr_l_detections": [],
+    "analysis_detections": [
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.57542,
+            "box_xyxy": [
+                378,
+                606,
+                438,
+                699
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 8,
+            "class_name": "Mobile Crane",
+            "confidence": 0.5262,
+            "box_xyxy": [
+                815,
+                135,
+                1013,
+                574
+            ],
+            "source_detection_index": 2
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 6,
+            "class_name": "Loader",
+            "confidence": 0.40807,
+            "box_xyxy": [
+                130,
+                539,
+                452,
+                702
+            ],
+            "source_detection_index": 3
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.39291,
+            "box_xyxy": [
+                500,
+                497,
+                708,
+                573
+            ],
+            "source_detection_index": 4
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 2,
+            "class_name": "Dump Truck",
+            "confidence": 0.36812,
+            "box_xyxy": [
+                613,
+                531,
+                970,
+                726
+            ],
+            "source_detection_index": 5
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.2929,
+            "box_xyxy": [
+                970,
+                521,
+                1199,
+                641
+            ],
+            "source_detection_index": 6
+        }
+    ],
+    "reasoning_detections": [
+        {
+            "detector": "PPE",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Person",
+            "confidence": 0.57542,
+            "box_xyxy": [
+                378,
+                606,
+                438,
+                699
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 8,
+            "class_name": "Mobile Crane",
+            "confidence": 0.5262,
+            "box_xyxy": [
+                815,
+                135,
+                1013,
+                574
+            ],
+            "source_detection_index": 2
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 6,
+            "class_name": "Loader",
+            "confidence": 0.40807,
+            "box_xyxy": [
+                130,
+                539,
+                452,
+                702
+            ],
+            "source_detection_index": 3
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.39291,
+            "box_xyxy": [
+                500,
+                497,
+                708,
+                573
+            ],
+            "source_detection_index": 4
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 2,
+            "class_name": "Dump Truck",
+            "confidence": 0.36812,
+            "box_xyxy": [
+                613,
+                531,
+                970,
+                726
+            ],
+            "source_detection_index": 5
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.2929,
+            "box_xyxy": [
+                970,
+                521,
+                1199,
+                641
+            ],
+            "source_detection_index": 6
+        }
+    ],
+    "cross_model_comparisons": [],
+    "cross_model_class_disagreements": [],
+    "model_comparison": {
+        "models": [
+            "YOLO11n",
+            "RT-DETR-L"
+        ],
+        "comparison_method": "Same-dataset semantic class comparison and bounding-box IoU.",
+        "iou_threshold": 0.5,
+        "summary_by_dataset": {},
+        "comparisons": [],
+        "interpretation_note": "YOLO11n and RT-DETR-L predictions are preserved separately. Their predictions are not merged for scene analysis or safety reasoning."
+    },
+    "scene_inventory": {
+        "total_detections": 6,
+        "category_counts": {
+            "people": 1,
+            "ppe_predictions": 0,
+            "tools_and_equipment": 0,
+            "vehicles_and_heavy_machinery": 5,
+            "unclassified": 0
+        },
+        "groups": {
+            "people": [
+                {
+                    "detector": "PPE",
+                    "model_variant": "YOLO11n",
+                    "class_id": 0,
+                    "class_name": "Person",
+                    "confidence": 0.57542,
+                    "box_xyxy": [
+                        378,
+                        606,
+                        438,
+                        699
+                    ],
+                    "source_detection_index": 0
+                }
+            ],
+            "ppe_predictions": [],
+            "tools_and_equipment": [],
+            "vehicles_and_heavy_machinery": [
+                {
+                    "detector": "Vehicles",
+                    "model_variant": "YOLO11n",
+                    "class_id": 8,
+                    "class_name": "Mobile Crane",
+                    "confidence": 0.5262,
+                    "box_xyxy": [
+                        815,
+                        135,
+                        1013,
+                        574
+                    ],
+                    "source_detection_index": 2
+                },
+                {
+                    "detector": "Vehicles",
+                    "model_variant": "YOLO11n",
+                    "class_id": 6,
+                    "class_name": "Loader",
+                    "confidence": 0.40807,
+                    "box_xyxy": [
+                        130,
+                        539,
+                        452,
+                        702
+                    ],
+                    "source_detection_index": 3
+                },
+                {
+                    "detector": "Vehicles",
+                    "model_variant": "YOLO11n",
+                    "class_id": 3,
+                    "class_name": "Excavator",
+                    "confidence": 0.39291,
+                    "box_xyxy": [
+                        500,
+                        497,
+                        708,
+                        573
+                    ],
+                    "source_detection_index": 4
+                },
+                {
+                    "detector": "Vehicles",
+                    "model_variant": "YOLO11n",
+                    "class_id": 2,
+                    "class_name": "Dump Truck",
+                    "confidence": 0.36812,
+                    "box_xyxy": [
+                        613,
+                        531,
+                        970,
+                        726
+                    ],
+                    "source_detection_index": 5
+                },
+                {
+                    "detector": "Vehicles",
+                    "model_variant": "YOLO11n",
+                    "class_id": 3,
+                    "class_name": "Excavator",
+                    "confidence": 0.2929,
+                    "box_xyxy": [
+                        970,
+                        521,
+                        1199,
+                        641
+                    ],
+                    "source_detection_index": 6
+                }
+            ],
+            "unclassified": []
+        },
+        "interpretation_note": "Categories organize detector predictions only. They do not establish object identity, PPE compliance, or the presence of a physical hazard."
+    },
+    "spatial_analysis": {
+        "person_count": 1,
+        "machinery_count": 5,
+        "relationship_count": 5,
+        "relationships": [
+            {
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 2,
+                "machinery_source_detection_index": 3,
+                "machinery_class": "Loader",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.40807,
+                "machinery_box_xyxy": [
+                    130,
+                    539,
+                    452,
+                    702
+                ],
+                "center_distance_pixels": 121.3,
+                "normalized_image_distance": 0.08086,
+                "status": "potential_spatial_relationship_review"
+            },
+            {
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 3,
+                "machinery_source_detection_index": 4,
+                "machinery_class": "Excavator",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.39291,
+                "machinery_box_xyxy": [
+                    500,
+                    497,
+                    708,
+                    573
+                ],
+                "center_distance_pixels": 228.52,
+                "normalized_image_distance": 0.15235,
+                "status": "potential_spatial_relationship_review"
+            },
+            {
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 4,
+                "machinery_source_detection_index": 5,
+                "machinery_class": "Dump Truck",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.36812,
+                "machinery_box_xyxy": [
+                    613,
+                    531,
+                    970,
+                    726
+                ],
+                "center_distance_pixels": 384.25,
+                "normalized_image_distance": 0.25617,
+                "status": "potential_spatial_relationship_review"
+            },
+            {
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 1,
+                "machinery_source_detection_index": 2,
+                "machinery_class": "Mobile Crane",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.5262,
+                "machinery_box_xyxy": [
+                    815,
+                    135,
+                    1013,
+                    574
+                ],
+                "center_distance_pixels": 587.23,
+                "normalized_image_distance": 0.39149,
+                "status": "potential_spatial_relationship_review"
+            },
+            {
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 5,
+                "machinery_source_detection_index": 6,
+                "machinery_class": "Excavator",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.2929,
+                "machinery_box_xyxy": [
+                    970,
+                    521,
+                    1199,
+                    641
+                ],
+                "center_distance_pixels": 680.27,
+                "normalized_image_distance": 0.45351,
+                "status": "potential_spatial_relationship_review"
+            }
+        ],
+        "interpretation_note": "Distances are measured in image space between bounding-box centers. They do not establish physical distance, actual contact, unsafe proximity, or a confirmed hazard."
+    },
+    "scene_graph": {
+        "schema_version": "1.0",
+        "image_dimensions": {
+            "width": 1200,
+            "height": 900
+        },
+        "geometry_method": "Axis-aligned bounding-box containment, edge distance, and center distance in image pixels.",
+        "parameters": {
+            "machinery_review_distance_ratio": 0.05,
+            "ppe_person_containment_threshold": 0.8,
+            "threshold_status": "Exploratory image-space thresholds; not calibrated risk scores or physical-distance estimates."
+        },
+        "nodes": [
+            {
+                "object_id": "object_0000",
+                "detection_index": 0,
+                "source_detection_index": 0,
+                "detector": "PPE",
+                "class_id": 0,
+                "class_name": "Person",
+                "object_category": "person",
+                "confidence": 0.57542,
+                "box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ]
+            },
+            {
+                "object_id": "object_0001",
+                "detection_index": 1,
+                "source_detection_index": 2,
+                "detector": "Vehicles",
+                "class_id": 8,
+                "class_name": "Mobile Crane",
+                "object_category": "machinery",
+                "confidence": 0.5262,
+                "box_xyxy": [
+                    815,
+                    135,
+                    1013,
+                    574
+                ]
+            },
+            {
+                "object_id": "object_0002",
+                "detection_index": 2,
+                "source_detection_index": 3,
+                "detector": "Vehicles",
+                "class_id": 6,
+                "class_name": "Loader",
+                "object_category": "machinery",
+                "confidence": 0.40807,
+                "box_xyxy": [
+                    130,
+                    539,
+                    452,
+                    702
+                ]
+            },
+            {
+                "object_id": "object_0003",
+                "detection_index": 3,
+                "source_detection_index": 4,
+                "detector": "Vehicles",
+                "class_id": 3,
+                "class_name": "Excavator",
+                "object_category": "machinery",
+                "confidence": 0.39291,
+                "box_xyxy": [
+                    500,
+                    497,
+                    708,
+                    573
+                ]
+            },
+            {
+                "object_id": "object_0004",
+                "detection_index": 4,
+                "source_detection_index": 5,
+                "detector": "Vehicles",
+                "class_id": 2,
+                "class_name": "Dump Truck",
+                "object_category": "machinery",
+                "confidence": 0.36812,
+                "box_xyxy": [
+                    613,
+                    531,
+                    970,
+                    726
+                ]
+            },
+            {
+                "object_id": "object_0005",
+                "detection_index": 5,
+                "source_detection_index": 6,
+                "detector": "Vehicles",
+                "class_id": 3,
+                "class_name": "Excavator",
+                "object_category": "machinery",
+                "confidence": 0.2929,
+                "box_xyxy": [
+                    970,
+                    521,
+                    1199,
+                    641
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "relationship_id": "relationship_0000",
+                "source_id": "object_0000",
+                "predicate": "near_machinery_in_image",
+                "target_id": "object_0002",
+                "evidence": {
+                    "edge_distance_pixels": 0.0,
+                    "normalized_edge_distance": 0.0,
+                    "review_threshold": 0.05,
+                    "boxes_overlap": true,
+                    "center_distance_pixels": 121.3
+                },
+                "interpretation_limit": "This is image-space geometry only; it does not establish physical distance, machine operation, an exclusion zone, or a hazard."
+            },
+            {
+                "relationship_id": "relationship_0001",
+                "source_id": "object_0000",
+                "predicate": "near_machinery_in_image",
+                "target_id": "object_0003",
+                "evidence": {
+                    "edge_distance_pixels": 70.24,
+                    "normalized_edge_distance": 0.04682,
+                    "review_threshold": 0.05,
+                    "boxes_overlap": false,
+                    "center_distance_pixels": 228.52
+                },
+                "interpretation_limit": "This is image-space geometry only; it does not establish physical distance, machine operation, an exclusion zone, or a hazard."
+            }
+        ],
+        "interpretation_limit": "The graph describes detector predictions and image-space relationships. It does not independently confirm object identity, PPE compliance, or a safety hazard."
+    },
+    "safety_assessment": {
+        "schema_version": "1.0",
+        "findings": [
+            {
+                "finding_id": "finding_0000",
+                "finding_category": "potential_worker_machinery_interaction",
+                "rule_id": "POTENTIAL_PERSON_MACHINERY_PROXIMITY",
+                "status": "potential",
+                "alert_generated_automatically": true,
+                "review_required": false,
+                "verification_optional": true,
+                "source_object_ids": [
+                    "object_0000",
+                    "object_0002"
+                ],
+                "relationship_id": "relationship_0000",
+                "evidence": {
+                    "person_detection": {
+                        "detector": "PPE",
+                        "class_name": "Person",
+                        "confidence": 0.57542,
+                        "box_xyxy": [
+                            378,
+                            606,
+                            438,
+                            699
+                        ]
+                    },
+                    "machinery_detection": {
+                        "detector": "Vehicles",
+                        "class_name": "Loader",
+                        "confidence": 0.40807,
+                        "box_xyxy": [
+                            130,
+                            539,
+                            452,
+                            702
+                        ]
+                    },
+                    "edge_distance_pixels": 0.0,
+                    "normalized_edge_distance": 0.0,
+                    "review_threshold": 0.05,
+                    "boxes_overlap": true,
+                    "center_distance_pixels": 121.3
+                },
+                "observation": "A person and machinery detection fall within the configured image-space proximity threshold.",
+                "recommendation": "Check the machinery's operating status and applicable site exclusion zones. Maintain appropriate separation procedures and confirm that workers are following the site's machinery safety requirements.",
+                "limitation": "A single image and bounding boxes cannot establish operating status, real-world distance, an exclusion-zone boundary, or an unsafe interaction.",
+                "uncertainty_reasons": [
+                    "Image perspective and camera position affect apparent distance.",
+                    "The machine's operating status and designated exclusion zone are unknown.",
+                    "Detector outputs may contain false positives."
+                ]
+            },
+            {
+                "finding_id": "finding_0001",
+                "finding_category": "potential_worker_machinery_interaction",
+                "rule_id": "POTENTIAL_PERSON_MACHINERY_PROXIMITY",
+                "status": "potential",
+                "alert_generated_automatically": true,
+                "review_required": false,
+                "verification_optional": true,
+                "source_object_ids": [
+                    "object_0000",
+                    "object_0003"
+                ],
+                "relationship_id": "relationship_0001",
+                "evidence": {
+                    "person_detection": {
+                        "detector": "PPE",
+                        "class_name": "Person",
+                        "confidence": 0.57542,
+                        "box_xyxy": [
+                            378,
+                            606,
+                            438,
+                            699
+                        ]
+                    },
+                    "machinery_detection": {
+                        "detector": "Vehicles",
+                        "class_name": "Excavator",
+                        "confidence": 0.39291,
+                        "box_xyxy": [
+                            500,
+                            497,
+                            708,
+                            573
+                        ]
+                    },
+                    "edge_distance_pixels": 70.24,
+                    "normalized_edge_distance": 0.04682,
+                    "review_threshold": 0.05,
+                    "boxes_overlap": false,
+                    "center_distance_pixels": 228.52
+                },
+                "observation": "A person and machinery detection fall within the configured image-space proximity threshold.",
+                "recommendation": "Check the machinery's operating status and applicable site exclusion zones. Maintain appropriate separation procedures and confirm that workers are following the site's machinery safety requirements.",
+                "limitation": "A single image and bounding boxes cannot establish operating status, real-world distance, an exclusion-zone boundary, or an unsafe interaction.",
+                "uncertainty_reasons": [
+                    "Image perspective and camera position affect apparent distance.",
+                    "The machine's operating status and designated exclusion zone are unknown.",
+                    "Detector outputs may contain false positives."
+                ]
+            }
+        ],
+        "summary": {
+            "total_potential_alerts": 2,
+            "potential_missing_ppe": 0,
+            "potential_worker_machinery_interaction": 2,
+            "requires_human_review": 0,
+            "verification_optional": 2
+        },
+        "unassessed_conditions": [
+            "Elevated edges, guardrails, and fall-protection use are not assessed.",
+            "Excavation protection, rebar exposure, and environmental conditions are not assessed.",
+            "Machine operating status and real-world worker-to-machine distance are not assessed."
+        ],
+        "risk_assessment": {
+            "risk_score": null,
+            "risk_probability": null,
+            "reason": "Risk is not scored because operating conditions, site controls, exposure, and calibrated outcome labels are unavailable."
+        },
+        "interpretation_limit": "Potential alerts are generated automatically from detector predictions and image-space relationships. They are not confirmed violations or incidents."
+    },
+    "screening_outcome": {
+        "outcome": "POTENTIAL",
+        "explanation": "The screening rules generated 2 potential finding(s). These require interpretation and do not confirm a hazard.",
+        "finding_count": 2,
+        "detector_coverage": {
+            "PPE": true,
+            "Toolset": true,
+            "Vehicles": true
+        },
+        "high_confidence_alert_available": false,
+        "high_confidence_alert_limitation": "No independently validated hazard-specific criterion currently supports a high-confidence alert.",
+        "interpretation_limit": "NO_SUPPORTED does not mean safe. INSUFFICIENT means the selected detector configuration does not cover all current screening rules."
+    },
+    "review_analysis": {
+        "candidate_count": 2,
+        "candidates": [
+            {
+                "candidate_type": "person_machinery_proximity_review",
+                "candidate_index": 0,
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 2,
+                "machinery_source_detection_index": 3,
+                "machinery_class": "Loader",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.40807,
+                "machinery_box_xyxy": [
+                    130,
+                    539,
+                    452,
+                    702
+                ],
+                "center_distance_pixels": 121.3,
+                "normalized_image_distance": 0.08087,
+                "normalized_edge_distance": 0.0,
+                "status": "potential",
+                "review_required": false,
+                "verification_optional": true,
+                "evidence": "Person and machinery detections fall within the configured image-space proximity threshold.",
+                "interpretation": "This relationship does not establish physical distance, unsafe proximity, machine operation, or a confirmed hazard."
+            },
+            {
+                "candidate_type": "person_machinery_proximity_review",
+                "candidate_index": 1,
+                "person_analysis_index": 0,
+                "person_source_detection_index": 0,
+                "person_class": "Person",
+                "person_detector": "PPE",
+                "person_confidence": 0.57542,
+                "person_box_xyxy": [
+                    378,
+                    606,
+                    438,
+                    699
+                ],
+                "machinery_analysis_index": 3,
+                "machinery_source_detection_index": 4,
+                "machinery_class": "Excavator",
+                "machinery_detector": "Vehicles",
+                "machinery_confidence": 0.39291,
+                "machinery_box_xyxy": [
+                    500,
+                    497,
+                    708,
+                    573
+                ],
+                "center_distance_pixels": 228.52,
+                "normalized_image_distance": 0.15235,
+                "normalized_edge_distance": 0.04682,
+                "status": "potential",
+                "review_required": false,
+                "verification_optional": true,
+                "evidence": "Person and machinery detections fall within the configured image-space proximity threshold.",
+                "interpretation": "This relationship does not establish physical distance, unsafe proximity, machine operation, or a confirmed hazard."
+            }
+        ],
+        "review_required": false,
+        "verification_optional": true,
+        "interpretation_note": "Potential alerts are generated automatically. These records are available for optional verification and are not required before alerts can be displayed. Cross-model class disagreements remain unresolved until verified."
+    },
+    "interpretation_note": "Detector outputs are predictions, not confirmed observations. Bounding-box overlap does not prove physical object identity. Image-space proximity does not establish real-world distance or danger. Missing PPE detections do not prove PPE absence. NO_SUPPORTED does not mean the site is safe. This system is a screening aid, not a safety certification."
+}

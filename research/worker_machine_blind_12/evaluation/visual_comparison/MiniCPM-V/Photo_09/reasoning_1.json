@@ -1,0 +1,32 @@
+{
+  "status": "COMPLETED",
+  "model_label": "MiniCPM-V",
+  "model_name": "minicpm-v:latest",
+  "prompt_version": "worker_scene_screening_v6",
+  "image_path": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_09.jpg",
+  "created_utc": "2026-11-25T05:22:37.314773+00:00",
+  "metadata": {
+    "views": {
+      "scene": {
+        "elapsed_seconds": 118.993,
+        "prompt_eval_count": 536,
+        "eval_count": 4,
+        "total_duration_ns": 116965189100,
+        "load_duration_ns": 23269100,
+        "prompt_eval_duration_ns": 115411694000,
+        "eval_duration_ns": 1331693000,
+        "thinking_disabled": false
+      }
+    },
+    "elapsed_seconds": 118.993
+  },
+  "analysis": {
+    "worker_ppe": [],
+    "machinery_assessments": {},
+    "worker_context": []
+  },
+  "raw_response": {
+    "scene": "{\n    }"
+  },
+  "error": null
+}

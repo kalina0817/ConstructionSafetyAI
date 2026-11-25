@@ -1,0 +1,30 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [],
+  "visual_reasoning": {
+    "worker_ppe": [],
+    "machinery_assessments": {},
+    "worker_context": []
+  },
+  "reasoning_model": "Qwen3-VL",
+  "reasoning_model_id": "qwen3-vl:4b-instruct",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "8fd664311960ad7618f37b49d442f1b428f68a71807c794ad56410991be6b59b",
+  "photo_sha256": "2100dbb51b7d72736a79c104bc0008f86dcc426c44c0e91834a667e5dc5a2f66",
+  "worker_machinery_assessments": [],
+  "machinery_coverage": {
+    "candidate_pairs": 0,
+    "assessed_pairs": 0,
+    "workers_with_equipment_observed_without_candidate_pair": [],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "INSUFFICIENT",
+    "explanation": "The selected model did not provide enough object-linked evidence for a safety alert.",
+    "finding_count": 0
+  }
+}

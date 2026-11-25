@@ -1,0 +1,32 @@
+{
+  "status": "COMPLETED",
+  "model_label": "Qwen3-VL",
+  "model_name": "qwen3-vl:4b-instruct",
+  "prompt_version": "worker_scene_screening_v6",
+  "image_path": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_09.jpg",
+  "created_utc": "2026-11-25T04:06:19.654746+00:00",
+  "metadata": {
+    "views": {
+      "scene": {
+        "elapsed_seconds": 479.099,
+        "prompt_eval_count": 1139,
+        "eval_count": 4,
+        "total_duration_ns": 477068391400,
+        "load_duration_ns": 76791200,
+        "prompt_eval_duration_ns": 184434869000,
+        "eval_duration_ns": 1746624000,
+        "thinking_disabled": true
+      }
+    },
+    "elapsed_seconds": 479.099
+  },
+  "analysis": {
+    "worker_ppe": [],
+    "machinery_assessments": {},
+    "worker_context": []
+  },
+  "raw_response": {
+    "scene": "{\n  }"
+  },
+  "error": null
+}

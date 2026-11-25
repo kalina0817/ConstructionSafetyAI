@@ -1,0 +1,144 @@
+{
+  "status": "COMPLETED",
+  "model_label": "Qwen3-VL",
+  "model_name": "qwen3-vl:4b-instruct",
+  "prompt_version": "worker_scene_screening_v6",
+  "image_path": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_05.jpg",
+  "created_utc": "2026-11-25T03:52:22.655607+00:00",
+  "metadata": {
+    "views": {
+      "object_0001": {
+        "elapsed_seconds": 212.973,
+        "prompt_eval_count": 1448,
+        "eval_count": 426,
+        "total_duration_ns": 210929228900,
+        "load_duration_ns": 55961300,
+        "prompt_eval_duration_ns": 116695542000,
+        "eval_duration_ns": 93895929000,
+        "thinking_disabled": true
+      },
+      "object_0004": {
+        "elapsed_seconds": 200.533,
+        "prompt_eval_count": 1440,
+        "eval_count": 350,
+        "total_duration_ns": 198484784700,
+        "load_duration_ns": 26447000,
+        "prompt_eval_duration_ns": 118070790000,
+        "eval_duration_ns": 80185088000,
+        "thinking_disabled": true
+      }
+    },
+    "elapsed_seconds": 413.506
+  },
+  "analysis": {
+    "worker_ppe": [
+      {
+        "worker": "object_0001",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0001",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      }
+    ],
+    "machinery_assessments": {
+      "relationship_0000": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      },
+      "relationship_0001": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      },
+      "relationship_0003": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "not_visible",
+        "decision": "unassessable",
+        "visual_evidence": "The close-up does not establish an identifiable worker.",
+        "limitation": "A worker-specific relation requires an identifiable worker.",
+        "visible_relation": "unclear"
+      }
+    },
+    "worker_context": [
+      {
+        "worker": "object_0001",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0004",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      }
+    ]
+  },
+  "raw_response": {
+    "object_0001": "{\n  \"subject\": \"not_person\",\n  \"headwear\": {\n    \"appearance\": \"bare_head\",\n    \"reason\": \"no visible headwear on worker\"\n  },\n  \"ppe\": {\n    \"high_visibility_vest\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible vest or evidence of vest presence\"\n    },\n    \"gloves\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible gloves on hands\"\n    },\n    \"boots\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible boots or footwear\"\n    },\n    \"eye_protection\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible eye protection\"\n    }\n  },\n  \"equipment_context\": {\n    \"machine_identity\": \"construction_vehicle\",\n    \"body_support\": \"seated_in_operator_station\",\n    \"position\": \"standing_on_equipment\",\n    \"reason\": \"worker is seated in operator station with feet on machine step or deck\"\n  },\n  \"machinery\": {\n    \"relationship_0000\": {\n      \"machine_identity\": \"construction_vehicle\",\n      \"body_support\": \"seated_in_operator_station\",\n      \"position\": \"standing_on_equipment\",\n      \"decision\": \"not_supported\",\n      \"visual_evidence\": \"worker is seated in operator station with feet on machine step or deck\",\n      \"limitation\": \"no visible evidence of hazardous exposure\"\n    },\n    \"relationship_0001\": {\n      \"machine_identity\": \"construction_vehicle\",\n      \"body_support\": \"seated_in_operator_station\",\n      \"position\": \"standing_on_equipment\",\n      \"decision\": \"not_supported\",\n      \"visual_evidence\": \"worker is seated in operator station with feet on machine step or deck\",\n      \"limitation\": \"no visible evidence of hazardous exposure\"\n    }\n  }\n}",
+    "object_0004": "{\n  \"subject\": \"not_person\",\n  \"headwear\": {\n    \"appearance\": \"bare_head\",\n    \"reason\": \"no visible headwear on worker\"\n  },\n  \"ppe\": {\n    \"high_visibility_vest\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible vest, only partial torso in cabin\"\n    },\n    \"gloves\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible gloves on hands\"\n    },\n    \"boots\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible boots, only lower legs in cabin\"\n    },\n    \"eye_protection\": {\n      \"status\": \"m\",\n      \"reason\": \"no visible eye protection, only face in cabin\"\n    }\n  },\n  \"equipment_context\": {\n    \"machine_identity\": \"construction_vehicle\",\n    \"body_support\": \"seated_in_operator_station\",\n    \"position\": \"standing_on_equipment\",\n    \"reason\": \"worker is seated in operator station, feet not visible on machine\"\n  },\n  \"machinery\": {\n    \"relationship_0003\": {\n      \"machine_identity\": \"construction_vehicle\",\n      \"body_support\": \"seated_in_operator_station\",\n      \"position\": \"standing_on_equipment\",\n      \"decision\": \"not_supported\",\n      \"visual_evidence\": \"worker seated in operator station, no visible feet on machine or steps, no visible machine parts supporting body\",\n      \"limitation\": \"no visible evidence of machine parts supporting body\"\n    }\n  }\n}"
+  },
+  "error": null
+}

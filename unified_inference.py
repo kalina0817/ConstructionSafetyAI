@@ -7,6 +7,7 @@ import json
 import cv2
 from ultralytics import YOLO, RTDETR
 
+from screening_assessment import assess_worker_ppe
 from reasoning_engine import (
     MACHINERY_CLASSES,
     PPE_OBJECT_CLASSES,
@@ -212,10 +213,7 @@ def filter_duplicate_detections(
             )
 
             # A person and another class are separate objects.
-            if (
-                candidate_class == "person"
-                or existing_class == "person"
-            ):
+            if (candidate_class == "person") != (existing_class == "person"):
                 continue
 
             iou = calculate_iou(
@@ -261,11 +259,13 @@ def filter_duplicate_detections(
             )
 
             if same_semantic_class:
+                # Use the person-specific area floor from the 40-image validation.
+                area_floor = max(min_area_ratio, 0.35) if candidate_class == "person" else min_area_ratio
                 is_duplicate = (
                     iou >= iou_threshold
                     or (
                         containment >= containment_threshold
-                        and area_ratio >= min_area_ratio
+                        and area_ratio >= area_floor
                     )
                 )
             else:
@@ -735,7 +735,21 @@ def main():
         help="Architecture for the Vehicles detector.",
     )
 
+    parser.add_argument(
+        "--screening-model", choices=["yolo", "rtdetr"],
+        help="Use one architecture for all screening checkpoints and build a scene graph.",
+    )
+    parser.add_argument("--graph-only", action="store_true",
+                        help="Build screening evidence for external reasoning.")
     args = parser.parse_args()
+    if args.graph_only and not args.screening_model:
+        parser.error("--graph-only requires --screening-model.")
+
+    if args.screening_model:
+        if args.compare or any((args.ppe_model, args.toolset_model, args.vehicles_model)):
+            parser.error("--screening-model cannot be combined with per-task models or --compare.")
+        args.ppe_model = args.toolset_model = args.vehicles_model = args.screening_model
+
 
     independent_mode = any(
         value is not None
@@ -905,9 +919,8 @@ def main():
             paths = MODEL_PATHS if architecture == "yolo" else RTDETR_MODEL_PATHS
             checkpoint = paths[name]
             if not checkpoint.is_file():
-                raise FileNotFoundError(
-                    f"{name} {architecture} checkpoint not found: {checkpoint}"
-                )
+                model_label = "YOLO11n" if architecture == "yolo" else "RT-DETR-L"
+                parser.error(f"{name} {model_label} checkpoint not found: {checkpoint}")
     else:
         if args.model_mode in ("yolo", "both"):
             for name, path in MODEL_PATHS.items():
@@ -1144,7 +1157,7 @@ def main():
 
     display_detections = analysis_detections
 
-    for detection in display_detections:
+    for index, detection in enumerate(display_detections):
         x1, y1, x2, y2 = detection["box_xyxy"]
         model_name = detection["detector"]
         color = MODEL_COLORS.get(model_name, (255, 255, 255))
@@ -1154,6 +1167,9 @@ def main():
             f"{detection['class_name']} "
             f"{detection['confidence']:.2f}"
         )
+
+        if args.screening_model and detection["class_name"].strip().lower() == "person":
+            label = f"object_{index:04d} {label}"
 
         cv2.rectangle(
             annotated,
@@ -1232,12 +1248,27 @@ def main():
             image_height=image.shape[0],
         )
 
-        safety_assessment = evaluate_safety_rules(scene_graph)
-
-        screening_outcome = classify_screening_outcome(
-            safety_assessment.get("findings", []),
-            MODEL_PATHS.keys(),
-        )
+        if args.graph_only:
+            safety_assessment = {"findings": [], "status": "AWAITING_REASONING"}
+            screening_outcome = {
+                "outcome": "INSUFFICIENT",
+                "explanation": "The selected reasoning model has yet to assess the scene.",
+            }
+        else:
+            worker_ppe = assess_worker_ppe(scene_graph) if args.screening_model else None
+            safety_assessment = evaluate_safety_rules(scene_graph, worker_ppe=worker_ppe)
+            screening_outcome = classify_screening_outcome(
+                safety_assessment.get("findings", []),
+                MODEL_PATHS.keys(),
+            )
+            if worker_ppe is not None and not safety_assessment["findings"] and (
+                not worker_ppe or any(row["status"] == "unassessable" for row in worker_ppe)
+            ):
+                screening_outcome.update(
+                    outcome="INSUFFICIENT",
+                    explanation="The rules found no supported alert, but worker PPE coverage was incomplete.",
+                    interpretation_limit="The image does not establish PPE status for all five checks per worker.",
+                )
 
         review_analysis = generate_review_candidates(
             scene_graph,
@@ -1269,7 +1300,7 @@ def main():
     print("\nDetection summary:")
     print(
         "Selected model mode: "
-        + ("independent per-dataset selection" if independent_mode else args.model_mode)
+        + (args.screening_model or ("independent per-dataset selection" if independent_mode else args.model_mode))
     )
     if independent_mode:
         print(f"Selected architectures: {model_selection}")
@@ -1321,7 +1352,11 @@ def main():
         "confidence_threshold": args.conf,
         "image_size": args.imgsz,
         "device": "cpu",
-        "model_mode": "independent" if independent_mode else args.model_mode,
+        "model_mode": args.screening_model or ("independent" if independent_mode else args.model_mode),
+        "screening_checkpoints": {
+            name: str((MODEL_PATHS if architecture == "yolo" else RTDETR_MODEL_PATHS)[name])
+            for name, architecture in model_selection.items()
+        } if args.screening_model else None,
         "model_selection": (
             {
                 name: "YOLO11n" if architecture == "yolo" else "RT-DETR-L"

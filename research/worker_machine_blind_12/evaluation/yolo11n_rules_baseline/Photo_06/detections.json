@@ -1,0 +1,411 @@
+{
+    "input_image": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_06.jpg",
+    "confidence_threshold": 0.25,
+    "image_size": 640,
+    "device": "cpu",
+    "model_mode": "yolo",
+    "screening_checkpoints": {
+        "PPE": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\runs\\detect\\runs\\detect\\ppe_yolo11n_postcorrection_15ep\\weights\\best.pt",
+        "Toolset": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\models\\toolset35_final_model\\toolset35_yolo11n_best.pt",
+        "Vehicles": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\runs\\detect\\runs\\detect\\vehicle_yolo11n_corrected_dataset_5ep\\weights\\best.pt"
+    },
+    "model_selection": {
+        "PPE": "YOLO11n",
+        "Toolset": "YOLO11n",
+        "Vehicles": "YOLO11n"
+    },
+    "total_detections": 3,
+    "retained_detection_count": 1,
+    "suppressed_duplicate_count": 2,
+    "different_class_overlap_review_count": 0,
+    "raw_person_detection_count": 0,
+    "filtered_person_detection_count": 0,
+    "duplicate_filter_thresholds": {
+        "iou": 0.6,
+        "containment": 0.85,
+        "minimum_area_ratio": 0.3
+    },
+    "suppressed_duplicate_detections": [
+        {
+            "candidate": {
+                "detector": "Toolset",
+                "model_variant": "YOLO11n",
+                "class_id": 0,
+                "class_name": "Excavator",
+                "confidence": 0.78357,
+                "box_xyxy": [
+                    695,
+                    432,
+                    1025,
+                    684
+                ],
+                "source_detection_index": 0
+            },
+            "kept_detection": {
+                "detector": "Vehicles",
+                "model_variant": "YOLO11n",
+                "class_id": 3,
+                "class_name": "Excavator",
+                "confidence": 0.83335,
+                "box_xyxy": [
+                    303,
+                    412,
+                    1030,
+                    778
+                ],
+                "source_detection_index": 2
+            },
+            "iou": 0.3125,
+            "containment": 1.0,
+            "area_ratio": 0.3125,
+            "same_semantic_class": true,
+            "reason": "duplicate_object_overlap"
+        },
+        {
+            "candidate": {
+                "detector": "Toolset",
+                "model_variant": "YOLO11n",
+                "class_id": 0,
+                "class_name": "Excavator",
+                "confidence": 0.61771,
+                "box_xyxy": [
+                    323,
+                    428,
+                    1022,
+                    747
+                ],
+                "source_detection_index": 1
+            },
+            "kept_detection": {
+                "detector": "Vehicles",
+                "model_variant": "YOLO11n",
+                "class_id": 3,
+                "class_name": "Excavator",
+                "confidence": 0.83335,
+                "box_xyxy": [
+                    303,
+                    412,
+                    1030,
+                    778
+                ],
+                "source_detection_index": 2
+            },
+            "iou": 0.838,
+            "containment": 1.0,
+            "area_ratio": 0.838,
+            "same_semantic_class": true,
+            "reason": "duplicate_object_overlap"
+        }
+    ],
+    "possible_cross_class_duplicates": [],
+    "detections": [
+        {
+            "detector": "Toolset",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Excavator",
+            "confidence": 0.78357,
+            "box_xyxy": [
+                695,
+                432,
+                1025,
+                684
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "Toolset",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Excavator",
+            "confidence": 0.61771,
+            "box_xyxy": [
+                323,
+                428,
+                1022,
+                747
+            ],
+            "source_detection_index": 1
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.83335,
+            "box_xyxy": [
+                303,
+                412,
+                1030,
+                778
+            ],
+            "source_detection_index": 2
+        }
+    ],
+    "selected_model_detections": [
+        {
+            "detector": "Toolset",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Excavator",
+            "confidence": 0.78357,
+            "box_xyxy": [
+                695,
+                432,
+                1025,
+                684
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "Toolset",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Excavator",
+            "confidence": 0.61771,
+            "box_xyxy": [
+                323,
+                428,
+                1022,
+                747
+            ],
+            "source_detection_index": 1
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.83335,
+            "box_xyxy": [
+                303,
+                412,
+                1030,
+                778
+            ],
+            "source_detection_index": 2
+        }
+    ],
+    "yolo11n_detections": [
+        {
+            "detector": "Toolset",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Excavator",
+            "confidence": 0.78357,
+            "box_xyxy": [
+                695,
+                432,
+                1025,
+                684
+            ],
+            "source_detection_index": 0
+        },
+        {
+            "detector": "Toolset",
+            "model_variant": "YOLO11n",
+            "class_id": 0,
+            "class_name": "Excavator",
+            "confidence": 0.61771,
+            "box_xyxy": [
+                323,
+                428,
+                1022,
+                747
+            ],
+            "source_detection_index": 1
+        },
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.83335,
+            "box_xyxy": [
+                303,
+                412,
+                1030,
+                778
+            ],
+            "source_detection_index": 2
+        }
+    ],
+    "rtdetr_l_detections": [],
+    "analysis_detections": [
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.83335,
+            "box_xyxy": [
+                303,
+                412,
+                1030,
+                778
+            ],
+            "source_detection_index": 2
+        }
+    ],
+    "reasoning_detections": [
+        {
+            "detector": "Vehicles",
+            "model_variant": "YOLO11n",
+            "class_id": 3,
+            "class_name": "Excavator",
+            "confidence": 0.83335,
+            "box_xyxy": [
+                303,
+                412,
+                1030,
+                778
+            ],
+            "source_detection_index": 2
+        }
+    ],
+    "cross_model_comparisons": [
+        {
+            "detection_index_a": 1,
+            "detection_index_b": 2,
+            "source_detection_index_a": 1,
+            "source_detection_index_b": 2,
+            "detector_a": "Toolset",
+            "class_a": "Excavator",
+            "confidence_a": 0.61771,
+            "detector_b": "Vehicles",
+            "class_b": "Excavator",
+            "confidence_b": 0.83335,
+            "iou": 0.838,
+            "relationship": "possible_same_object",
+            "status": "potential_overlap_review"
+        }
+    ],
+    "cross_model_class_disagreements": [],
+    "model_comparison": {
+        "models": [
+            "YOLO11n",
+            "RT-DETR-L"
+        ],
+        "comparison_method": "Same-dataset semantic class comparison and bounding-box IoU.",
+        "iou_threshold": 0.5,
+        "summary_by_dataset": {},
+        "comparisons": [],
+        "interpretation_note": "YOLO11n and RT-DETR-L predictions are preserved separately. Their predictions are not merged for scene analysis or safety reasoning."
+    },
+    "scene_inventory": {
+        "total_detections": 1,
+        "category_counts": {
+            "people": 0,
+            "ppe_predictions": 0,
+            "tools_and_equipment": 0,
+            "vehicles_and_heavy_machinery": 1,
+            "unclassified": 0
+        },
+        "groups": {
+            "people": [],
+            "ppe_predictions": [],
+            "tools_and_equipment": [],
+            "vehicles_and_heavy_machinery": [
+                {
+                    "detector": "Vehicles",
+                    "model_variant": "YOLO11n",
+                    "class_id": 3,
+                    "class_name": "Excavator",
+                    "confidence": 0.83335,
+                    "box_xyxy": [
+                        303,
+                        412,
+                        1030,
+                        778
+                    ],
+                    "source_detection_index": 2
+                }
+            ],
+            "unclassified": []
+        },
+        "interpretation_note": "Categories organize detector predictions only. They do not establish object identity, PPE compliance, or the presence of a physical hazard."
+    },
+    "spatial_analysis": {
+        "person_count": 0,
+        "machinery_count": 1,
+        "relationship_count": 0,
+        "relationships": [],
+        "interpretation_note": "Distances are measured in image space between bounding-box centers. They do not establish physical distance, actual contact, unsafe proximity, or a confirmed hazard."
+    },
+    "scene_graph": {
+        "schema_version": "1.0",
+        "image_dimensions": {
+            "width": 1200,
+            "height": 800
+        },
+        "geometry_method": "Axis-aligned bounding-box containment, edge distance, and center distance in image pixels.",
+        "parameters": {
+            "machinery_review_distance_ratio": 0.05,
+            "ppe_person_containment_threshold": 0.8,
+            "threshold_status": "Exploratory image-space thresholds; not calibrated risk scores or physical-distance estimates."
+        },
+        "nodes": [
+            {
+                "object_id": "object_0000",
+                "detection_index": 0,
+                "source_detection_index": 2,
+                "detector": "Vehicles",
+                "class_id": 3,
+                "class_name": "Excavator",
+                "object_category": "machinery",
+                "confidence": 0.83335,
+                "box_xyxy": [
+                    303,
+                    412,
+                    1030,
+                    778
+                ]
+            }
+        ],
+        "relationships": [],
+        "interpretation_limit": "The graph describes detector predictions and image-space relationships. It does not independently confirm object identity, PPE compliance, or a safety hazard."
+    },
+    "safety_assessment": {
+        "schema_version": "1.0",
+        "findings": [],
+        "summary": {
+            "total_potential_alerts": 0,
+            "potential_missing_ppe": 0,
+            "potential_worker_machinery_interaction": 0,
+            "requires_human_review": 0,
+            "verification_optional": 0
+        },
+        "unassessed_conditions": [
+            "Elevated edges, guardrails, and fall-protection use are not assessed.",
+            "Excavation protection, rebar exposure, and environmental conditions are not assessed.",
+            "Machine operating status and real-world worker-to-machine distance are not assessed."
+        ],
+        "risk_assessment": {
+            "risk_score": null,
+            "risk_probability": null,
+            "reason": "Risk is not scored because operating conditions, site controls, exposure, and calibrated outcome labels are unavailable."
+        },
+        "interpretation_limit": "Potential alerts are generated automatically from detector predictions and image-space relationships. They are not confirmed violations or incidents."
+    },
+    "screening_outcome": {
+        "outcome": "INSUFFICIENT",
+        "explanation": "The rules found no supported alert, but worker PPE coverage was incomplete.",
+        "finding_count": 0,
+        "detector_coverage": {
+            "PPE": true,
+            "Toolset": true,
+            "Vehicles": true
+        },
+        "high_confidence_alert_available": false,
+        "high_confidence_alert_limitation": "No independently validated hazard-specific criterion currently supports a high-confidence alert.",
+        "interpretation_limit": "The image does not establish PPE status for all five checks per worker."
+    },
+    "review_analysis": {
+        "candidate_count": 0,
+        "candidates": [],
+        "review_required": false,
+        "verification_optional": true,
+        "interpretation_note": "Potential alerts are generated automatically. These records are available for optional verification and are not required before alerts can be displayed. Cross-model class disagreements remain unresolved until verified."
+    },
+    "interpretation_note": "Detector outputs are predictions, not confirmed observations. Bounding-box overlap does not prove physical object identity. Image-space proximity does not establish real-world distance or danger. Missing PPE detections do not prove PPE absence. NO_SUPPORTED does not mean the site is safe. This system is a screening aid, not a safety certification."
+}

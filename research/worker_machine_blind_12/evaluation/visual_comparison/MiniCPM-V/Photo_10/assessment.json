@@ -1,0 +1,186 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        378,
+        606,
+        438,
+        699
+      ],
+      "shared_object_ids": [],
+      "item": "helmet",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: visible hard hat on person",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        378,
+        606,
+        438,
+        699
+      ],
+      "shared_object_ids": [],
+      "item": "high_visibility_vest",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: vest visible on person",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        378,
+        606,
+        438,
+        699
+      ],
+      "shared_object_ids": [],
+      "item": "gloves",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: gloves not visible",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        378,
+        606,
+        438,
+        699
+      ],
+      "shared_object_ids": [],
+      "item": "boots",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "No worker-linked PPE detection corroborates the visual claim. Model observation: boots visible on person",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    },
+    {
+      "worker": "object_0000",
+      "worker_box_xyxy": [
+        378,
+        606,
+        438,
+        699
+      ],
+      "shared_object_ids": [],
+      "item": "eye_protection",
+      "status": "unassessable",
+      "evidence_object_ids": [],
+      "visual_basis_or_uncertainty": "eye protection obscured",
+      "preventive_recommendation": "Verify this item from a clearer view or on site."
+    }
+  ],
+  "visual_reasoning": {
+    "worker_ppe": [
+      {
+        "worker": "object_0000",
+        "item": "helmet",
+        "status": "present",
+        "visual_basis": "visible hard hat on person"
+      },
+      {
+        "worker": "object_0000",
+        "item": "high_visibility_vest",
+        "status": "present",
+        "visual_basis": "vest visible on person"
+      },
+      {
+        "worker": "object_0000",
+        "item": "gloves",
+        "status": "potentially_missing",
+        "visual_basis": "gloves not visible"
+      },
+      {
+        "worker": "object_0000",
+        "item": "boots",
+        "status": "present",
+        "visual_basis": "boots visible on person"
+      },
+      {
+        "worker": "object_0000",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "eye protection obscured"
+      }
+    ],
+    "machinery_assessments": {
+      "relationship_0000": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "not_supported",
+        "visual_evidence": "feet on machine step or deck, person seated on equipment",
+        "limitation": "no evidence of motion or real distance",
+        "visible_relation": "on_machine"
+      },
+      "relationship_0001": {
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "decision": "not_supported",
+        "visual_evidence": "feet on machine step or deck, person seated on equipment",
+        "limitation": "no evidence of motion or real distance",
+        "visible_relation": "on_machine"
+      }
+    },
+    "worker_context": [
+      {
+        "worker": "object_0000",
+        "subject": "person",
+        "machine_identity": "construction_vehicle",
+        "body_support": "feet_on_machine_step_or_deck",
+        "position": "standing_on_equipment",
+        "reason": "feet on machine step or deck, person seated on equipment"
+      }
+    ]
+  },
+  "reasoning_model": "MiniCPM-V",
+  "reasoning_model_id": "minicpm-v:latest",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "cdff4cd6dfb905a456a2e19c4c6223f687b3baeab7a2b6d82fffc8202e81d9d7",
+  "photo_sha256": "f38ba8fd9fc40f8b6f54c58f1e6a8a7f440a2a4fcf772850805d4ee24691e9a1",
+  "worker_machinery_assessments": [
+    {
+      "worker": "object_0000",
+      "machine": "object_0002",
+      "relationship_id": "relationship_0000",
+      "machine_identity": "construction_vehicle",
+      "body_support": "feet_on_machine_step_or_deck",
+      "decision": "not_supported",
+      "visual_evidence": "feet on machine step or deck, person seated on equipment",
+      "limitation": "no evidence of motion or real distance",
+      "visible_relation": "on_machine"
+    },
+    {
+      "worker": "object_0000",
+      "machine": "object_0003",
+      "relationship_id": "relationship_0001",
+      "machine_identity": "construction_vehicle",
+      "body_support": "feet_on_machine_step_or_deck",
+      "decision": "not_supported",
+      "visual_evidence": "feet on machine step or deck, person seated on equipment",
+      "limitation": "no evidence of motion or real distance",
+      "visible_relation": "on_machine"
+    }
+  ],
+  "machinery_coverage": {
+    "candidate_pairs": 2,
+    "assessed_pairs": 2,
+    "workers_with_equipment_observed_without_candidate_pair": [],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "INSUFFICIENT",
+    "explanation": "The selected model did not provide enough object-linked evidence for a safety alert.",
+    "finding_count": 0
+  }
+}

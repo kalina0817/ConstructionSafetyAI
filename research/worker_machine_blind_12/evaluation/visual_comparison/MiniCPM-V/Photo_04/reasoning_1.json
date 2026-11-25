@@ -1,0 +1,71 @@
+{
+  "status": "COMPLETED",
+  "model_label": "MiniCPM-V",
+  "model_name": "minicpm-v:latest",
+  "prompt_version": "worker_scene_screening_v6",
+  "image_path": "C:\\Users\\kalin\\OneDrive\\ConstructionSafetyAI\\research\\worker_machine_blind_12\\reviewer\\photos\\Photo_04.jpg",
+  "created_utc": "2026-11-25T05:08:18.294247+00:00",
+  "metadata": {
+    "views": {
+      "object_0000": {
+        "elapsed_seconds": 126.295,
+        "prompt_eval_count": 572,
+        "eval_count": 211,
+        "total_duration_ns": 124241354000,
+        "load_duration_ns": 33327000,
+        "prompt_eval_duration_ns": 72795373000,
+        "eval_duration_ns": 51283113000,
+        "thinking_disabled": false
+      }
+    },
+    "elapsed_seconds": 126.295
+  },
+  "analysis": {
+    "worker_ppe": [
+      {
+        "worker": "object_0000",
+        "item": "helmet",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "high_visibility_vest",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "gloves",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "boots",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      },
+      {
+        "worker": "object_0000",
+        "item": "eye_protection",
+        "status": "unassessable",
+        "visual_basis": "The close-up does not establish an identifiable worker."
+      }
+    ],
+    "machinery_assessments": {},
+    "worker_context": [
+      {
+        "worker": "object_0000",
+        "subject": "not_person",
+        "machine_identity": "identity_unclear",
+        "position": "unclear",
+        "reason": "The close-up does not establish an identifiable worker."
+      }
+    ]
+  },
+  "raw_response": {
+    "object_0000": "{\"subject\": \"not_person\", \"headwear\": {\"appearance\": \"rigid_hard_hat\", \"reason\": \"visible hard hat on the worker's head\"}, \"ppe\": {\"high_visibility_vest\": {\"status\": \"u\", \"reason\": \"vest is not visibly present in the image\"}, \"gloves\": {\"status\": \"u\", \"reason\": \"gloves are not visible in the image\"}, \"boots\": {\"status\": \"u\", \"reason\": \"boots are not visible in the image\"}, \"eye_protection\": {\"status\": \"u\", \"reason\": \"eye protection is not visible in the image\"}}, \"equipment_context\": {\"machine_identity\": \"construction_vehicle\", \"body_support\": \"feet_on_machine_step_or_deck\", \"position\": \"standing_on_equipment\", \"reason\": \"the worker's feet are visible resting on the machine step or deck, indicating physical support relative to the machine.\"}, \"machinery\": {} }"
+  },
+  "error": null
+}

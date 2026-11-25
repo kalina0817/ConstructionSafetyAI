@@ -1,4 +1,4 @@
-﻿
+
 import streamlit as st
 
 
@@ -8,9 +8,16 @@ st.set_page_config(
     layout="wide",
 )
 
+st.html("""
+<style>
+button[kind="primary"]:enabled,
+button[kind="primary"]:enabled p { color: #211A10; }
+</style>
+""")
+
 dashboard = st.Page(
     "dashboard_page.py",
-    title="Dashboard",
+    title="What the app checks",
     icon=":material/dashboard:",
     default=False,
 )
@@ -24,52 +31,37 @@ overview = st.Page(
 
 research = st.Page(
     "research_workbench.py",
-    title="Research methods",
+    title="How we test",
     icon=":material/science:",
 )
 
 screening = st.Page(
     "integrated_app.py",
-    title="Image screening",
+    title="Check a photo",
     icon=":material/image_search:",
 )
 
 comparison = st.Page(
     "model_comparison_page.py",
-    title="Model comparison",
+    title="Compare results",
     icon=":material/analytics:",
 )
 
 reports = st.Page(
     "reports_page.py",
-    title="Reports",
+    title="Saved reports",
     icon=":material/description:",
 )
 
 with st.sidebar:
-    st.title("Construction Safety AI")
-    st.caption("M.S. computer science capstone")
-    st.caption(
-        "Context-aware vision reasoning for proactive construction safety"
-    )
-    st.info(
-        "Potential safety alerts are generated automatically. "
-        "Human verification is optional. This research prototype does not "
-        "confirm safety violations or replace site safety procedures."
-    )
+    st.subheader("Construction Safety AI")
+    st.caption("Jobsite Photo Review")
 
 navigation = st.navigation(
     {
-        "Workspace": [
-            dashboard,
-            overview,
-            research,
-        ],
-        "Prototype": [
-            screening,
-            comparison,
-            reports,
-        ],
+        "About the project": [overview, dashboard],
+        "Photo checks": [screening, reports],
+        "Testing and results": [research, comparison],
     },
     position="sidebar",
     expanded=True,

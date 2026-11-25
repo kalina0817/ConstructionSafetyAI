@@ -78,11 +78,16 @@ them.
 streamlit run app.py
 ```
 
-The capstone workspace opens to a research overview with navigation to
-research methods, image screening, and the person-duplicate audit. On the
-screening page, select an image, run inference, review every candidate, and
-save the review before generating the adjudicated report and recommendations.
-Human decisions are stored separately from detector predictions.
+Open **Image screening**, upload one site photo, choose a detection model and
+a reasoning model, and click **Run Screening**. The selected detector loads
+its trained PPE, Toolset-35, and Vehicles checkpoints automatically. The
+results include an annotated image, scene graph, five PPE assessments per
+detected worker, and a downloadable JSON report.
+
+Scene-graph rules run locally without Ollama. To use MiniCPM-V or Qwen3-VL,
+start Ollama and check that `minicpm-v:latest` or `qwen3-vl:4b-instruct` is
+installed. The app reports an error if the selected reasoning model is
+unavailable. Optional human review is available after screening.
 
 The original single-purpose screening page remains available:
 
@@ -186,3 +191,23 @@ research findings. See
 for the status of each proposal research question, experiment gate, dataset
 integrity commitment, and advisor decision. No integrated-system accuracy or
 ablation result is claimed until an independently labeled scenario set exists.
+
+### Detection and reasoning model compatibility
+
+Verified on November 20, 2026, using the same test image:
+
+| Detection model | Reasoning model | Status |
+|---|---|---|
+| YOLO11n | Qwen3-VL | Passed |
+| YOLO11n | MiniCPM-V | Passed |
+| RT-DETR-L | Qwen3-VL | Passed |
+| RT-DETR-L | MiniCPM-V | Passed |
+
+All four runs completed with one reasoning conflict, one inconclusive
+finding, zero unassessed findings, and automatic alerts preserved.
+
+The full automated test suite passed: 145 passed, 2 subtests passed.
+
+This verifies integration behavior, not detection accuracy, hazard
+classification accuracy, or generalization across unseen scenarios.
+

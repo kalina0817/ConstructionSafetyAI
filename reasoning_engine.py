@@ -347,7 +347,7 @@ def build_scene_graph(
     }
 
 
-def evaluate_safety_rules(scene_graph):
+def evaluate_safety_rules(scene_graph, *, worker_ppe=None):
     """
     Generate potential safety alerts automatically.
 
@@ -362,6 +362,12 @@ def evaluate_safety_rules(scene_graph):
 
     findings = []
 
+    # Screening groups missing-PPE evidence into one finding per worker and item.
+    # Legacy experiment callers still evaluate individual detector predictions.
+    worker_items = {
+        row["evidence_object_ids"][0]: row for row in (worker_ppe or [])
+        if row["status"] == "potentially_missing" and row["evidence_object_ids"]
+    }
     # Automatic potential missing-PPE alerts.
     for node in nodes.values():
         class_name = node["class_name"].strip().lower()
@@ -369,6 +375,9 @@ def evaluate_safety_rules(scene_graph):
         if not class_name.startswith("no_"):
             continue
 
+        item = worker_items.get(node["object_id"])
+        if worker_ppe is not None and item is None:
+            continue
         rule = RECOMMENDATION_RULES.get(class_name)
 
         findings.append({
@@ -379,9 +388,8 @@ def evaluate_safety_rules(scene_graph):
             "alert_generated_automatically": True,
             "review_required": False,
             "verification_optional": True,
-            "source_object_ids": [
-                node["object_id"]
-            ],
+            "source_object_ids": ([item["worker"], *item["evidence_object_ids"]]
+                                  if item else [node["object_id"]]),
             "evidence": {
                 "detector": node["detector"],
                 "class_name": node["class_name"],

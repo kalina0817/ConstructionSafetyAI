@@ -1,0 +1,160 @@
+{
+  "title": "ConstructionSafetyAI Model Comparison",
+  "gpu_benchmark": {
+    "hardware": "Google Colab Tesla T4",
+    "metrics": "Validation precision, recall, mAP50, mAP50-95 and inference time"
+  },
+  "cpu_benchmark": {
+    "hardware": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "device": "CPU",
+    "image_size": 640,
+    "images_per_model_per_dataset": 30,
+    "warmup_images": 2,
+    "timing_method": "Per-image Ultralytics predict() wall-clock time, including preprocessing and postprocessing"
+  },
+  "results": [
+    {
+      "dataset": "PPE",
+      "model": "YOLO11n",
+      "gpu_validation": {
+        "precision": 0.7024105037,
+        "recall": 0.7047407686,
+        "mAP50": 0.745159259,
+        "mAP50_95": 0.5431043543,
+        "inference_ms": 4.5992192867,
+        "elapsed_seconds": 13.88
+      },
+      "local_cpu": {
+        "images_tested": 30,
+        "image_size": 640,
+        "mean_ms_per_image": 128.65,
+        "median_ms_per_image": 133.45,
+        "min_ms_per_image": 90.93,
+        "max_ms_per_image": 188.23,
+        "images_per_second": 7.773
+      },
+      "cpu_speedup_over_rtdetr": 8.96
+    },
+    {
+      "dataset": "PPE",
+      "model": "RT-DETR-L",
+      "gpu_validation": {
+        "precision": 0.745544864,
+        "recall": 0.7630402889,
+        "mAP50": 0.791352494,
+        "mAP50_95": 0.6012092571,
+        "inference_ms": 36.194933021,
+        "elapsed_seconds": 7.83
+      },
+      "local_cpu": {
+        "images_tested": 30,
+        "image_size": 640,
+        "mean_ms_per_image": 1152.44,
+        "median_ms_per_image": 1139.01,
+        "min_ms_per_image": 1021.44,
+        "max_ms_per_image": 1549.99,
+        "images_per_second": 0.868
+      },
+      "cpu_speedup_over_rtdetr": 1.0
+    },
+    {
+      "dataset": "Vehicles",
+      "model": "YOLO11n",
+      "gpu_validation": {
+        "precision": 0.9373809516,
+        "recall": 0.865990999,
+        "mAP50": 0.9295530449,
+        "mAP50_95": 0.7754487205,
+        "inference_ms": 3.6148349933,
+        "elapsed_seconds": 28.06
+      },
+      "local_cpu": {
+        "images_tested": 30,
+        "image_size": 640,
+        "mean_ms_per_image": 112.37,
+        "median_ms_per_image": 111.41,
+        "min_ms_per_image": 68.14,
+        "max_ms_per_image": 239.53,
+        "images_per_second": 8.899
+      },
+      "cpu_speedup_over_rtdetr": 9.89
+    },
+    {
+      "dataset": "Vehicles",
+      "model": "RT-DETR-L",
+      "gpu_validation": {
+        "precision": 0.9398811042,
+        "recall": 0.9064006689,
+        "mAP50": 0.9486672358,
+        "mAP50_95": 0.8320318001,
+        "inference_ms": 39.9681866842,
+        "elapsed_seconds": 119.24
+      },
+      "local_cpu": {
+        "images_tested": 30,
+        "image_size": 640,
+        "mean_ms_per_image": 1110.88,
+        "median_ms_per_image": 1104.52,
+        "min_ms_per_image": 961.24,
+        "max_ms_per_image": 1225.17,
+        "images_per_second": 0.9
+      },
+      "cpu_speedup_over_rtdetr": 1.0
+    },
+    {
+      "dataset": "Toolset-35",
+      "model": "YOLO11n",
+      "gpu_validation": {
+        "precision": 0.5637980307,
+        "recall": 0.4484738648,
+        "mAP50": 0.446845178,
+        "mAP50_95": 0.3139831068,
+        "inference_ms": 5.4981007468,
+        "elapsed_seconds": 18.94
+      },
+      "local_cpu": {
+        "images_tested": 30,
+        "image_size": 640,
+        "mean_ms_per_image": 147.56,
+        "median_ms_per_image": 152.68,
+        "min_ms_per_image": 99.37,
+        "max_ms_per_image": 208.47,
+        "images_per_second": 6.777
+      },
+      "cpu_speedup_over_rtdetr": 7.59
+    },
+    {
+      "dataset": "Toolset-35",
+      "model": "RT-DETR-L",
+      "gpu_validation": {
+        "precision": 0.6868793365,
+        "recall": 0.3467740291,
+        "mAP50": 0.346957155,
+        "mAP50_95": 0.2599661547,
+        "inference_ms": 39.6695574605,
+        "elapsed_seconds": 26.17
+      },
+      "local_cpu": {
+        "images_tested": 30,
+        "image_size": 640,
+        "mean_ms_per_image": 1119.51,
+        "median_ms_per_image": 1099.74,
+        "min_ms_per_image": 1021.23,
+        "max_ms_per_image": 1396.23,
+        "images_per_second": 0.893
+      },
+      "cpu_speedup_over_rtdetr": 1.0
+    }
+  ],
+  "recommendations": {
+    "PPE": "YOLO11n for default CPU screening. RT-DETR-L is an accuracy-oriented alternative when its additional detection accuracy justifies the latency.",
+    "Toolset-35": "YOLO11n. It has higher recall and mAP, as well as substantially faster CPU inference. RT-DETR-L has higher precision but lower recall.",
+    "Vehicles": "YOLO11n for default CPU screening. RT-DETR-L is an accuracy-oriented alternative when its higher recall and mAP justify the latency."
+  },
+  "limitations": [
+    "GPU validation inference timings and local CPU predict() wall-clock timings use different measurement procedures and should not be directly compared.",
+    "CPU timings are based on 30 sampled test images per model and dataset.",
+    "Detection metrics describe performance on the evaluated datasets; they do not establish real-world hazard confirmation or safety certification."
+  ]
+}

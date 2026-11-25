@@ -186,3 +186,15 @@ def test_contained_no_goggle_detections_are_deduplicated():
     assert len(suppressed) == 1
     assert suppressed[0]["candidate"]["confidence"] == 0.43964
     assert len(reviews) == 0
+
+
+def test_worker_duplicate_does_not_remove_neighbor_or_ppe():
+    worker = detection("PPE", "Person", [251, 116, 397, 560], confidence=0.9)
+    duplicate = detection("PPE", "Person", [299, 109, 395, 562], confidence=0.8)
+    neighbor = detection("PPE", "Person", [385, 138, 479, 563], confidence=0.7)
+    vest = detection("PPE", "vest", [300, 180, 390, 370], confidence=0.6)
+    kept, suppressed, _ = unified_inference.filter_duplicate_detections(
+        [worker, duplicate, neighbor, vest]
+    )
+    assert kept == [worker, neighbor, vest]
+    assert [entry["candidate"] for entry in suppressed] == [duplicate]

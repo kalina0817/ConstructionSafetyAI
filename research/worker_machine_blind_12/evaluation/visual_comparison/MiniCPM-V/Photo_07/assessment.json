@@ -1,0 +1,30 @@
+{
+  "reasoning_status": "COMPLETED",
+  "worker_ppe": [],
+  "visual_reasoning": {
+    "worker_ppe": [],
+    "machinery_assessments": {},
+    "worker_context": []
+  },
+  "reasoning_model": "MiniCPM-V",
+  "reasoning_model_id": "minicpm-v:latest",
+  "detector": "YOLO11n",
+  "detector_report_sha256": "1328887dd3e2e4de79c89c78af818ffff55a68b7015cd72effa7ccefea036494",
+  "photo_sha256": "5a492fbde2707d37b6880a7bd17e401d2277dc1f030659f00549337ffc92f9b4",
+  "worker_machinery_assessments": [],
+  "machinery_coverage": {
+    "candidate_pairs": 0,
+    "assessed_pairs": 0,
+    "workers_with_equipment_observed_without_candidate_pair": [],
+    "limitation": "Machinery outside the detector's candidate pairs has no object-linked interaction assessment."
+  },
+  "safety_assessment": {
+    "findings": [],
+    "status": "COMPLETED"
+  },
+  "screening_outcome": {
+    "outcome": "INSUFFICIENT",
+    "explanation": "The selected model did not provide enough object-linked evidence for a safety alert.",
+    "finding_count": 0
+  }
+}
