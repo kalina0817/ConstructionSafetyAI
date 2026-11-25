@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Construction Safety AI · Jobsite Photo Review</title><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body><header><span>Jobsite Photo Review</span><a href="https://github.com/kalina0817/ConstructionSafetyAI/tree/development">Project on GitHub ↗</a></header>
+<main><h1>Construction Safety AI</h1><p class="lead">Explore 12 jobsite photos. Choose a reasoning method to see what it reported about protective gear and workers near machines.</p>
+<div class="controls"><label>Site photo<select id="photo" disabled></select></label><label>Reasoning method<select id="method" disabled></select></label><p>Detection model<strong>YOLO11n</strong></p></div>
+<p id="status" role="status">Loading saved checks…</p>
+<section id="workspace" hidden><div class="spread"><figure><img id="scene" alt=""><figcaption><span id="caption"></span><label><input type="checkbox" id="boxes" checked> Show object labels</label></figcaption></figure>
+<article><h2>Screening report</h2><p id="selection"></p><h3 id="outcome"></h3><p id="explanation"></p><p id="counts"></p><a id="download" class="button">Download result</a></article></div>
+<h2>Possible concerns</h2><div id="findings"></div><h2>Protective gear by worker</h2><div id="gear"></div></section>
+<footer><p>This demo shows saved checks. A photo can hide protective gear and make people look closer to machines than they are. Confirm concerns on site.</p>
+<a href="https://github.com/kalina0817/ConstructionSafetyAI/blob/development/research/worker_machine_blind_12/evaluation/visual_comparison/Morning%20report.md">Read the study findings</a>
+<p>Photos by Xuezheng Chen and Zhengbo Zou, <a href="https://huggingface.co/datasets/LouisChen15/ConstructionSite">ConstructionSite</a>, <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Object labels added by the app.</p></footer></main></body></html>
